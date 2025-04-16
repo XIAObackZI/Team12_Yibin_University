@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/animations.css">
+    <link rel="stylesheet" href="styles/themes.css">
     <style>
         body {
             font-family: 'Noto Sans SC', sans-serif;
@@ -93,11 +96,40 @@
             transform: translateY(0);
             transition: all 0.5s ease;
         }
+        
+        /* 返回主页按钮样式 */
+        .back-to-home {
+            position: fixed;
+            left: 20px;
+            bottom: 20px;
+            background: rgba(79, 70, 229, 0.9);
+            color: white;
+            padding: 12px;
+            border-radius: 50%;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            z-index: 40;
+        }
+        
+        .back-to-home:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+            background: rgba(79, 70, 229, 1);
+        }
     </style>
 </head>
 <body class="bg-gray-50">
     <!-- 导航栏容器 -->
-    <div id="navbar-container"></div>
+    <nav id="navbar-container" class="glass-morphism theme-blue fixed top-0 left-0 right-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div id="navbar-content"></div>
+        </div>
+    </nav>
+
+    <!-- 返回主页按钮 -->
+    <a href="index.html" class="back-to-home">
+        <i class="fas fa-home text-xl"></i>
+    </a>
 
     <!-- 内容包装器 -->
     <div class="content-wrapper">
@@ -153,8 +185,12 @@
         </main>
     </div>
 
+    <!-- 音乐播放器容器 -->
+    <div id="music-player-container" class="fixed bottom-10 right-10 z-50 theme-blue glass-morphism"></div>
+
     <!-- 页面脚本 -->
     <script src="scripts/component-loader.js"></script>
+    <script src="scripts/music-player.js"></script>
     <script type="module">
         import articlesData from './scripts/data/articles.js';
 
@@ -260,13 +296,66 @@
         filterAndSortArticles();
 
         // 加载组件
-        fetch('components/navbar/navbar.html')
-            .then(response => response.text())
-            .then(html => document.getElementById('navbar-container').innerHTML = html);
+        document.addEventListener('DOMContentLoaded', async function() {
+            const navbarContainer = document.getElementById('navbar-container');
+            if (!navbarContainer) {
+                console.error('Error: Navbar placeholder container not found!');
+                return; // Exit if the main container isn't even there
+            }
 
-        fetch('components/footer/footer.html')
-            .then(response => response.text())
-            .then(html => document.getElementById('footer-container').innerHTML = html);
+            try {
+                // 加载导航栏
+                const response = await fetch('components/layout/Navbar.html');
+                if (!response.ok) {
+                    throw new Error(`Failed to load navbar: ${response.statusText}`);
+                }
+                const html = await response.text();
+                
+                // 直接替换容器内容
+                navbarContainer.innerHTML = html;
+                
+                // 初始化导航栏交互 (在内容注入后)
+                initializeNavbar();
+            } catch (error) {
+                console.error('Error loading navbar:', error);
+                 navbarContainer.innerHTML = '<div class="text-center p-4 text-red-500">导航栏加载失败</div>';
+            }
+        });
+
+        // 初始化导航栏交互
+        function initializeNavbar() {
+            // 确保 DOM 更新后再查找元素
+            requestAnimationFrame(() => {
+                // 移动菜单切换
+                const mobileMenuButton = document.getElementById('mobile-menu-button');
+                const mobileMenu = document.getElementById('mobile-menu');
+                if (mobileMenuButton && mobileMenu) {
+                    mobileMenuButton.addEventListener('click', () => {
+                        mobileMenu.classList.toggle('hidden');
+                        const icons = mobileMenuButton.querySelectorAll('i');
+                        icons.forEach(icon => icon.classList.toggle('hidden'));
+                    });
+                }
+    
+                // 用户菜单切换
+                const userMenu = document.getElementById('user-menu');
+                const dropdownMenu = document.getElementById('dropdown-menu');
+                if (userMenu && dropdownMenu) {
+                    userMenu.addEventListener('click', () => {
+                        dropdownMenu.classList.toggle('hidden');
+                    });
+                }
+    
+                // 确保导航栏链接正确
+                const navLinks = navbarContainer.querySelectorAll('.nav-link'); // Search within the container
+                navLinks.forEach(link => {
+                    const href = link.getAttribute('href');
+                    if (href?.startsWith('/#')) {
+                        link.href = href.replace('/#', '/index.html#');
+                    }
+                });
+            });
+        }
     </script>
 </body>
 </html> 
