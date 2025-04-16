@@ -650,7 +650,7 @@
     </div>
 
     <!-- 分类区域 -->
-    <section class="py-12 bg-gray-50">
+    <section id="categories-section" class="py-12 bg-gray-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center mb-8">
                 <h2 class="text-3xl font-bold text-gray-900">分类浏览</h2>
@@ -698,21 +698,6 @@
                     </div>
                 </a>
             </div>
-        </div>
-    </section>
-
-    <!-- 热门推荐区域 -->
-    <section class="py-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center mb-8">
-                <h2 class="text-3xl font-bold text-gray-900">热门推荐</h2>
-                <a href="articles.html" class="inline-flex items-center text-indigo-600 hover:text-indigo-700">
-                    查看全部
-                    <i class="fas fa-arrow-right ml-2"></i>
-                </a>
-            </div>
-            <!-- 热门文章卡片 -->
-            <div id="hot-articles"></div>
         </div>
     </section>
 
@@ -771,18 +756,29 @@
             
             <!-- 团队展示卡片 -->
             <div class="flex justify-center items-center mt-16">
-                <div class="group relative bg-white rounded-2xl p-8 border border-gray-200 shadow-xl hover:shadow-2xl transition-all duration-500 w-full max-w-[420px] overflow-hidden">
-                    <div class="absolute inset-0 bg-gradient-to-br from-indigo-50 to-white opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                    <div class="relative flex flex-col items-center">
-                        <div class="w-full h-48 rounded-xl overflow-hidden mb-6 transform group-hover:scale-105 transition-transform duration-500">
+                <div 
+                    data-pin-container
+                    data-pin-title="探索我们的团队"
+                    data-pin-href="team.html"
+                    data-pin-width="420"
+                    data-pin-height="380"
+                    data-pin-bg="bg-gradient-to-br from-gray-900 to-black"
+                    data-pin-border="border-white/[0.15]"
+                    data-pin-hover-border="border-indigo-400/[0.4]"
+                    data-pin-glow="indigo"
+                    data-pin-title-style="bg-gradient-to-r from-indigo-400 to-blue-400 text-white font-bold shadow-lg shadow-indigo-500/50"
+                    class="relative h-[420px] w-full max-w-[420px] overflow-hidden"
+                >
+                    <div class="h-full w-full flex flex-col items-center justify-center p-6 text-white">
+                        <div class="w-full h-48 rounded-xl overflow-hidden mb-6 shadow-lg">
                             <img src="assets/images/team-photo.jpg" alt="团队合影" class="w-full h-full object-cover">
                         </div>
-                        <h3 class="text-2xl font-bold mb-3 text-gray-900 group-hover:text-indigo-600 transition-colors duration-300">我们的团队</h3>
-                        <p class="text-gray-600 text-sm text-center font-medium mb-6">了解幕后的创意与设计专家，探索我们如何打造卓越的用户体验</p>
-                        <div class="flex flex-wrap justify-center gap-2">
-                            <span class="px-3 py-1.5 bg-indigo-100 text-indigo-700 rounded-full text-xs font-medium transform hover:scale-105 transition-transform duration-300">创新设计</span>
-                            <span class="px-3 py-1.5 bg-blue-100 text-blue-700 rounded-full text-xs font-medium transform hover:scale-105 transition-transform duration-300">技术专家</span>
-                            <span class="px-3 py-1.5 bg-purple-100 text-purple-700 rounded-full text-xs font-medium transform hover:scale-105 transition-transform duration-300">用户体验</span>
+                        <h3 class="text-2xl font-bold mb-3 bg-gradient-to-r from-blue-300 to-indigo-300 text-transparent bg-clip-text">我们的团队</h3>
+                        <p class="text-gray-300 text-sm text-center">了解幕后的创意与设计专家，探索我们如何打造卓越的用户体验</p>
+                        <div class="mt-4 flex space-x-3">
+                            <span class="px-2 py-1 bg-indigo-500/20 text-indigo-300 rounded-full text-xs">创新设计</span>
+                            <span class="px-2 py-1 bg-blue-500/20 text-blue-300 rounded-full text-xs">技术专家</span>
+                            <span class="px-2 py-1 bg-purple-500/20 text-purple-300 rounded-full text-xs">用户体验</span>
                         </div>
                     </div>
                 </div>
@@ -795,7 +791,7 @@
     </div>
 
     <!-- 订阅区域 - 增强设计 -->
-    <div class="bg-indigo-600 py-16 relative overflow-hidden">
+    <div id="contact" class="bg-indigo-600 py-16 relative overflow-hidden">
         <div class="absolute inset-0 bg-[radial-gradient(circle_at_70%_70%,rgba(16,185,129,0.2),transparent)]"></div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="text-center mb-8">
@@ -881,6 +877,7 @@
     <script src="scripts/pin-component.js"></script>
     <script src="scripts/music-player.js"></script>
     <script src="scripts/3d-card-component.js"></script>
+    <script src="scripts/page-transitions.js"></script>
     
     <!-- 导航栏交互脚本 (已移至 component-loader.js) -->
     <!-- <script>
@@ -1042,54 +1039,27 @@
                      style="animation-delay: ${index * 0.1}s">
                     <div class="flex items-center mb-2">
                         ${article.tags.map(tag => `
-                            <span class="tag bg-indigo-100 text-indigo-800 text-xs font-medium px-2.5 py-0.5 rounded mr-2">${tag}</span>
+                            <span class="tag bg-${tag.toLowerCase()}-100 text-${tag.toLowerCase()}-800 text-xs font-medium px-2.5 py-0.5 rounded">${tag}</span>
                         `).join('')}
-                        <span class="text-gray-500 text-sm ml-auto">${article.date}</span>
                     </div>
-                    <h3 class="text-xl font-bold mb-3">${article.title}</h3>
+                    <h3 class="text-xl font-bold mb-3 title-font">${article.title}</h3>
                     <p class="text-gray-600 mb-4">${article.excerpt}</p>
                     <div class="flex items-center justify-between">
                         <div class="flex items-center">
-                            <span class="text-sm font-medium">${article.author}</span>
+                            <img class="w-8 h-8 rounded-full mr-2" src="${article.author.avatar}" alt="${article.author.name}">
+                            <span class="text-sm font-medium">${article.author.name}</span>
                         </div>
                         <div class="flex items-center text-gray-500 text-sm">
                             <span class="mr-3"><i class="far fa-eye mr-1"></i> ${article.views}</span>
-                            <span><i class="far fa-comment mr-1"></i> ${article.comments}</span>
+                            <span><i class="far fa-comment mr-1"></i> ${article.comments.length}</span>
                         </div>
                     </div>
                 </div>
             `).join('');
             
-            container.innerHTML = `
-                <h3 class="text-lg font-bold mb-4">搜索结果</h3>
-                <div class="space-y-4">
-                    ${resultsHtml}
-                </div>
-            `;
+            container.innerHTML = resultsHtml;
         }
-        
-        // 监听搜索框输入
-        searchInput.addEventListener('input', performSearch);
     });
-
-    // 添加粒子动画样式
-    const style = document.createElement('style');
-    style.textContent = `
-        @keyframes particle {
-            0% {
-                transform: translate(0, 0);
-                opacity: 1;
-            }
-            100% {
-                transform: translate(
-                    calc(cos(var(--angle)) * var(--velocity) * 1px),
-                    calc(sin(var(--angle)) * var(--velocity) * 1px)
-                );
-                opacity: 0;
-            }
-        }
-    `;
-    document.head.appendChild(style);
     </script>
 </body>
 </html>

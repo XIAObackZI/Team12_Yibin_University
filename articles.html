@@ -6,26 +6,24 @@
     <title>文章列表 - TechBlog</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/components.css">
     <link rel="stylesheet" href="styles/animations.css">
     <link rel="stylesheet" href="styles/themes.css">
     <style>
         body {
-            font-family: 'Noto Sans SC', sans-serif;
+            font-family: 'Open Sans', sans-serif;
             background-color: #f8fafc;
         }
         
-        /* 导航栏固定定位 */
+        /* 导航栏固定定位 - 去除背景色和模糊效果，使用组件自带样式 */
         #navbar-container {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             z-index: 50;
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(8px);
         }
         
         /* 内容区域添加顶部间距 */
@@ -40,16 +38,34 @@
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
         
-        /* 标签样式 */
+        /* 标签样式 (使用 index.html 的 .tag-item 基础样式) */
         .tag-item {
-            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, rgba(79, 70, 229, 0.1) 0%, rgba(147, 51, 234, 0.1) 100%);
+            color: #4F46E5;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer; /* 改为 pointer */
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(79, 70, 229, 0.1);
+            position: relative;
+            overflow: hidden;
+            text-decoration: none; /* 移除 a 标签默认下划线 */
         }
         .tag-item:hover {
-            transform: translateY(-1px);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.15);
+            background: linear-gradient(135deg, rgba(79, 70, 229, 0.15) 0%, rgba(147, 51, 234, 0.15) 100%);
+            color: #4F46E5; /* 确保 hover 时颜色不变 */
         }
         .tag-item.active {
-            background-color: #4f46e5;
+            background: linear-gradient(135deg, #4F46E5 0%, #8b5cf6 100%); /* 激活时的渐变背景 */
             color: white;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+            transform: translateY(-1px);
         }
         
         /* 文章卡片样式 */
@@ -116,15 +132,71 @@
             box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
             background: rgba(79, 70, 229, 1);
         }
+
+        /* 特定标签颜色 */
+        .tag-js { background: linear-gradient(135deg, rgba(240, 219, 79, 0.1) 0%, rgba(240, 219, 79, 0.2) 100%); color: #b68904; border-color: rgba(240, 219, 79, 0.2); }
+        .tag-js:hover { background: linear-gradient(135deg, rgba(240, 219, 79, 0.2) 0%, rgba(240, 219, 79, 0.3) 100%); box-shadow: 0 4px 12px rgba(240, 219, 79, 0.15); }
+        .tag-js.active { background: linear-gradient(135deg, #f0db4f 0%, #e4c025 100%); color: #333; }
+
+        .tag-py { background: linear-gradient(135deg, rgba(55, 118, 171, 0.1) 0%, rgba(255, 212, 59, 0.1) 100%); color: #3776ab; border-color: rgba(55, 118, 171, 0.2); }
+        .tag-py:hover { background: linear-gradient(135deg, rgba(55, 118, 171, 0.2) 0%, rgba(255, 212, 59, 0.2) 100%); box-shadow: 0 4px 12px rgba(55, 118, 171, 0.15); }
+        .tag-py.active { background: linear-gradient(135deg, #3776ab 0%, #ffd43b 100%); color: white; }
+        
+        .tag-react { background: linear-gradient(135deg, rgba(97, 218, 251, 0.1) 0%, rgba(97, 218, 251, 0.2) 100%); color: #61dafb; border-color: rgba(97, 218, 251, 0.2); }
+        .tag-react:hover { background: linear-gradient(135deg, rgba(97, 218, 251, 0.2) 0%, rgba(97, 218, 251, 0.3) 100%); box-shadow: 0 4px 12px rgba(97, 218, 251, 0.15); }
+        .tag-react.active { background: linear-gradient(135deg, #61dafb 0%, #28a9d7 100%); color: #20232a; }
+
+        .tag-vue { background: linear-gradient(135deg, rgba(65, 184, 131, 0.1) 0%, rgba(53, 73, 94, 0.1) 100%); color: #41b883; border-color: rgba(65, 184, 131, 0.2); }
+        .tag-vue:hover { background: linear-gradient(135deg, rgba(65, 184, 131, 0.2) 0%, rgba(53, 73, 94, 0.2) 100%); box-shadow: 0 4px 12px rgba(65, 184, 131, 0.15); }
+        .tag-vue.active { background: linear-gradient(135deg, #41b883 0%, #35495e 100%); color: white; }
+
+        /* 标题区域背景和动画 */
+        .title-section {
+            padding: 3rem 1rem;
+            margin-bottom: 2rem;
+            border-radius: 1rem;
+            background: linear-gradient(135deg, rgba(238, 242, 255, 0.8) 0%, rgba(233, 213, 255, 0.8) 100%);
+            backdrop-filter: blur(5px);
+            box-shadow: 0 8px 16px rgba(101, 119, 134, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        .title-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(79, 70, 229, 0.05) 0%, rgba(168, 85, 247, 0.05) 50%, transparent 70%);
+            animation: rotateBackground 20s linear infinite;
+            z-index: -1;
+        }
+        @keyframes rotateBackground {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* 添加更多动画 */
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .animate-slide-in-left {
+            animation: slideInLeft 0.8s ease-out forwards;
+        }
+        .animate-slide-in-right {
+            animation: slideInRight 0.8s ease-out forwards;
+        }
     </style>
 </head>
-<body class="bg-gray-50">
+<body class="bg-gray-50 dark:bg-gray-900">
     <!-- 导航栏容器 -->
-    <nav id="navbar-container" class="glass-morphism theme-blue fixed top-0 left-0 right-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div id="navbar-content"></div>
-        </div>
-    </nav>
+    <div id="navbar-container"></div>
 
     <!-- 返回主页按钮 -->
     <a href="index.html" class="back-to-home">
@@ -135,33 +207,34 @@
     <div class="content-wrapper">
         <!-- 主要内容区 -->
         <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <!-- 页面标题 -->
-            <div class="text-center mb-12">
-                <h1 class="text-4xl font-bold text-gray-900 mb-4">文章列表</h1>
-                <p class="text-lg text-gray-600">探索你感兴趣的技术文章</p>
+            <!-- 页面标题区域 -->
+            <div class="title-section text-center">
+                <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4 animate-slide-in-left" style="animation-delay: 0.1s;">文章列表</h1>
+                <p class="text-lg text-gray-600 dark:text-gray-400 animate-slide-in-right" style="animation-delay: 0.2s;">探索你感兴趣的技术文章</p>
             </div>
 
             <!-- 筛选区域 -->
-            <div class="filter-section p-6 mb-8">
+            <div class="filter-section p-6 mb-8 animate-fade-in-up" style="animation-delay: 0.3s;">
                 <!-- 技术标签 -->
                 <div class="mb-6">
-                    <h3 class="text-lg font-medium text-gray-900 mb-4">技术标签</h3>
+                    <h3 class="text-lg font-medium text-gray-900 dark:text-gray-200 mb-4">技术标签</h3>
                     <div class="flex flex-wrap gap-3" id="tag-filters">
-                        <button class="tag px-4 py-2 rounded-full bg-gray-200 hover:bg-indigo-500 hover:text-white active" data-tag="all">全部</button>
-                        <button class="tag px-4 py-2 rounded-full bg-gray-200 hover:bg-indigo-500 hover:text-white" data-tag="JavaScript">JavaScript</button>
-                        <button class="tag px-4 py-2 rounded-full bg-gray-200 hover:bg-indigo-500 hover:text-white" data-tag="Python">Python</button>
-                        <button class="tag px-4 py-2 rounded-full bg-gray-200 hover:bg-indigo-500 hover:text-white" data-tag="React">React</button>
-                        <button class="tag px-4 py-2 rounded-full bg-gray-200 hover:bg-indigo-500 hover:text-white" data-tag="Vue">Vue</button>
-                        <button class="tag px-4 py-2 rounded-full bg-gray-200 hover:bg-indigo-500 hover:text-white" data-tag="Node.js">Node.js</button>
-                        <button class="tag px-4 py-2 rounded-full bg-gray-200 hover:bg-indigo-500 hover:text-white" data-tag="机器学习">机器学习</button>
-                        <button class="tag px-4 py-2 rounded-full bg-gray-200 hover:bg-indigo-500 hover:text-white" data-tag="人工智能">人工智能</button>
+                        <a href="#" class="tag-item active" data-tag="all">全部</a>
+                        <a href="#" class="tag-item tag-js" data-tag="JavaScript">JavaScript</a>
+                        <a href="#" class="tag-item tag-py" data-tag="Python">Python</a>
+                        <a href="#" class="tag-item tag-react" data-tag="React">React</a>
+                        <a href="#" class="tag-item tag-vue" data-tag="Vue">Vue</a>
+                        <a href="#" class="tag-item" data-tag="Node.js">Node.js</a>
+                        <a href="#" class="tag-item" data-tag="机器学习">机器学习</a>
+                        <a href="#" class="tag-item" data-tag="人工智能">人工智能</a>
+                        <!-- 可以添加更多标签 -->
                     </div>
                 </div>
 
                 <!-- 排序选项 -->
                 <div class="mb-6">
-                    <h3 class="text-lg font-medium text-gray-900 mb-4">排序选项</h3>
-                    <select id="sort-select" class="px-4 py-2 border rounded-lg">
+                    <h3 class="text-lg font-medium text-gray-900 dark:text-gray-200 mb-4">排序选项</h3>
+                    <select id="sort-select" class="form-select w-full md:w-auto bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
                         <option value="date">最新发布</option>
                         <option value="views">最多浏览</option>
                         <option value="likes">最多点赞</option>
@@ -202,30 +275,37 @@
 
         // 渲染文章卡片
         function renderArticleCard(article) {
+            // 简单的映射，可以扩展
+            const tagColorClasses = {
+                'JavaScript': 'tag-js',
+                'Python': 'tag-py',
+                'React': 'tag-react',
+                'Vue': 'tag-vue',
+            };
             return `
-                <div class="article-card bg-white rounded-lg overflow-hidden shadow-lg">
+                <div class="article-card bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg animate-fade-in-up">
                     <img src="${article.cover}" alt="${article.title}" class="w-full h-48 object-cover">
                     <div class="p-6">
                         <div class="flex flex-wrap gap-2 mb-3">
                             ${article.tags.map(tag => `
-                                <span class="px-3 py-1 bg-indigo-100 text-indigo-600 rounded-full text-sm">${tag}</span>
+                                <a href="#" class="tag-item !text-xs !px-3 !py-1 ${tagColorClasses[tag] || ''}" data-tag="${tag}">${tag}</a> 
                             `).join('')}
                         </div>
-                        <h3 class="text-xl font-bold mb-2">${article.title}</h3>
-                        <p class="text-gray-600 mb-4">${article.description}</p>
-                        <div class="flex items-center justify-between">
+                        <h3 class="text-xl font-bold mb-2 text-gray-900 dark:text-white">${article.title}</h3>
+                        <p class="text-gray-600 dark:text-gray-400 mb-4">${article.description}</p>
+                        <div class="flex items-center justify-between text-gray-500 dark:text-gray-400">
                             <div class="flex items-center">
                                 <img src="${article.avatar}" alt="${article.author}" class="w-8 h-8 rounded-full mr-2">
-                                <span class="text-gray-700">${article.author}</span>
+                                <span class="text-sm">${article.author}</span>
                             </div>
-                            <div class="text-gray-500 text-sm">
-                                <span class="mr-3">👁 ${article.views}</span>
-                                <span class="mr-3">❤️ ${article.likes}</span>
-                                <span>💬 ${article.comments}</span>
+                            <div class="text-sm">
+                                <span class="mr-3"><i class="far fa-eye mr-1"></i>${article.views}</span>
+                                <span class="mr-3"><i class="far fa-heart mr-1"></i>${article.likes}</span>
+                                <span><i class="far fa-comment mr-1"></i>${article.comments}</span>
                             </div>
                         </div>
-                        <div class="mt-4 text-gray-500 text-sm">
-                            ${article.date}
+                        <div class="mt-4 text-gray-400 dark:text-gray-500 text-xs">
+                            <i class="far fa-calendar-alt mr-1"></i>${article.date}
                         </div>
                     </div>
                 </div>
@@ -272,13 +352,17 @@
             loadMoreBtn.style.display = endIndex >= filteredArticles.length ? 'none' : 'block';
         }
 
-        // 事件监听器
-        document.getElementById('tag-filters').addEventListener('click', (e) => {
-            if (e.target.classList.contains('tag')) {
-                document.querySelectorAll('.tag').forEach(tag => tag.classList.remove('active'));
-                e.target.classList.add('active');
+        // 标签筛选事件监听
+        const tagFilters = document.getElementById('tag-filters');
+        tagFilters.addEventListener('click', (e) => {
+            e.preventDefault(); // 阻止 a 标签默认跳转
+            if (e.target.classList.contains('tag-item')) {
                 currentTag = e.target.dataset.tag;
-                filterAndSortArticles();
+                // 更新激活状态
+                tagFilters.querySelectorAll('.tag-item').forEach(tag => tag.classList.remove('active'));
+                e.target.classList.add('active');
+                // 调用正确的函数进行筛选和排序
+                filterAndSortArticles(); 
             }
         });
 
@@ -294,68 +378,6 @@
 
         // 初始化
         filterAndSortArticles();
-
-        // 加载组件
-        document.addEventListener('DOMContentLoaded', async function() {
-            const navbarContainer = document.getElementById('navbar-container');
-            if (!navbarContainer) {
-                console.error('Error: Navbar placeholder container not found!');
-                return; // Exit if the main container isn't even there
-            }
-
-            try {
-                // 加载导航栏
-                const response = await fetch('components/layout/Navbar.html');
-                if (!response.ok) {
-                    throw new Error(`Failed to load navbar: ${response.statusText}`);
-                }
-                const html = await response.text();
-                
-                // 直接替换容器内容
-                navbarContainer.innerHTML = html;
-                
-                // 初始化导航栏交互 (在内容注入后)
-                initializeNavbar();
-            } catch (error) {
-                console.error('Error loading navbar:', error);
-                 navbarContainer.innerHTML = '<div class="text-center p-4 text-red-500">导航栏加载失败</div>';
-            }
-        });
-
-        // 初始化导航栏交互
-        function initializeNavbar() {
-            // 确保 DOM 更新后再查找元素
-            requestAnimationFrame(() => {
-                // 移动菜单切换
-                const mobileMenuButton = document.getElementById('mobile-menu-button');
-                const mobileMenu = document.getElementById('mobile-menu');
-                if (mobileMenuButton && mobileMenu) {
-                    mobileMenuButton.addEventListener('click', () => {
-                        mobileMenu.classList.toggle('hidden');
-                        const icons = mobileMenuButton.querySelectorAll('i');
-                        icons.forEach(icon => icon.classList.toggle('hidden'));
-                    });
-                }
-    
-                // 用户菜单切换
-                const userMenu = document.getElementById('user-menu');
-                const dropdownMenu = document.getElementById('dropdown-menu');
-                if (userMenu && dropdownMenu) {
-                    userMenu.addEventListener('click', () => {
-                        dropdownMenu.classList.toggle('hidden');
-                    });
-                }
-    
-                // 确保导航栏链接正确
-                const navLinks = navbarContainer.querySelectorAll('.nav-link'); // Search within the container
-                navLinks.forEach(link => {
-                    const href = link.getAttribute('href');
-                    if (href?.startsWith('/#')) {
-                        link.href = href.replace('/#', '/index.html#');
-                    }
-                });
-            });
-        }
     </script>
 </body>
 </html> 
