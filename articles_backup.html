@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="zh" data-theme="blue">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文章列表 - TechBlog</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+    <style>
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background-color: #f8fafc;
+        }
+        
+        /* 导航栏固定定位 */
+        #navbar-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(8px);
+        }
+        
+        /* 内容区域添加顶部间距 */
+        .content-wrapper {
+            padding-top: 64px;
+        }
+        
+        /* 筛选栏样式 */
+        .filter-section {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .filter-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #4f46e5, #9333ea, #3b82f6);
+            transform: translateY(-100%);
+            transition: transform 0.5s ease;
+        }
+        
+        .filter-section:hover::before {
+            transform: translateY(0);
+        }
+        
+        /* 标签样式 */
+        .tag-item {
+            transition: all 0.2s ease;
+        }
+        .tag-item:hover {
+            transform: translateY(-1px);
+        }
+        .tag-item.active {
+            background-color: #4f46e5;
+            color: white;
+        }
+        
+        /* 文章卡片样式 */
+        .article-card {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .article-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            z-index: 1;
+        }
+        
+        .article-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #4f46e5, #8b5cf6);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s ease;
+        }
+        
+        .article-card:hover::after {
+            transform: scaleX(1);
+        }
+        
+        /* 加载动画 */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes zoomIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes shimmer {
+            0% {
+                background-position: -100% 0;
+            }
+            100% {
+                background-position: 100% 0;
+            }
+        }
+        
+        .animate-fade-in-up {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+        
+        .animate-fade-in-left {
+            animation: fadeInLeft 0.6s ease-out forwards;
+        }
+        
+        .animate-fade-in-right {
+            animation: fadeInRight 0.6s ease-out forwards;
+        }
+        
+        .animate-zoom-in {
+            animation: zoomIn 0.5s ease-out forwards;
+        }
+        
+        .animate-pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        .animate-shimmer {
+            background: linear-gradient(90deg, 
+                rgba(255,255,255,0) 0%, 
+                rgba(255,255,255,0.5) 50%, 
+                rgba(255,255,255,0) 100%);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite;
+        }
+        
+        .stagger-item {
+            opacity: 0;
+        }
+        
+        /* 标签样式 */
+        .tag {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .tag::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, #4F46E5, #818CF8);
+            z-index: -1;
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s ease;
+        }
+        
+        .tag:hover {
+            transform: scale(1.05);
+            color: white;
+        }
+        
+        .tag:hover::before {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+        
+        .tag.active {
+            background: linear-gradient(90deg, #4F46E5, #818CF8);
+            color: white;
+            transform: scale(1.05);
+        }
+        
+        .fade-enter {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        .fade-enter-active {
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.5s ease;
+        }
+
+        /* 音乐播放器样式 */
+        .music-player {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            width: 300px;
+            transition: all 0.3s ease;
+            transform: translateY(0);
+        }
+
+        .music-player.minimized {
+            transform: translateY(calc(100% - 50px));
+        }
+
+        .music-player:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        .music-player.minimized:hover {
+            transform: translateY(0);
+        }
+
+        .player-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            cursor: pointer;
+        }
+
+        .music-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 8px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: #e5e7eb;
+            border-radius: 2px;
+            cursor: pointer;
+            margin: 8px 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(90deg, 
+                rgba(79, 70, 229, 0) 0%, 
+                rgba(79, 70, 229, 0.3) 50%, 
+                rgba(79, 70, 229, 0) 100%);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite;
+            pointer-events: none;
+        }
+
+        .progress {
+            height: 100%;
+            background: #4F46E5;
+            border-radius: 2px;
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .volume-slider {
+            width: 80px;
+            -webkit-appearance: none;
+            height: 4px;
+            border-radius: 2px;
+            background: #e5e7eb;
+            outline: none;
+        }
+
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #4F46E5;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .volume-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        #play-btn {
+            position: relative;
+            overflow: hidden;
+        }
+
+        #play-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%);
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 0;
+            transition: transform 0.4s ease, opacity 0.4s ease;
+        }
+
+        #play-btn:active::after {
+            transform: translate(-50%, -50%) scale(1.5);
+            opacity: 1;
+            transition: 0s;
+        }
+        
+        /* 加载按钮动画 */
+        .btn-load-more {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-load-more:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(79, 70, 229, 0.3);
+        }
+        
+        .btn-load-more::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                rgba(255,255,255,0) 0%, 
+                rgba(255,255,255,0.3) 50%, 
+                rgba(255,255,255,0) 100%);
+            transform: skewX(-25deg);
+            transition: all 0.75s ease;
+        }
+        
+        .btn-load-more:hover::after {
+            left: 100%;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- 导航栏容器 -->
+    <div id="navbar-container"></div>
+
+    <!-- 内容包装器 -->
+    <div class="content-wrapper">
+        <!-- 主要内容区 -->
+        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <!-- 页面标题 -->
+            <div class="text-center mb-12 animate-fade-in-up" style="animation-delay: 0.1s;">
+                <h1 class="text-4xl font-bold text-gray-900 mb-4 relative inline-block">
+                    文章列表
+                    <span class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 to-purple-500 transform scale-x-0 transition-transform duration-500 origin-left group-hover:scale-x-100"></span>
+                </h1>
+                <p class="text-lg text-gray-600">探索你感兴趣的技术文章</p>
+            </div>
+
+            <!-- 筛选区域 -->
+            <div class="filter-section p-6 mb-8 animate-fade-in-up" style="animation-delay: 0.2s;">
+                <!-- 技术标签 -->
+                <div class="mb-6">
+                    <h3 class="text-lg font-medium text-gray-900 mb-4 relative inline-block">
+                        技术标签
+                        <span class="absolute -bottom-1 left-0 w-full h-0.5 bg-indigo-600 rounded transform scale-x-0 transition-transform duration-300 origin-left group-hover:scale-x-100"></span>
+                    </h3>
+                    <div class="flex flex-wrap gap-3 filter-tags" id="tag-filters">
+                        <button class="tag px-4 py-2 rounded-full bg-gray-200 hover:bg-indigo-500 hover:text-white active animate-fade-in-left" style="animation-delay: 0.2s;" data-tag="all">全部</button>
+                        <button class="tag px-4 py-2 rounded-full bg-gray-200 hover:bg-indigo-500 hover:text-white animate-fade-in-left" style="animation-delay: 0.3s;" data-tag="JavaScript">JavaScript</button>
+                        <button class="tag px-4 py-2 rounded-full bg-gray-200 hover:bg-indigo-500 hover:text-white animate-fade-in-left" style="animation-delay: 0.4s;" data-tag="Python">Python</button>
+                        <button class="tag px-4 py-2 rounded-full bg-gray-200 hover:bg-indigo-500 hover:text-white animate-fade-in-left" style="animation-delay: 0.5s;" data-tag="React">React</button>
+                        <button class="tag px-4 py-2 rounded-full bg-gray-200 hover:bg-indigo-500 hover:text-white animate-fade-in-left" style="animation-delay: 0.6s;" data-tag="Vue">Vue</button>
+                        <button class="tag px-4 py-2 rounded-full bg-gray-200 hover:bg-indigo-500 hover:text-white animate-fade-in-left" style="animation-delay: 0.7s;" data-tag="Node.js">Node.js</button>
+                        <button class="tag px-4 py-2 rounded-full bg-gray-200 hover:bg-indigo-500 hover:text-white animate-fade-in-left" style="animation-delay: 0.8s;" data-tag="机器学习">机器学习</button>
+                        <button class="tag px-4 py-2 rounded-full bg-gray-200 hover:bg-indigo-500 hover:text-white animate-fade-in-left" style="animation-delay: 0.9s;" data-tag="人工智能">人工智能</button>
+                    </div>
+                </div>
+
+                <!-- 排序选项 -->
+                <div class="mb-6 animate-fade-in-up" style="animation-delay: 0.4s;">
+                    <h3 class="text-lg font-medium text-gray-900 mb-4 relative inline-block">排序选项</h3>
+                    <div class="relative inline-block">
+                        <select id="sort-select" class="px-4 py-2 pr-10 border rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-300 bg-white">
+                            <option value="date">最新发布</option>
+                            <option value="views">最多浏览</option>
+                            <option value="likes">最多点赞</option>
+                            <option value="comments">最多评论</option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                            <i class="fas fa-chevron-down text-xs"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 搜索框 -->
+                <div class="mb-0 animate-fade-in-up" style="animation-delay: 0.5s;">
+                    <div class="relative">
+                        <input type="text" id="search-input" placeholder="搜索文章标题或内容..." class="w-full px-4 py-2 pl-10 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-300">
+                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                            <i class="fas fa-search text-gray-400"></i>
+                        </div>
+                        <button id="search-clear" class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600 transition-colors duration-200 hidden">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 文章统计栏 -->
+            <div id="stats-bar" class="bg-white rounded-lg p-4 mb-6 shadow-sm flex justify-between items-center animate-fade-in-up" style="animation-delay: 0.6s;">
+                <div class="text-gray-600">
+                    当前显示：<span id="article-count" class="font-medium text-indigo-600">0</span> 篇文章
+                </div>
+                <div class="flex items-center gap-4">
+                    <button id="view-grid" class="p-2 rounded-lg text-gray-500 hover:text-indigo-600 hover:bg-indigo-50 transition-all duration-200 active">
+                        <i class="fas fa-th-large"></i>
+                    </button>
+                    <button id="view-list" class="p-2 rounded-lg text-gray-500 hover:text-indigo-600 hover:bg-indigo-50 transition-all duration-200">
+                        <i class="fas fa-list"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 文章列表 -->
+            <div id="articles-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- 文章卡片将通过JavaScript动态生成 -->
+            </div>
+
+            <!-- 加载更多按钮 -->
+            <div class="mt-12 text-center animate-fade-in-up" style="animation-delay: 0.8s;">
+                <button id="load-more" class="btn-load-more px-8 py-3 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition-all duration-300 flex items-center mx-auto">
+                    <span>加载更多</span>
+                    <i class="fas fa-spinner fa-spin ml-2 hidden"></i>
+                </button>
+            </div>
+
+            <!-- 返回顶部按钮 -->
+            <button id="back-to-top" class="fixed bottom-20 right-20 bg-indigo-600 text-white rounded-full p-3 shadow-lg transform transition-transform duration-300 hover:bg-indigo-700 opacity-0 pointer-events-none">
+                <i class="fas fa-arrow-up"></i>
+            </button>
+        </main>
+    </div>
+
+    <!-- 音乐播放器 -->
+    <div class="music-player" id="music-player">
+        <div class="player-header" id="player-header">
+            <div class="flex items-center gap-3">
+                <img id="music-cover" src="https://picsum.photos/50/50" alt="Music Cover" class="w-12 h-12 rounded-lg object-cover">
+                <div class="flex-1">
+                    <h4 id="music-title" class="font-medium text-gray-900 truncate">正在加载...</h4>
+                    <p id="music-artist" class="text-sm text-gray-500 truncate">未知歌手</p>
+                </div>
+            </div>
+            <button id="minimize-player" class="text-gray-400 hover:text-gray-600">
+                <i class="fas fa-chevron-down"></i>
+            </button>
+        </div>
+        <div class="progress-bar" id="progress-bar">
+            <div class="progress" id="progress"></div>
+        </div>
+        <div class="music-controls">
+            <button id="prev-btn" class="text-gray-600 hover:text-indigo-600 transition-colors duration-200">
+                <i class="fas fa-step-backward"></i>
+            </button>
+            <button id="play-btn" class="w-10 h-10 rounded-full bg-indigo-600 text-white flex items-center justify-center hover:bg-indigo-700 transition-all duration-200">
+                <i class="fas fa-play"></i>
+            </button>
+            <button id="next-btn" class="text-gray-600 hover:text-indigo-600 transition-colors duration-200">
+                <i class="fas fa-step-forward"></i>
+            </button>
+            <div class="volume-control">
+                <i class="fas fa-volume-up text-gray-600"></i>
+                <input type="range" class="volume-slider" min="0" max="100" value="100">
+            </div>
+        </div>
+    </div>
+
+    <!-- 音乐播放器容器 -->
+    <div id="music-player-container" class="fixed bottom-10 right-10 z-50"></div>
+
+    <!-- 页面脚本 -->
+    <script src="scripts/component-loader.js"></script>
+    <script type="module">
+        import articlesData from './scripts/data/articles.js';
+
+        let currentPage = 1;
+        const articlesPerPage = 6;
+        let currentTag = 'all';
+        let currentSort = 'date';
+        let currentSearch = '';
+        let filteredArticles = [...articlesData.categoryArticles];
+        let isGridView = true;
+
+        // 渲染文章卡片
+        function renderArticleCard(article, index) {
+            return `
+                <div class="article-card stagger-item bg-white rounded-lg overflow-hidden shadow-lg" data-index="${index}">
+                    <div class="relative overflow-hidden">
+                        <img src="${article.cover}" alt="${article.title}" class="w-full h-48 object-cover transition-transform duration-500 hover:scale-110">
+                        <div class="absolute top-0 right-0 bg-indigo-600 text-white px-2 py-1 text-xs">
+                            ${formatDate(article.date)}
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex flex-wrap gap-2 mb-3">
+                            ${article.tags.map(tag => `
+                                <span class="px-3 py-1 bg-indigo-100 text-indigo-600 rounded-full text-sm hover:bg-indigo-200 transition-colors duration-200 cursor-pointer tag-chip" data-tag="${tag}">${tag}</span>
+                            `).join('')}
+                        </div>
+                        <h3 class="text-xl font-bold mb-2 hover:text-indigo-600 transition-colors duration-200">${article.title}</h3>
+                        <p class="text-gray-600 mb-4">${article.description}</p>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <img src="${article.avatar}" alt="${article.author}" class="w-8 h-8 rounded-full mr-2">
+                                <span class="text-gray-700">${article.author}</span>
+                            </div>
+                            <div class="text-gray-500 text-sm">
+                                <span class="mr-3 hover:text-indigo-600 transition-colors duration-200 cursor-pointer">👁 ${article.views}</span>
+                                <span class="mr-3 hover:text-red-500 transition-colors duration-200 cursor-pointer like-btn">❤️ ${article.likes}</span>
+                                <span class="hover:text-indigo-600 transition-colors duration-200 cursor-pointer">💬 ${article.comments}</span>
+                            </div>
+                        </div>
+                        <div class="mt-4 flex justify-between items-center">
+                            <span class="text-gray-500 text-sm">${article.date}</span>
+                            <button class="read-more-btn px-4 py-1 text-sm text-indigo-600 border border-indigo-600 rounded-full hover:bg-indigo-600 hover:text-white transition-all duration-300">
+                                阅读更多
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderListViewCard(article, index) {
+            return `
+                <div class="article-card stagger-item bg-white rounded-lg overflow-hidden shadow-lg flex flex-col md:flex-row" data-index="${index}">
+                    <div class="relative overflow-hidden md:w-1/3">
+                        <img src="${article.cover}" alt="${article.title}" class="w-full h-48 md:h-full object-cover transition-transform duration-500 hover:scale-110">
+                        <div class="absolute top-0 right-0 bg-indigo-600 text-white px-2 py-1 text-xs">
+                            ${formatDate(article.date)}
+                        </div>
+                    </div>
+                    <div class="p-6 md:w-2/3">
+                        <div class="flex flex-wrap gap-2 mb-3">
+                            ${article.tags.map(tag => `
+                                <span class="px-3 py-1 bg-indigo-100 text-indigo-600 rounded-full text-sm hover:bg-indigo-200 transition-colors duration-200 cursor-pointer tag-chip" data-tag="${tag}">${tag}</span>
+                            `).join('')}
+                        </div>
+                        <h3 class="text-xl font-bold mb-2 hover:text-indigo-600 transition-colors duration-200">${article.title}</h3>
+                        <p class="text-gray-600 mb-4">${article.description}</p>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <img src="${article.avatar}" alt="${article.author}" class="w-8 h-8 rounded-full mr-2">
+                                <span class="text-gray-700">${article.author}</span>
+                            </div>
+                            <div class="text-gray-500 text-sm">
+                                <span class="mr-3 hover:text-indigo-600 transition-colors duration-200 cursor-pointer">👁 ${article.views}</span>
+                                <span class="mr-3 hover:text-red-500 transition-colors duration-200 cursor-pointer like-btn">❤️ ${article.likes}</span>
+                                <span class="hover:text-indigo-600 transition-colors duration-200 cursor-pointer">💬 ${article.comments}</span>
+                            </div>
+                        </div>
+                        <div class="mt-4 flex justify-between items-center">
+                            <span class="text-gray-500 text-sm">${article.date}</span>
+                            <button class="read-more-btn px-4 py-1 text-sm text-indigo-600 border border-indigo-600 rounded-full hover:bg-indigo-600 hover:text-white transition-all duration-300">
+                                阅读更多
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 格式化日期
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const month = date.getMonth() + 1;
+            const day = date.getDate();
+            return `${month}/${day}`;
+        }
+
+        // 筛选和排序文章
+        function filterAndSortArticles() {
+            filteredArticles = articlesData.categoryArticles.filter(article => {
+                // 标签筛选
+                const tagMatch = currentTag === 'all' || article.tags.includes(currentTag);
+                
+                // 搜索筛选
+                if (!currentSearch) return tagMatch;
+                
+                const searchLower = currentSearch.toLowerCase();
+                const titleMatch = article.title.toLowerCase().includes(searchLower);
+                const descMatch = article.description.toLowerCase().includes(searchLower);
+                const authorMatch = article.author.toLowerCase().includes(searchLower);
+                const tagMatch2 = article.tags.some(tag => tag.toLowerCase().includes(searchLower));
+                
+                return tagMatch && (titleMatch || descMatch || authorMatch || tagMatch2);
+            });
+
+            filteredArticles.sort((a, b) => {
+                switch (currentSort) {
+                    case 'date':
+                        return new Date(b.date) - new Date(a.date);
+                    case 'views':
+                        return b.views - a.views;
+                    case 'likes':
+                        return b.likes - a.likes;
+                    case 'comments':
+                        return b.comments - a.comments;
+                    default:
+                        return 0;
+                }
+            });
+
+            currentPage = 1;
+            renderArticles();
+            updateArticleCount();
+        }
+
+        // 渲染文章列表
+        function renderArticles() {
+            const container = document.getElementById('articles-container');
+            const startIndex = 0;
+            const endIndex = currentPage * articlesPerPage;
+            const articlesToShow = filteredArticles.slice(startIndex, endIndex);
+
+            if (isGridView) {
+                container.className = "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6";
+                container.innerHTML = articlesToShow.map((article, index) => renderArticleCard(article, index)).join('');
+            } else {
+                container.className = "grid grid-cols-1 gap-6";
+                container.innerHTML = articlesToShow.map((article, index) => renderListViewCard(article, index)).join('');
+            }
+
+            // 控制加载更多按钮的显示
+            const loadMoreBtn = document.getElementById('load-more');
+            loadMoreBtn.style.display = endIndex >= filteredArticles.length ? 'none' : 'flex';
+            
+            // 添加渐入动画
+            animateArticles();
+            
+            // 添加点赞功能
+            document.querySelectorAll('.like-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    let likes = parseInt(this.textContent.split(' ')[1]);
+                    this.textContent = `❤️ ${likes + 1}`;
+                    this.classList.add('text-red-500');
+                    this.style.transform = 'scale(1.2)';
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1)';
+                    }, 300);
+                });
+            });
+            
+            // 添加标签点击事件
+            document.querySelectorAll('.tag-chip').forEach(tag => {
+                tag.addEventListener('click', function() {
+                    const tagValue = this.dataset.tag;
+                    document.querySelectorAll('.tag').forEach(t => {
+                        if (t.dataset.tag === tagValue) {
+                            t.click();
+                        }
+                    });
+                });
+            });
+            
+            // 添加阅读更多点击事件
+            document.querySelectorAll('.read-more-btn').forEach((btn, index) => {
+                btn.addEventListener('click', function() {
+                    const article = articlesToShow[index];
+                    alert(`即将阅读文章：${article.title}`);
+                    // 这里可以添加跳转到文章详情页的逻辑
+                });
+            });
+        }
+        
+        // 文章渐入动画
+        function animateArticles() {
+            const articles = document.querySelectorAll('.stagger-item');
+            articles.forEach((article, index) => {
+                setTimeout(() => {
+                    article.style.animation = 'fadeInUp 0.5s ease forwards';
+                }, 50 * index);
+            });
+        }
+        
+        // 更新文章计数
+        function updateArticleCount() {
+            const count = filteredArticles.length;
+            document.getElementById('article-count').textContent = count;
+        }
+
+        // 初始化事件监听器
+        function initEventListeners() {
+            // 标签筛选事件
+            document.getElementById('tag-filters').addEventListener('click', (e) => {
+                if (e.target.classList.contains('tag')) {
+                    document.querySelectorAll('.tag').forEach(tag => tag.classList.remove('active'));
+                    e.target.classList.add('active');
+                    currentTag = e.target.dataset.tag;
+                    filterAndSortArticles();
+                }
+            });
+
+            // 排序选项事件
+            document.getElementById('sort-select').addEventListener('change', (e) => {
+                currentSort = e.target.value;
+                filterAndSortArticles();
+            });
+
+            // 加载更多按钮事件
+            document.getElementById('load-more').addEventListener('click', () => {
+                const loadMoreBtn = document.getElementById('load-more');
+                const spinner = loadMoreBtn.querySelector('.fa-spinner');
+                
+                spinner.classList.remove('hidden');
+                loadMoreBtn.disabled = true;
+                
+                // 模拟加载延迟
+                setTimeout(() => {
+                    currentPage++;
+                    renderArticles();
+                    spinner.classList.add('hidden');
+                    loadMoreBtn.disabled = false;
+                }, 800);
+            });
+            
+            // 视图切换事件
+            document.getElementById('view-grid').addEventListener('click', () => {
+                if (!isGridView) {
+                    isGridView = true;
+                    document.getElementById('view-grid').classList.add('active');
+                    document.getElementById('view-list').classList.remove('active');
+                    renderArticles();
+                }
+            });
+            
+            document.getElementById('view-list').addEventListener('click', () => {
+                if (isGridView) {
+                    isGridView = false;
+                    document.getElementById('view-list').classList.add('active');
+                    document.getElementById('view-grid').classList.remove('active');
+                    renderArticles();
+                }
+            });
+            
+            // 搜索事件
+            const searchInput = document.getElementById('search-input');
+            const searchClear = document.getElementById('search-clear');
+            
+            searchInput.addEventListener('input', () => {
+                currentSearch = searchInput.value.trim();
+                searchClear.style.display = currentSearch ? 'flex' : 'none';
+                filterAndSortArticles();
+            });
+            
+            searchClear.addEventListener('click', () => {
+                searchInput.value = '';
+                currentSearch = '';
+                searchClear.style.display = 'none';
+                filterAndSortArticles();
+            });
+            
+            // 返回顶部按钮
+            const backToTopBtn = document.getElementById('back-to-top');
+            
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 500) {
+                    backToTopBtn.classList.add('opacity-100');
+                    backToTopBtn.classList.remove('opacity-0', 'pointer-events-none');
+                } else {
+                    backToTopBtn.classList.remove('opacity-100');
+                    backToTopBtn.classList.add('opacity-0', 'pointer-events-none');
+                }
+            });
+            
+            backToTopBtn.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+            
+            // 音乐播放器缩小/展开
+            document.getElementById('player-header').addEventListener('click', function() {
+                const player = document.getElementById('music-player');
+                player.classList.toggle('minimized');
+                
+                const icon = document.getElementById('minimize-player').querySelector('i');
+                if (player.classList.contains('minimized')) {
+                    icon.className = 'fas fa-chevron-up';
+                } else {
+                    icon.className = 'fas fa-chevron-down';
+                }
+            });
+        }
+
+        // 初始化
+        function init() {
+            filterAndSortArticles();
+            initEventListeners();
+        }
+        
+        // 加载组件
+        fetch('components/navbar/navbar.html')
+            .then(response => response.text())
+            .then(html => document.getElementById('navbar-container').innerHTML = html);
+
+        fetch('components/footer/footer.html')
+            .then(response => response.text())
+            .then(html => document.getElementById('footer-container').innerHTML = html);
+        
+        // 页面加载完成后初始化
+        window.addEventListener('DOMContentLoaded', init);
+    </script>
+    
+    <!-- 音乐播放器脚本 -->
+    <script src="scripts/music-player.js"></script>
+</body>
+</html> 
