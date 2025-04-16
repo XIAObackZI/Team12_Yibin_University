@@ -18,7 +18,7 @@ class PageTransition {
         this.attachTeamLinkListeners();
         
         // 预加载团队页面
-        this.preloadPage('team.html', 'team-page');
+        // this.preloadPage('team.html', 'team-page'); // 暂时禁用预加载，排查问题
         
         this.initialized = true;
         console.log('页面过渡效果初始化完成');
@@ -64,50 +64,6 @@ class PageTransition {
             transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
         `;
         
-        // 添加旋转光环效果
-        const halo1 = document.createElement('div');
-        halo1.className = 'logo-halo';
-        halo1.style.cssText = `
-            position: absolute;
-            top: -10px;
-            left: -10px;
-            right: -10px;
-            bottom: -10px;
-            border: 2px dashed rgba(255, 255, 255, 0.4);
-            border-radius: 50%;
-            animation: rotateSlow 10s linear infinite;
-        `;
-        
-        const halo2 = document.createElement('div');
-        halo2.className = 'logo-halo';
-        halo2.style.cssText = `
-            position: absolute;
-            top: -20px;
-            left: -20px;
-            right: -20px;
-            bottom: -20px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
-            animation: rotateReverse 15s linear infinite;
-        `;
-        
-        const halo3 = document.createElement('div');
-        halo3.className = 'logo-halo';
-        halo3.style.cssText = `
-            position: absolute;
-            top: -30px;
-            left: -30px;
-            right: -30px;
-            bottom: -30px;
-            border: 3px dotted rgba(99, 102, 241, 0.3);
-            border-radius: 50%;
-            animation: rotateSlow 20s linear infinite;
-        `;
-        
-        logoContainer.appendChild(halo1);
-        logoContainer.appendChild(halo2);
-        logoContainer.appendChild(halo3);
-        
         // 创建Logo内部
         const logoInner = document.createElement('div');
         logoInner.className = 'logo-inner';
@@ -126,7 +82,6 @@ class PageTransition {
             box-shadow: 0 0 20px rgba(255,255,255,0.5);
             position: relative;
             overflow: hidden;
-            animation: spin 3s ease-in-out infinite alternate;
         `;
         
         // 创建旋转Logo文字
@@ -139,28 +94,11 @@ class PageTransition {
             display: flex;
             justify-content: center;
             align-items: center;
-            animation: spinOpp 5s linear infinite;
             transform-style: preserve-3d;
         `;
         logoText.innerHTML = `<i class="fas fa-pen-fancy" style="font-size: 36px;"></i>`;
         
-        // 新增闪光效果
-        const logoFlare = document.createElement('div');
-        logoFlare.className = 'logo-flare';
-        logoFlare.style.cssText = `
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 80px;
-            height: 200%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
-            transform: rotate(45deg);
-            animation: flareAnim 3s infinite;
-            pointer-events: none;
-        `;
-        
         logoInner.appendChild(logoText);
-        logoInner.appendChild(logoFlare);
         logoContainer.appendChild(logoInner);
         
         // 创建进度条容器
@@ -186,7 +124,7 @@ class PageTransition {
             width: 0%;
             background: linear-gradient(90deg, #3b82f6, #8b5cf6);
             border-radius: 3px;
-            transition: width 0.1s ease-out;
+            transition: width 0.5s ease-out;
             box-shadow: 0 0 10px rgba(79, 70, 229, 0.8);
         `;
         
@@ -210,16 +148,6 @@ class PageTransition {
         // 添加关键帧动画
         const keyframes = document.createElement('style');
         keyframes.textContent = `
-            @keyframes spin {
-                0% { transform: rotate(0deg); }
-                100% { transform: rotate(360deg); }
-            }
-            
-            @keyframes spinOpp {
-                0% { transform: rotate(0deg); }
-                100% { transform: rotate(-360deg); }
-            }
-            
             @keyframes rotateSlow {
                 0% { transform: rotate(0deg); }
                 100% { transform: rotate(360deg); }
@@ -233,33 +161,6 @@ class PageTransition {
             @keyframes pulseGlow {
                 0% { box-shadow: 0 0 30px rgba(79, 70, 229, 0.6); }
                 100% { box-shadow: 0 0 50px rgba(99, 102, 241, 0.8); }
-            }
-            
-            @keyframes fadeScale {
-                0% { opacity: 0; transform: scale(0.8); }
-                100% { opacity: 0.8; transform: scale(1); }
-            }
-            
-            @keyframes flareAnim {
-                0% { left: -50%; }
-                20% { left: 120%; }
-                100% { left: 120%; }
-            }
-            
-            @keyframes float {
-                0%, 100% { transform: translateY(0) rotate(0deg); }
-                50% { transform: translateY(-20px) rotate(10deg); }
-            }
-            
-            @keyframes twinkle {
-                0%, 100% { opacity: 0.2; transform: scale(0.8); }
-                50% { opacity: 1; transform: scale(1.2); }
-            }
-            
-            @keyframes shakeEffect {
-                0%, 100% { transform: translateX(0); }
-                10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-                20%, 40%, 60%, 80% { transform: translateX(5px); }
             }
         `;
         
@@ -399,9 +300,6 @@ class PageTransition {
             this.container.style.backdropFilter = 'blur(10px)';
         }, 50);
         
-        // 创建粒子效果
-        this.createParticles();
-        
         // 播放声音效果 (可选)
         this.playTransitionSound();
         
@@ -417,41 +315,18 @@ class PageTransition {
             this.text.style.transform = 'translateY(0)';
         }, 400);
         
-        // 进度条真实加载动画
-        this.animateProgressBar(targetUrl);
-    }
-    
-    animateProgressBar(targetUrl) {
-        let progress = 0;
-        let loadTime = Math.random() * 1000 + 2000; // 2-3秒的加载时间
-        const startTime = Date.now();
-        const endTime = startTime + loadTime;
+        // 使用 CSS 过渡动画代替 JS 驱动的进度条
+        const progressBar = document.querySelector('#page-transition-container .progress-bar');
+        if (progressBar) {
+            progressBar.style.width = '100%'; // 直接设置目标宽度，让 CSS 过渡生效
+        }
         
-        const updateProgress = () => {
-            const now = Date.now();
-            if (now >= endTime) {
-                this.progress.bar.style.width = '100%';
-                setTimeout(() => {
-                    this.completeFinalAnimation(targetUrl);
-                }, 400);
-                return;
-            }
-            
-            // 使用缓动函数使进度更自然
-            const timeProgress = (now - startTime) / loadTime;
-            // 使用缓动函数 - 开始慢，中间快，结束慢
-            progress = this.easeInOutQuad(timeProgress) * 100;
-            
-            this.progress.bar.style.width = `${progress}%`;
-            requestAnimationFrame(updateProgress);
-        };
+        // 等待动画和页面加载 (需要调整时间或使用其他机制)
+        // 这里的延迟需要基于 CSS 动画时间和页面加载预估，或者更可靠的事件监听
+        await new Promise(resolve => setTimeout(resolve, 1000)); // 简化延迟，可能需要调整
         
-        requestAnimationFrame(updateProgress);
-    }
-    
-    // 缓动函数
-    easeInOutQuad(t) {
-        return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+        // 导航到新页面
+        window.location.href = targetUrl; 
     }
     
     playTransitionSound() {
@@ -465,90 +340,6 @@ class PageTransition {
             });
         } catch (e) {
             console.log('不支持音效播放', e);
-        }
-    }
-    
-    createParticles() {
-        // 粒子数量
-        const count = 200; // 增加粒子数量
-        this.container.innerHTML = '';
-        
-        for (let i = 0; i < count; i++) {
-            const particle = document.createElement('div');
-            
-            // 创建不同类型的粒子: 圆形、方形和星形
-            const particleType = Math.random() > 0.7 ? (Math.random() > 0.5 ? 'square' : 'star') : 'circle';
-            
-            // 随机大小、位置和速度
-            const size = Math.random() * 6 + 2;
-            const posX = Math.random() * 100;
-            const posY = Math.random() * 100;
-            const delay = Math.random() * 5;
-            const duration = Math.random() * 10 + 10;
-            const opacity = Math.random() * 0.5 + 0.3;
-            
-            // 基础粒子样式
-            let particleStyle = `
-                position: absolute;
-                top: ${posY}%;
-                left: ${posX}%;
-                width: ${size}px;
-                height: ${size}px;
-                background-color: ${Math.random() > 0.5 ? 'rgba(255, 255, 255, ' + opacity + ')' : 'rgba(79, 70, 229, ' + opacity + ')'};
-                opacity: 0;
-                animation: fadeScale ${duration}s ease-in-out ${delay}s infinite alternate;
-                z-index: 1;
-            `;
-            
-            // 根据类型设置特殊样式
-            if (particleType === 'circle') {
-                particleStyle += 'border-radius: 50%;';
-            } else if (particleType === 'square') {
-                particleStyle += `
-                    transform: rotate(${Math.random() * 45}deg);
-                    box-shadow: 0 0 ${size * 2}px rgba(255, 255, 255, 0.5);
-                `;
-            } else if (particleType === 'star') {
-                // 星形粒子
-                particle.innerHTML = `<i class="fas fa-star" style="font-size: ${size * 1.5}px; color: rgba(255, 223, 0, ${opacity});"></i>`;
-                particleStyle += `
-                    animation: twinkle ${duration * 0.7}s ease-in-out ${delay}s infinite;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    width: auto;
-                    height: auto;
-                `;
-            }
-            
-            particle.style.cssText = particleStyle;
-            this.container.appendChild(particle);
-        }
-        
-        // 创建几个特殊的大型粒子
-        const specialCount = 5;
-        for (let i = 0; i < specialCount; i++) {
-            const specialParticle = document.createElement('div');
-            const size = Math.random() * 40 + 20;
-            const posX = Math.random() * 100;
-            const posY = Math.random() * 100;
-            const opacity = Math.random() * 0.15 + 0.05;
-            
-            specialParticle.style.cssText = `
-                position: absolute;
-                top: ${posY}%;
-                left: ${posX}%;
-                width: ${size}px;
-                height: ${size}px;
-                background: radial-gradient(circle, rgba(79, 70, 229, ${opacity * 2}), rgba(79, 70, 229, ${opacity}) 70%, transparent);
-                border-radius: 50%;
-                filter: blur(${size * 0.3}px);
-                opacity: 0;
-                animation: fadeScale ${Math.random() * 15 + 20}s ease-in-out infinite alternate;
-                z-index: 0;
-            `;
-            
-            this.container.appendChild(specialParticle);
         }
     }
     
