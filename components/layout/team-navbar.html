@@ -43,8 +43,8 @@
                 </div>
 
                 <!-- Demo Button (New) -->
-                <button id="demo-button" class="hidden md:flex items-center justify-center px-4 py-1.5 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-full text-sm font-medium transform hover:scale-105 transition-all demo-btn-effect" onclick="triggerDemoAnimation()">
-                    <i class="fas fa-rocket mr-1.5"></i>演示
+                <button id="demo-button" class="hidden md:flex items-center justify-center px-6 py-1.5 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-full text-sm font-medium transform hover:scale-105 transition-all demo-btn-effect" onclick="triggerDemoAnimation()">
+                    <i class="fas fa-rocket"></i><span class="ml-2">演示</span>
                 </button>
 
                 <!-- Settings Button (New) -->
@@ -52,6 +52,22 @@
                     <span class="sr-only">设置</span>
                     <i class="fas fa-cog"></i>
                 </button>
+                <!-- Settings Dropdown -->
+                <div id="settings-dropdown" class="hidden origin-top-right absolute right-14 top-16 mt-2 w-56 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5 focus:outline-none z-50" role="menu">
+                    <div class="py-1">
+                        <div class="px-4 py-2 text-sm text-gray-700 dark:text-gray-200 border-b border-gray-200 dark:border-gray-700">
+                            <span class="font-medium">显示设置</span>
+                        </div>
+                        <button id="toggle-animation-mode" class="w-full text-left block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700" role="menuitem">
+                            <i class="fas fa-fire-alt mr-2 text-indigo-500"></i>
+                            <span id="animation-mode-text">切换到标准模式</span>
+                        </button>
+                        <button class="w-full text-left block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700" role="menuitem">
+                            <i class="fas fa-adjust mr-2 text-indigo-500"></i>
+                            <span>明暗模式切换</span>
+                        </button>
+                    </div>
+                </div>
 
                 <!-- Notification -->
                  <button class="hidden md:block p-1 rounded-full text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 dark:focus:ring-offset-gray-800 focus:ring-indigo-500">
@@ -63,7 +79,9 @@
                 <div class="relative hidden md:block">
                     <button id="user-menu" class="flex text-sm bg-gray-200 dark:bg-gray-700 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 dark:focus:ring-offset-gray-800 focus:ring-indigo-500" aria-expanded="false" aria-haspopup="true">
                         <span class="sr-only">Open user menu</span>
-                        <img class="h-8 w-8 rounded-full" src="https://randomuser.me/api/portraits/men/32.jpg" alt="用户头像">
+                        <div class="h-8 w-8 rounded-full overflow-hidden">
+                            <img class="h-full w-full object-cover" src="https://randomuser.me/api/portraits/men/32.jpg" alt="用户头像">
+                        </div>
                     </button>
                     <!-- Dropdown menu -->
                     <div id="dropdown-menu" class="hidden origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu">
@@ -183,8 +201,15 @@
     position: relative;
     overflow: hidden;
     box-shadow: 0 0 15px rgba(99, 102, 241, 0.5);
+    width: 100px; /* 设定宽度使其成为横向椭圆形 */
+    height: 36px; /* 固定高度 */
+    border-radius: 18px; /* 圆角设置为高度的一半，确保是椭圆形 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
+/* 闪光效果 */
 .demo-btn-effect::before {
     content: '';
     position: absolute;
@@ -225,4 +250,72 @@
     z-index: 9999;
     pointer-events: none;
 }
-</style> 
+</style>
+
+<script>
+// 添加到页面底部或适当的脚本区域
+document.addEventListener('DOMContentLoaded', function() {
+    // 设置按钮点击事件
+    const settingsButton = document.getElementById('settings-button');
+    const settingsDropdown = document.getElementById('settings-dropdown');
+    
+    if (settingsButton && settingsDropdown) {
+        settingsButton.addEventListener('click', function(e) {
+            e.stopPropagation();
+            settingsDropdown.classList.toggle('hidden');
+        });
+        
+        // 点击页面其他地方关闭下拉菜单
+        document.addEventListener('click', function() {
+            if (!settingsDropdown.classList.contains('hidden')) {
+                settingsDropdown.classList.add('hidden');
+            }
+        });
+        
+        // 阻止下拉菜单内的点击事件冒泡
+        settingsDropdown.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+    }
+    
+    // 动画模式切换
+    const toggleAnimationButton = document.getElementById('toggle-animation-mode');
+    const animationModeText = document.getElementById('animation-mode-text');
+    
+    if (toggleAnimationButton && animationModeText) {
+        // 检查当前状态
+        const isAnimationDisabled = localStorage.getItem('disableThreeEffects') === 'true';
+        animationModeText.textContent = isAnimationDisabled ? '切换到动画模式' : '切换到标准模式';
+        
+        toggleAnimationButton.addEventListener('click', function() {
+            const currentSetting = localStorage.getItem('disableThreeEffects') === 'true';
+            localStorage.setItem('disableThreeEffects', !currentSetting);
+            
+            // 提示用户刷新页面
+            const message = document.createElement('div');
+            message.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: rgba(0,0,0,0.8);
+                color: white;
+                padding: 20px;
+                border-radius: 10px;
+                text-align: center;
+                z-index: 10000;
+            `;
+            message.innerHTML = `
+                <p>显示模式已更改</p>
+                <p>正在刷新页面应用新设置...</p>
+            `;
+            document.body.appendChild(message);
+            
+            // 短暂延迟后刷新页面
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+        });
+    }
+});
+</script> 

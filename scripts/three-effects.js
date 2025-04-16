@@ -1,8 +1,8 @@
 // Three.js效果脚本 - 优化版
 
 document.addEventListener('DOMContentLoaded', function() {
-    // 创建性能控制开关
-    createPerformanceControl();
+    // 不再创建性能控制开关，已移动到导航栏设置中
+    // createPerformanceControl();
     
     // 检查是否已禁用效果
     if (localStorage.getItem('disableThreeEffects') === 'true') {
@@ -18,7 +18,8 @@ document.addEventListener('DOMContentLoaded', function() {
     initAbout3DModel();
 });
 
-// 添加性能控制开关
+// 添加性能控制开关 - 已不再使用，但保留代码作为参考
+/*
 function createPerformanceControl() {
     const controlDiv = document.createElement('div');
     controlDiv.className = 'performance-control';
@@ -74,6 +75,7 @@ function createPerformanceControl() {
     
     document.body.appendChild(controlDiv);
 }
+*/
 
 // 禁用效果时添加简单的静态背景
 function addStaticBackground() {

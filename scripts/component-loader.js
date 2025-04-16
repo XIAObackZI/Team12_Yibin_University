@@ -3,8 +3,21 @@ function loadComponent(containerId, componentPath) {
     const container = document.getElementById(containerId);
     if (!container) return;
 
-    fetch(componentPath)
-        .then(response => response.text())
+    // 检查当前页面是否在子目录中，并调整组件路径
+    let adjustedPath = componentPath;
+    if (window.location.pathname.includes('/other_pages/')) {
+        // 如果页面在子目录中，需要返回上一级查找组件
+        adjustedPath = '../' + componentPath;
+        console.log('调整组件路径:', adjustedPath);
+    }
+
+    fetch(adjustedPath)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`组件加载失败: ${response.status} ${response.statusText}`);
+            }
+            return response.text();
+        })
         .then(html => {
             container.innerHTML = html;
             // 执行组件内的脚本 (如果有的话 - 已从Navbar.html移除主要逻辑)
@@ -29,7 +42,10 @@ function loadComponent(containerId, componentPath) {
             */
 
         })
-        .catch(error => console.error('Error loading component:', error));
+        .catch(error => {
+            console.error('Error loading component:', error);
+            container.innerHTML = `<div class="p-4 text-red-500">组件加载失败: ${adjustedPath}</div>`;
+        });
 }
 
 // 初始化导航栏交互 (确保只在组件加载后调用)
@@ -93,11 +109,19 @@ function initializeNavbarInteractions(navbarContainer) {
 
 // 当DOM加载完成后初始化组件
 document.addEventListener('DOMContentLoaded', () => {
+    // 检测当前页面位置
+    const inSubdirectory = window.location.pathname.includes('/other_pages/');
+    console.log('当前页面路径:', window.location.pathname, '在子目录中:', inSubdirectory);
+    
     // 加载导航栏组件
-    loadComponent('navbar-container', 'components/layout/Navbar.html');
+    if (document.getElementById('navbar-container')) {
+        loadComponent('navbar-container', 'components/layout/Navbar.html');
+    }
+    
     // 加载热门推荐组件
-    loadComponent('hot-recommendations-container', 'components/sections/hot-recommendations.html');
-    // 注意：此时导航栏交互逻辑将在 loadComponent 的 then 回调中初始化
+    if (document.getElementById('hot-recommendations-container')) {
+        loadComponent('hot-recommendations-container', 'components/sections/hot-recommendations.html');
+    }
 
     // 加载热门文章轮播
     if (document.getElementById('hot-articles-container')) {
