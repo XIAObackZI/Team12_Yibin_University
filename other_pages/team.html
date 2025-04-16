@@ -597,92 +597,92 @@
                 <!-- 调整后的团队成员展示区域 (顶部4个，带翻转图片) -->
                 <div id="top-cards" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                     <!-- 成员1：算法巫师 -> 代码狂魔描述，翻转显示图片1 -->
-                    <div class="team-card bg-white dark:bg-gray-800 rounded-xl shadow-lg h-96 relative group"> <!-- Removed overflow-hidden -->
+                    <div class="team-card bg-white dark:bg-gray-800 rounded-xl shadow-lg h-[30rem] relative group"> <!-- Increased height -->
                         <div class="team-card-inner w-full h-full relative duration-500 group-hover:[transform:rotateY(180deg)] [transform-style:preserve-3d]">
                             <!-- 正面 -->
                             <div class="team-card-front absolute w-full h-full p-6 flex flex-col items-center [backface-visibility:hidden]">
                                 <div class="w-32 h-32 rounded-full bg-yellow-200 mb-4 flex items-center justify-center">
                                      <i class="fas fa-robot text-5xl text-yellow-600"></i>
                                 </div>
-                                <h3 class="text-2xl font-bold mb-2">算法巫师</h3>
+                                <h3 class="text-2xl font-bold mb-2">从霍格沃茨魔法学校转行来的算法巫师</h3> <!-- Restored long title -->
                                 <p class="text-pink-500 dark:text-pink-400 font-semibold mb-4">首席键盘破坏者</p>
-                                <p class="text-gray-600 dark:text-gray-300 text-center">每天写代码超过23小时，剩下1小时用来思考人生和吃泡面。</p>
+                                <p class="text-gray-600 dark:text-gray-300 text-center">每天写代码超过23小时，剩下1小时用来思考人生和吃泡面。</p> <!-- Kept secondary description -->
                                 <div class="mt-4 flex space-x-2">
                                     <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm">JavaScript</span>
                                     <span class="px-3 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm">咖啡因</span>
                                 </div>
                             </div>
                             <!-- 背面 -->
-                            <div class="team-card-back absolute w-full h-full bg-gray-200 dark:bg-gray-700 rounded-xl [transform:rotateY(180deg)] [backface-visibility:hidden] overflow-hidden"> <!-- Moved overflow-hidden here -->
+                            <div class="team-card-back absolute w-full h-full bg-gray-200 dark:bg-gray-700 rounded-xl [transform:rotateY(180deg)] [backface-visibility:hidden] overflow-hidden">
                                 <img src="../assets/images/Teams/1.yl.jpg" alt="算法巫师" class="w-full h-full object-cover" style="display: block; opacity: 1;">
                             </div>
                         </div>
                     </div>
 
                     <!-- 成员2：键盘侠 -> 设计仙女描述，翻转显示图片2 -->
-                     <div class="team-card bg-white dark:bg-gray-800 rounded-xl shadow-lg h-96 relative group"> <!-- Removed overflow-hidden -->
+                     <div class="team-card bg-white dark:bg-gray-800 rounded-xl shadow-lg h-[30rem] relative group"> <!-- Increased height -->
                         <div class="team-card-inner w-full h-full relative duration-500 group-hover:[transform:rotateY(180deg)] [transform-style:preserve-3d]">
                              <!-- 正面 -->
                             <div class="team-card-front absolute w-full h-full p-6 flex flex-col items-center [backface-visibility:hidden]">
                                 <div class="w-32 h-32 rounded-full bg-green-200 mb-4 flex items-center justify-center">
                                     <i class="fas fa-paint-brush text-5xl text-green-600"></i>
                                 </div>
-                                <h3 class="text-2xl font-bold mb-2">键盘侠</h3>
+                                <h3 class="text-2xl font-bold mb-2">每天和键盘谈恋爱的全栈键盘侠</h3> <!-- Restored long title -->
                                 <p class="text-purple-500 dark:text-purple-400 font-semibold mb-4">像素完美强迫症</p>
-                                <p class="text-gray-600 dark:text-gray-300 text-center">能用CSS实现的效果绝不用图片，包括3D动画和虚拟现实。</p>
+                                <p class="text-gray-600 dark:text-gray-300 text-center">能用CSS实现的效果绝不用图片，包括3D动画和虚拟现实。</p> <!-- Kept secondary description -->
                                 <div class="mt-4 flex space-x-2">
                                      <span class="px-3 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-sm">CSS</span>
                                      <span class="px-3 py-1 bg-pink-100 dark:bg-pink-900 text-pink-800 dark:text-pink-200 rounded-full text-sm">审美</span>
                                 </div>
                             </div>
                             <!-- 背面 -->
-                            <div class="team-card-back absolute w-full h-full bg-gray-200 dark:bg-gray-700 rounded-xl [transform:rotateY(180deg)] [backface-visibility:hidden] overflow-hidden"> <!-- Moved overflow-hidden here -->
+                            <div class="team-card-back absolute w-full h-full bg-gray-200 dark:bg-gray-700 rounded-xl [transform:rotateY(180deg)] [backface-visibility:hidden] overflow-hidden">
                                 <img src="../assets/images/Teams/2.cjm.JPG" alt="键盘侠" class="w-full h-full object-cover" style="display: block; opacity: 1;">
                             </div>
                         </div>
                     </div>
 
                     <!-- 成员3：哲学诗人 -> 数据巫师描述，翻转显示图片3 -->
-                    <div class="team-card bg-white dark:bg-gray-800 rounded-xl shadow-lg h-96 relative group"> <!-- Removed overflow-hidden -->
+                    <div class="team-card bg-white dark:bg-gray-800 rounded-xl shadow-lg h-[30rem] relative group"> <!-- Increased height -->
                         <div class="team-card-inner w-full h-full relative duration-500 group-hover:[transform:rotateY(180deg)] [transform-style:preserve-3d]">
                              <!-- 正面 -->
                              <div class="team-card-front absolute w-full h-full p-6 flex flex-col items-center [backface-visibility:hidden]">
                                  <div class="w-32 h-32 rounded-full bg-blue-200 mb-4 flex items-center justify-center">
                                      <i class="fas fa-chart-line text-5xl text-blue-600"></i>
                                  </div>
-                                <h3 class="text-2xl font-bold mb-2">哲学诗人</h3>
+                                <h3 class="text-2xl font-bold mb-2">隐藏在注释里的哲学诗人</h3> <!-- Restored long title -->
                                 <p class="text-indigo-500 dark:text-indigo-400 font-semibold mb-4">Excel魔法师</p>
-                                <p class="text-gray-600 dark:text-gray-300 text-center">能用Excel制作游戏，用SQL写诗，用Python预测彩票号码(但从不中)。</p>
+                                <p class="text-gray-600 dark:text-gray-300 text-center">能用Excel制作游戏，用SQL写诗，用Python预测彩票号码(但从不中)。</p> <!-- Kept secondary description -->
                                 <div class="mt-4 flex space-x-2">
                                     <span class="px-3 py-1 bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200 rounded-full text-sm">Python</span>
                                     <span class="px-3 py-1 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 rounded-full text-sm">大数据</span>
                                 </div>
                             </div>
                             <!-- 背面 -->
-                            <div class="team-card-back absolute w-full h-full bg-gray-200 dark:bg-gray-700 rounded-xl [transform:rotateY(180deg)] [backface-visibility:hidden] overflow-hidden"> <!-- Moved overflow-hidden here -->
+                            <div class="team-card-back absolute w-full h-full bg-gray-200 dark:bg-gray-700 rounded-xl [transform:rotateY(180deg)] [backface-visibility:hidden] overflow-hidden">
                                 <img src="../assets/images/Teams/3.jcy.JPG" alt="哲学诗人" class="w-full h-full object-cover" style="display: block; opacity: 1;">
                             </div>
                         </div>
                     </div>
 
                     <!-- 成员4：时间管理大师 -> 开心果描述，翻转显示图片4 -->
-                    <div class="team-card bg-white dark:bg-gray-800 rounded-xl shadow-lg h-96 relative group"> <!-- Removed overflow-hidden -->
+                    <div class="team-card bg-white dark:bg-gray-800 rounded-xl shadow-lg h-[30rem] relative group"> <!-- Increased height -->
                         <div class="team-card-inner w-full h-full relative duration-500 group-hover:[transform:rotateY(180deg)] [transform-style:preserve-3d]">
                              <!-- 正面 -->
                             <div class="team-card-front absolute w-full h-full p-6 flex flex-col items-center [backface-visibility:hidden]">
                                 <div class="w-32 h-32 rounded-full bg-red-200 mb-4 flex items-center justify-center">
                                      <i class="fas fa-laugh-squint text-5xl text-red-600"></i>
                                 </div>
-                                <h3 class="text-2xl font-bold mb-2">时间管理大师</h3>
+                                <h3 class="text-2xl font-bold mb-2">Git提交记录里的时间管理大师</h3> <!-- Restored long title -->
                                 <p class="text-orange-500 dark:text-orange-400 font-semibold mb-4">办公室气氛组组长</p>
-                                <p class="text-gray-600 dark:text-gray-300 text-center">专业解决周一忧郁症，擅长用冷笑话降低办公室温度3℃。</p>
+                                <p class="text-gray-600 dark:text-gray-300 text-center">专业解决周一忧郁症，擅长用冷笑话降低办公室温度3℃。</p> <!-- Kept secondary description -->
                                 <div class="mt-4 flex space-x-2">
                                     <span class="px-3 py-1 bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200 rounded-full text-sm">幽默</span>
                                     <span class="px-3 py-1 bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 rounded-full text-sm">正能量</span>
                                 </div>
                             </div>
                             <!-- 背面 -->
-                            <div class="team-card-back absolute w-full h-full bg-gray-200 dark:bg-gray-700 rounded-xl [transform:rotateY(180deg)] [backface-visibility:hidden] overflow-hidden"> <!-- Moved overflow-hidden here -->
+                            <div class="team-card-back absolute w-full h-full bg-gray-200 dark:bg-gray-700 rounded-xl [transform:rotateY(180deg)] [backface-visibility:hidden] overflow-hidden">
                                 <img src="../assets/images/Teams/4.wz.jpg" alt="时间管理大师" class="w-full h-full object-cover" style="display: block; opacity: 1;">
                             </div>
                         </div>
