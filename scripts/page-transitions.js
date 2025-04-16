@@ -46,13 +46,30 @@ class PageTransition {
             overflow: hidden;
         `;
         
+        // 创建一个内部容器，确保内容完美居中
+        const innerContainer = document.createElement('div');
+        innerContainer.className = 'transition-inner-container';
+        innerContainer.style.cssText = `
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            max-width: 320px; /* 限制最大宽度确保在大屏幕上不会过宽 */
+            margin: 0 auto;
+            text-align: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%); /* 绝对定位的完美居中方式 */
+        `;
+        
         // 创建中央Logo区域
         const logoContainer = document.createElement('div');
         logoContainer.className = 'logo-container';
         logoContainer.style.cssText = `
-            position: relative;
-            width: 200px;
-            height: 200px;
+            width: 120px;
+            height: 120px;
             border-radius: 50%;
             background: radial-gradient(circle, rgba(79, 70, 229, 0.8) 0%, rgba(45, 38, 183, 0.5) 70%, transparent 100%);
             display: flex;
@@ -62,29 +79,30 @@ class PageTransition {
             animation: pulseGlow 2s infinite alternate;
             transform: scale(0);
             transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            margin: 0 auto 20px auto;
         `;
         
         // 创建Logo内部
         const logoInner = document.createElement('div');
         logoInner.className = 'logo-inner';
         logoInner.style.cssText = `
-            width: 120px;
-            height: 120px;
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
             background: #fff;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 24px;
+            font-size: 20px;
             font-weight: bold;
             color: #3b82f6;
             text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            box-shadow: 0 0 20px rgba(255,255,255,0.5);
+            box-shadow: 0 0 15px rgba(255,255,255,0.5);
             position: relative;
             overflow: hidden;
         `;
         
-        // 创建旋转Logo文字
+        // 创建Logo文字/图标
         const logoText = document.createElement('div');
         logoText.className = 'logo-text';
         logoText.style.cssText = `
@@ -96,7 +114,7 @@ class PageTransition {
             align-items: center;
             transform-style: preserve-3d;
         `;
-        logoText.innerHTML = `<i class="fas fa-pen-fancy" style="font-size: 36px;"></i>`;
+        logoText.innerHTML = `<i class="fas fa-pen-fancy" style="font-size: 24px;"></i>`;
         
         logoInner.appendChild(logoText);
         logoContainer.appendChild(logoInner);
@@ -105,15 +123,15 @@ class PageTransition {
         const progressContainer = document.createElement('div');
         progressContainer.className = 'progress-container';
         progressContainer.style.cssText = `
-            width: 300px;
+            width: 200px;
             height: 6px;
             background: rgba(255, 255, 255, 0.2);
             border-radius: 3px;
-            margin-top: 40px;
             overflow: hidden;
             opacity: 0;
             transform: translateY(20px);
-            transition: opacity 0.5s ease, transform 0.5s ease;
+            transition: opacity 0.5s ease 0.2s, transform 0.5s ease 0.2s;
+            margin: 0 auto;
         `;
         
         // 创建进度条
@@ -141,34 +159,29 @@ class PageTransition {
             letter-spacing: 1px;
             opacity: 0;
             transform: translateY(20px);
-            transition: opacity 0.5s ease, transform 0.5s ease;
+            transition: opacity 0.5s ease 0.4s, transform 0.5s ease 0.4s;
+            text-align: center;
+            width: 100%;
         `;
-        loadingText.textContent = '正在前往探索之旅...';
+        loadingText.textContent = '探索团队中...';
         
         // 添加关键帧动画
         const keyframes = document.createElement('style');
         keyframes.textContent = `
-            @keyframes rotateSlow {
-                0% { transform: rotate(0deg); }
-                100% { transform: rotate(360deg); }
-            }
-            
-            @keyframes rotateReverse {
-                0% { transform: rotate(0deg); }
-                100% { transform: rotate(-360deg); }
-            }
-            
             @keyframes pulseGlow {
-                0% { box-shadow: 0 0 30px rgba(79, 70, 229, 0.6); }
-                100% { box-shadow: 0 0 50px rgba(99, 102, 241, 0.8); }
+                0% { box-shadow: 0 0 20px rgba(79, 70, 229, 0.6); }
+                100% { box-shadow: 0 0 35px rgba(99, 102, 241, 0.8), 0 0 5px rgba(255,255,255,0.3); }
             }
         `;
-        
-        // 将所有元素添加到容器中
-        transitionContainer.appendChild(logoContainer);
-        transitionContainer.appendChild(progressContainer);
-        transitionContainer.appendChild(loadingText);
         document.head.appendChild(keyframes);
+        
+        // 将所有元素添加到内部容器
+        innerContainer.appendChild(logoContainer);
+        innerContainer.appendChild(progressContainer);
+        innerContainer.appendChild(loadingText);
+        
+        // 将内部容器添加到主容器
+        transitionContainer.appendChild(innerContainer);
         document.body.appendChild(transitionContainer);
         
         this.container = transitionContainer;
@@ -182,86 +195,89 @@ class PageTransition {
     
     async preloadPage(url, cacheKey) {
         try {
-            // 显示预加载开始
-            console.log(`预加载页面: ${url}`);
+            // 检查URL是否合法
+            if (!url || typeof url !== 'string') {
+                console.error('无效的URL:', url);
+                return null;
+            }
             
-            const response = await fetch(url);
-            if (!response.ok) throw new Error(`无法加载页面: ${response.statusText}`);
+            // 防止循环请求当前页面
+            if (url === window.location.href || url === window.location.pathname) {
+                console.warn('跳过预加载当前页面');
+                return null;
+            }
+            
+            // 移除URL中的锚点
+            const cleanUrl = url.split('#')[0];
+            
+            // 非HTML页面不预加载
+            if (!cleanUrl.endsWith('.html') && !cleanUrl.endsWith('/')) {
+                console.warn('非HTML页面不预加载:', cleanUrl);
+                return null;
+            }
+            
+            // 如果正在加载或已存在缓存，不重复加载
+            if (this.loadingUrls.has(cleanUrl) || this.pageCache.has(cacheKey || cleanUrl)) {
+                console.warn('已在加载或已有缓存, 跳过预加载:', cleanUrl);
+                return this.pageCache.get(cacheKey || cleanUrl);
+            }
+            
+            // 标记为正在加载
+            this.loadingUrls.add(cleanUrl);
+            
+            console.log('预加载页面:', cleanUrl);
+            
+            // 请求页面
+            const response = await fetch(cleanUrl, {
+                method: 'GET',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Accept': 'text/html'
+                },
+                // cache: 'no-store' // 使用 no-store 可以强制刷新但会降低性能
+            });
+            
+            if (!response.ok) {
+                throw new Error(`预加载失败: ${response.status} ${response.statusText}`);
+            }
             
             const html = await response.text();
             
-            // 缓存预加载的HTML
-            this.preloadedPages.set(cacheKey, html);
+            // 缓存页面
+            this.pageCache.set(cacheKey || cleanUrl, html);
+            this.loadingUrls.delete(cleanUrl);
             
-            // 解析HTML并预加载重要资源
-            const tempDiv = document.createElement('div');
-            tempDiv.innerHTML = html;
-            
-            // 预加载CSS
-            const cssLinks = tempDiv.querySelectorAll('link[rel="stylesheet"]');
-            const cssPromises = Array.from(cssLinks).map(link => {
-                return new Promise((resolve) => {
-                    const preloadLink = document.createElement('link');
-                    preloadLink.href = link.href;
-                    preloadLink.rel = 'preload';
-                    preloadLink.as = 'style';
-                    preloadLink.onload = resolve;
-                    preloadLink.onerror = resolve; // 即使加载失败也继续
-                    document.head.appendChild(preloadLink);
-                });
-            });
-            
-            // 预加载JS
-            const scripts = tempDiv.querySelectorAll('script[src]');
-            const scriptPromises = Array.from(scripts).map(script => {
-                return new Promise((resolve) => {
-                    const preloadScript = document.createElement('link');
-                    preloadScript.href = script.src;
-                    preloadScript.rel = 'preload';
-                    preloadScript.as = 'script';
-                    preloadScript.onload = resolve;
-                    preloadScript.onerror = resolve; // 即使加载失败也继续
-                    document.head.appendChild(preloadScript);
-                });
-            });
-            
-            // 预加载重要图片
-            const images = tempDiv.querySelectorAll('img[src]');
-            const imagePromises = Array.from(images).map(img => {
-                return new Promise((resolve) => {
-                    const imgLoader = new Image();
-                    imgLoader.onload = resolve;
-                    imgLoader.onerror = resolve; // 即使加载失败也继续
-                    imgLoader.src = img.src;
-                });
-            });
-            
-            // 等待所有资源预加载完成
-            await Promise.all([...cssPromises, ...scriptPromises, ...imagePromises]);
-            
-            console.log(`页面 ${url} 预加载完成`);
+            console.log('预加载完成:', cleanUrl);
+            return html;
         } catch (error) {
-            console.error('预加载页面失败:', error);
+            console.error('预加载出错:', error);
+            this.loadingUrls.delete(url);
+            return null;
         }
+    }
+    
+    initializePreloads() {
+        // 预加载可能会跳转到的页面
+        // this.preloadPage('other_pages/team.html', 'team-page'); // 暂时禁用预加载，排查问题
     }
     
     attachTeamLinkListeners() {
         // 监听3D Pin组件的团队链接点击
         document.addEventListener('click', async (e) => {
             // 查找符合条件的目标元素 - 比如3D Pin链接
-            const pinLink = e.target.closest('[data-pin-href="team.html"]');
+            const pinLink = e.target.closest('[data-pin-href="other_pages/team.html"]');
             if (pinLink) {
                 e.preventDefault();
-                await this.animateTransition('team.html');
+                await this.animateTransition('other_pages/team.html');
                 return;
             }
             
             // 普通团队链接
-            const teamLinks = document.querySelectorAll('a[href="team.html"], a[href="/team.html"], a[href*="team.html"]');
+            const teamLinks = document.querySelectorAll('a[href="other_pages/team.html"], a[href="/other_pages/team.html"], a[href*="other_pages/team.html"]');
             for (const link of teamLinks) {
                 if (link.contains(e.target)) {
                     e.preventDefault();
-                    await this.animateTransition('team.html');
+                    await this.animateTransition('other_pages/team.html');
                     return;
                 }
             }
@@ -271,7 +287,7 @@ class PageTransition {
             for (const link of allLinks) {
                 if (link.textContent.includes('团队') && link.contains(e.target)) {
                     e.preventDefault();
-                    await this.animateTransition('team.html');
+                    await this.animateTransition('other_pages/team.html');
                     return;
                 }
             }
@@ -283,9 +299,15 @@ class PageTransition {
         if (this.currentAnimation) return;
         this.currentAnimation = true;
         
+        // 测量滚动条宽度并保持页面宽度一致
+        const scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
+        
         // 记录滚动位置
         const scrollPosition = window.scrollY;
+        
+        // 修复：防止页面因滚动条消失而左移
         document.body.style.overflow = 'hidden';
+        document.body.style.paddingRight = `${scrollBarWidth}px`; // 补偿滚动条宽度
         document.body.style.position = 'fixed';
         document.body.style.top = `-${scrollPosition}px`;
         document.body.style.width = '100%';
@@ -305,9 +327,9 @@ class PageTransition {
         
         // 中心Logo动画
         setTimeout(() => {
-            this.logo.style.transform = 'scale(1) rotate(360deg)';
+            this.logo.style.transform = 'scale(1)';
             this.logo.style.opacity = '1';
-        }, 200);
+        }, 50);
         
         // 文字渐入
         setTimeout(() => {
@@ -321,9 +343,12 @@ class PageTransition {
             progressBar.style.width = '100%'; // 直接设置目标宽度，让 CSS 过渡生效
         }
         
-        // 等待动画和页面加载 (需要调整时间或使用其他机制)
-        // 这里的延迟需要基于 CSS 动画时间和页面加载预估，或者更可靠的事件监听
-        await new Promise(resolve => setTimeout(resolve, 1000)); // 简化延迟，可能需要调整
+        // 等待动画和页面加载
+        await new Promise(resolve => setTimeout(resolve, 800)); 
+        
+        // 在导航之前存储滚动条状态信息
+        localStorage.setItem('fromPageTransition', 'true');
+        localStorage.setItem('scrollBarWidth', scrollBarWidth);
         
         // 导航到新页面
         window.location.href = targetUrl; 
@@ -395,4 +420,19 @@ class PageTransition {
 // 在页面加载时初始化过渡效果
 document.addEventListener('DOMContentLoaded', () => {
     window.pageTransition = new PageTransition();
+    
+    // 检查是否从页面过渡进入，如果是则恢复滚动条状态
+    if (localStorage.getItem('fromPageTransition') === 'true') {
+        const scrollBarWidth = parseInt(localStorage.getItem('scrollBarWidth') || '0', 10);
+        
+        // 设置临时填充以防止页面左移
+        document.body.style.paddingRight = `${scrollBarWidth}px`;
+        
+        // 短暂延迟后恢复正常
+        setTimeout(() => {
+            document.body.style.paddingRight = '';
+            localStorage.removeItem('fromPageTransition');
+            localStorage.removeItem('scrollBarWidth');
+        }, 50);
+    }
 }); 

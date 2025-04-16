@@ -8,7 +8,8 @@ document.addEventListener('DOMContentLoaded', function() {
     initScrollAnimations();
     
     // 初始化鼠标跟随效果
-    initCustomCursor();
+    // initCustomCursor();
+    addClickEffectListener();
     
     // 初始化按钮波纹效果
     initRippleEffect();
@@ -91,59 +92,57 @@ function initScrollAnimations() {
     });
 }
 
-// 鼠标跟随效果
-function initCustomCursor() {
-    const cursor = document.createElement('div');
-    cursor.className = 'custom-cursor';
-    document.body.appendChild(cursor);
-    
-    document.addEventListener('mousemove', (e) => {
-        cursor.style.left = `${e.clientX}px`;
-        cursor.style.top = `${e.clientY}px`;
+// 添加点击效果监听器函数
+function addClickEffectListener() {
+    document.body.addEventListener('click', function(e) {
+        // 创建涟漪元素
+        const ripple = document.createElement('div');
+        ripple.className = 'click-ripple';
+        document.body.appendChild(ripple);
         
-        // 创建粒子效果
-        createParticle(e.clientX, e.clientY);
-    });
-    
-    // 鼠标悬停在链接和按钮上时的效果
-    const links = document.querySelectorAll('a, button');
-    links.forEach(link => {
-        link.addEventListener('mouseenter', () => {
-            cursor.style.width = '40px';
-            cursor.style.height = '40px';
-            cursor.style.backgroundColor = 'rgba(52, 152, 219, 0.2)';
-        });
+        // 设置涟漪位置和初始状态
+        // 将涟漪中心放在点击位置
+        const size = 50; // 初始涟漪较小，方便定位
+        ripple.style.width = `${size}px`;
+        ripple.style.height = `${size}px`;
+        ripple.style.left = `${e.clientX - size / 2}px`;
+        ripple.style.top = `${e.clientY - size / 2}px`;
         
-        link.addEventListener('mouseleave', () => {
-            cursor.style.width = '20px';
-            cursor.style.height = '20px';
-            cursor.style.backgroundColor = 'rgba(52, 152, 219, 0.5)';
+        // 触发动画 (通过添加/移除类或直接设置样式)
+        // 这里使用 requestAnimationFrame 确保样式应用后再添加动画类
+        requestAnimationFrame(() => {
+            ripple.classList.add('animate');
         });
-    });
-}
 
-// 创建粒子效果
-function createParticle(x, y) {
-    // 限制粒子数量，避免性能问题
-    if (Math.random() > 0.9) {
-        const particle = document.createElement('div');
-        particle.className = 'particle';
-        particle.style.left = `${x}px`;
-        particle.style.top = `${y}px`;
-        
-        // 随机移动方向
-        const angle = Math.random() * Math.PI * 2;
-        const distance = Math.random() * 30 + 10;
-        particle.style.setProperty('--x', `${Math.cos(angle) * distance}px`);
-        particle.style.setProperty('--y', `${Math.sin(angle) * distance}px`);
-        
-        document.body.appendChild(particle);
-        
-        // 粒子动画结束后移除
-        setTimeout(() => {
-            particle.remove();
-        }, 1000);
-    }
+        // 动画结束后移除元素
+        ripple.addEventListener('animationend', function() {
+            ripple.remove();
+        });
+    });
+
+    // 添加必要的 CSS (可以在 CSS 文件中定义，这里为了方便演示)
+    const style = document.createElement('style');
+    style.textContent = `
+        .click-ripple {
+            position: fixed;
+            border-radius: 50%;
+            background-color: rgba(79, 70, 229, 0.6); /* 使用主题色或醒目颜色 */
+            transform: scale(0);
+            opacity: 1;
+            pointer-events: none; /* 确保不影响下方元素交互 */
+            z-index: 99999; /* 确保在最顶层 */
+        }
+        .click-ripple.animate {
+            animation: ripple-effect 0.6s ease-out forwards;
+        }
+        @keyframes ripple-effect {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+    `;
+    document.head.appendChild(style);
 }
 
 // 按钮波纹效果

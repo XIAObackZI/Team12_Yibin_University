@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我们的搞怪团队</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        @keyframes rainbow {
+            0% { color: red; }
+            14% { color: orange; }
+            28% { color: yellow; }
+            42% { color: green; }
+            57% { color: blue; }
+            71% { color: indigo; }
+            85% { color: violet; }
+            100% { color: red; }
+        }
+        
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .spinning {
+            animation: spin 2s linear infinite;
+        }
+        
+        .shaking {
+            animation: shake 0.5s ease-in-out infinite;
+        }
+        
+        .rainbow-text {
+            animation: rainbow 5s linear infinite;
+        }
+        
+        .team-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .team-card {
+            transition: all 0.3s ease;
+            perspective: 1000px;
+        }
+        
+        .team-card-inner {
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+        }
+        
+        .team-card:hover .team-card-inner {
+            transform: rotateY(180deg);
+        }
+        
+        .team-card-front, .team-card-back {
+            backface-visibility: hidden;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .team-card-back {
+            transform: rotateY(180deg);
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f00;
+            opacity: 0;
+        }
+        
+        .typewriter {
+            overflow: hidden;
+            border-right: .15em solid orange;
+            white-space: nowrap;
+            margin: 0 auto;
+            letter-spacing: .15em;
+            animation: 
+                typing 3.5s steps(40, end),
+                blink-caret .75s step-end infinite;
+        }
+        
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: orange; }
+        }
+        
+        .bounce {
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-30px);}
+            60% {transform: translateY(-15px);}
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-purple-100 to-blue-100 min-h-screen">
+    <!-- 搞怪标题 -->
+    <header class="text-center py-12 relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-full flex justify-center items-center pointer-events-none">
+            <div class="text-9xl opacity-5 font-black">TEAM</div>
+        </div>
+        <h1 class="text-6xl font-bold mb-4 rainbow-text relative z-10">
+            <span class="typewriter">我们的超级无敌搞怪团队</span>
+        </h1>
+        <p class="text-xl text-gray-600 mb-8">一群不正经的人在做正经(?)的事</p>
+        
+        <div class="flex justify-center">
+            <button id="partyBtn" class="px-6 py-3 bg-pink-500 text-white rounded-full font-bold hover:bg-pink-600 transition-all transform hover:scale-110 flex items-center">
+                <i class="fas fa-birthday-cake mr-2"></i> 点击开派对!
+            </button>
+        </div>
+    </header>
+
+    <!-- 团队介绍 -->
+    <section class="container mx-auto px-4 py-12">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl font-bold mb-4">我们是谁？</h2>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                我们是一群来自不同星球的生物，偶然在地球相遇并决定一起搞点事情。<br>
+                虽然我们看起来不太靠谱，但我们的代码绝对靠谱...大概吧。
+            </p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+            <!-- 成员卡片1 -->
+            <div class="team-card bg-white rounded-xl shadow-lg overflow-hidden h-96 relative">
+                <div class="team-card-inner">
+                    <div class="team-card-front p-6 flex flex-col items-center">
+                        <div class="w-32 h-32 rounded-full bg-yellow-200 mb-4 flex items-center justify-center floating">
+                            <i class="fas fa-robot text-5xl text-yellow-600"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-2">代码狂魔</h3>
+                        <p class="text-pink-500 font-semibold mb-4">首席键盘破坏者</p>
+                        <p class="text-gray-600 text-center">每天写代码超过23小时，剩下1小时用来思考人生和吃泡面。</p>
+                        <div class="mt-4 flex space-x-2">
+                            <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">JavaScript</span>
+                            <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">咖啡因</span>
+                        </div>
+                    </div>
+                    <div class="team-card-back bg-yellow-100 p-6 flex flex-col items-center justify-center">
+                        <h3 class="text-2xl font-bold mb-4 shaking">秘密档案</h3>
+                        <ul class="text-gray-700 space-y-2">
+                            <li><i class="fas fa-mug-hot mr-2"></i> 咖啡消耗量: ∞</li>
+                            <li><i class="fas fa-keyboard mr-2"></i> 键盘更换频率: 每周</li>
+                            <li><i class="fas fa-bug mr-2"></i> 制造Bug数: 不可计数</li>
+                            <li><i class="fas fa-lightbulb mr-2"></i> 名言: "这不是Bug，是特性!"</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 成员卡片2 -->
+            <div class="team-card bg-white rounded-xl shadow-lg overflow-hidden h-96 relative">
+                <div class="team-card-inner">
+                    <div class="team-card-front p-6 flex flex-col items-center">
+                        <div class="w-32 h-32 rounded-full bg-green-200 mb-4 flex items-center justify-center floating" style="animation-delay: 0.5s;">
+                            <i class="fas fa-paint-brush text-5xl text-green-600"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-2">设计仙女</h3>
+                        <p class="text-purple-500 font-semibold mb-4">像素完美强迫症</p>
+                        <p class="text-gray-600 text-center">能用CSS实现的效果绝不用图片，包括3D动画和虚拟现实。</p>
+                        <div class="mt-4 flex space-x-2">
+                            <span class="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm">CSS</span>
+                            <span class="px-3 py-1 bg-pink-100 text-pink-800 rounded-full text-sm">审美</span>
+                        </div>
+                    </div>
+                    <div class="team-card-back bg-green-100 p-6 flex flex-col items-center justify-center">
+                        <h3 class="text-2xl font-bold mb-4 shaking">秘密档案</h3>
+                        <ul class="text-gray-700 space-y-2">
+                            <li><i class="fas fa-palette mr-2"></i> 色号记忆: 1000+</li>
+                            <li><i class="fas fa-ruler-combined mr-2"></i> 像素误差容忍度: ±0px</li>
+                            <li><i class="fas fa-heart mr-2"></i> 最爱颜色: 所有渐变色</li>
+                            <li><i class="fas fa-lightbulb mr-2"></i> 名言: "再往左移动1px!"</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 成员卡片3 -->
+            <div class="team-card bg-white rounded-xl shadow-lg overflow-hidden h-96 relative">
+                <div class="team-card-inner">
+                    <div class="team-card-front p-6 flex flex-col items-center">
+                        <div class="w-32 h-32 rounded-full bg-blue-200 mb-4 flex items-center justify-center floating" style="animation-delay: 1s;">
+                            <i class="fas fa-chart-line text-5xl text-blue-600"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-2">数据巫师</h3>
+                        <p class="text-indigo-500 font-semibold mb-4">Excel魔法师</p>
+                        <p class="text-gray-600 text-center">能用Excel制作游戏，用SQL写诗，用Python预测彩票号码(但从不中)。</p>
+                        <div class="mt-4 flex space-x-2">
+                            <span class="px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full text-sm">Python</span>
+                            <span class="px-3 py-1 bg-red-100 text-red-800 rounded-full text-sm">大数据</span>
+                        </div>
+                    </div>
+                    <div class="team-card-back bg-blue-100 p-6 flex flex-col items-center justify-center">
+                        <h3 class="text-2xl font-bold mb-4 shaking">秘密档案</h3>
+                        <ul class="text-gray-700 space-y-2">
+                            <li><i class="fas fa-database mr-2"></i> 处理数据量: PB级</li>
+                            <li><i class="fas fa-brain mr-2"></i> 脑容量: 128TB</li>
+                            <li><i class="fas fa-chart-pie mr-2"></i> 图表制作速度: 光速</li>
+                            <li><i class="fas fa-lightbulb mr-2"></i> 名言: "让数据说话...然后闭嘴"</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 成员卡片4 -->
+            <div class="team-card bg-white rounded-xl shadow-lg overflow-hidden h-96 relative">
+                <div class="team-card-inner">
+                    <div class="team-card-front p-6 flex flex-col items-center">
+                        <div class="w-32 h-32 rounded-full bg-red-200 mb-4 flex items-center justify-center floating" style="animation-delay: 1.5s;">
+                            <i class="fas fa-laugh-squint text-5xl text-red-600"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-2">开心果</h3>
+                        <p class="text-orange-500 font-semibold mb-4">办公室气氛组组长</p>
+                        <p class="text-gray-600 text-center">专业解决周一忧郁症，擅长用冷笑话降低办公室温度3℃。</p>
+                        <div class="mt-4 flex space-x-2">
+                            <span class="px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-sm">幽默</span>
+                            <span class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm">正能量</span>
+                        </div>
+                    </div>
+                    <div class="team-card-back bg-red-100 p-6 flex flex-col items-center justify-center">
+                        <h3 class="text-2xl font-bold mb-4 shaking">秘密档案</h3>
+                        <ul class="text-gray-700 space-y-2">
+                            <li><i class="fas fa-grin-tears mr-2"></i> 每日笑话数: 50+</li>
+                            <li><i class="fas fa-coffee mr-2"></i> 咖啡喷溅次数: 无数</li>
+                            <li><i class="fas fa-smile mr-2"></i> 笑容感染力: 100%</li>
+                            <li><i class="fas fa-lightbulb mr-2"></i> 名言: "为什么程序员分不清万圣节和圣诞节？因为Oct 31 == Dec 25!"</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 团队文化 -->
+    <section class="bg-white py-16">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center mb-12">我们的"独特"文化</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- 文化1 -->
+                <div class="bg-purple-50 p-8 rounded-xl hover:shadow-lg transition-all">
+                    <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mb-4 mx-auto spinning">
+                        <i class="fas fa-infinity text-purple-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-center mb-3">无限零食供应</h3>
+                    <p class="text-gray-600 text-center">
+                        冰箱永远装满，但奇怪的是食物总在午休后神秘消失。<br>
+                        <span class="text-sm text-purple-500">*监控显示是CEO干的</span>
+                    </p>
+                </div>
+                
+                <!-- 文化2 -->
+                <div class="bg-blue-50 p-8 rounded-xl hover:shadow-lg transition-all">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4 mx-auto" id="sleepIcon">
+                        <i class="fas fa-bed text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-center mb-3">弹性工作时间</h3>
+                    <p class="text-gray-600 text-center">
+                        想什么时候来就什么时候来，反正凌晨3点我们都在。<br>
+                        <span class="text-sm text-blue-500">*床和睡袋公司赞助</span>
+                    </p>
+                </div>
+                
+                <!-- 文化3 -->
+                <div class="bg-green-50 p-8 rounded-xl hover:shadow-lg transition-all">
+                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4 mx-auto">
+                        <i class="fas fa-gamepad text-green-600 text-2xl bounce"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-center mb-3">每周游戏日</h3>
+                    <p class="text-gray-600 text-center">
+                        周五下午是电竞时间，输的人要请全组喝奶茶。<br>
+                        <span class="text-sm text-green-500">*设计仙女已连输18周</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 团队成就 -->
+    <section class="py-16 bg-gradient-to-r from-indigo-50 to-purple-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-4xl font-bold text-center mb-12">我们的"惊人"成就</h2>
+            
+            <div class="max-w-4xl mx-auto">
+                <div class="bg-white p-8 rounded-xl shadow-md mb-8 hover:rotate-1 transition-transform">
+                    <div class="flex items-start">
+                        <div class="text-5xl mr-4 text-yellow-400">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold mb-2">全球最佳办公室植物杀手</h3>
+                            <p class="text-gray-600">连续三年保持办公室植物存活率为0%的惊人记录，连仙人掌都未能幸免。</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white p-8 rounded-xl shadow-md mb-8 hover:-rotate-1 transition-transform">
+                    <div class="flex items-start">
+                        <div class="text-5xl mr-4 text-blue-400">
+                            <i class="fas fa-laptop-code"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold mb-2">最会解决问题的团队</h3>
+                            <p class="text-gray-600">创造了"修复一个Bug引入两个新Bug"的创新开发模式，有效保证了团队长期就业。</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white p-8 rounded-xl shadow-md hover:rotate-1 transition-transform">
+                    <div class="flex items-start">
+                        <div class="text-5xl mr-4 text-red-400">
+                            <i class="fas fa-pizza-slice"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold mb-2">披萨消耗世界纪录</h3>
+                            <p class="text-gray-600">在一次项目冲刺中，8人团队在36小时内消灭了42个披萨，平均每人每分钟摄入0.024个披萨。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 加入我们 -->
+    <section class="py-16 bg-gray-900 text-white">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-4xl font-bold mb-6">想加入我们的疯狂团队吗？</h2>
+            <p class="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+                我们不在乎你的学历、经验或技能，只要你能忍受我们的冷笑话和凌晨三点的代码审查。
+            </p>
+            
+            <div class="max-w-md mx-auto bg-gray-800 p-8 rounded-xl shadow-lg">
+                <h3 class="text-2xl font-bold mb-6">快速申请</h3>
+                
+                <div class="mb-4">
+                    <input type="text" placeholder="你的名字" class="w-full px-4 py-3 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
+                </div>
+                
+                <div class="mb-4">
+                    <input type="email" placeholder="你的邮箱" class="w-full px-4 py-3 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
+                </div>
+                
+                <div class="mb-6">
+                    <textarea placeholder="告诉我们为什么你够疯狂(可选)" class="w-full px-4 py-3 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 h-24"></textarea>
+                </div>
+                
+                <button id="applyBtn" class="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold py-3 px-6 rounded-lg hover:from-purple-600 hover:to-pink-600 transition-all transform hover:scale-105 flex items-center justify-center">
+                    <i class="fas fa-paper-plane mr-2"></i> 发射申请!
+                </button>
+                
+                <p class="text-sm text-gray-400 mt-4">
+                    点击即表示你同意每周五穿睡衣上班，并接受随机出现的办公室 Nerf 枪战。
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <h3 class="text-2xl font-bold rainbow-text">超级无敌搞怪团队</h3>
+                    <p class="text-gray-400">© 2023 版权所有 - 所有权利都没有保留</p>
+                </div>
+                
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-300 hover:text-white text-2xl">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="text-gray-300 hover:text-white text-2xl">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="#" class="text-gray-300 hover:text-white text-2xl">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="#" class="text-gray-300 hover:text-white text-2xl">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="mt-8 text-center text-gray-400 text-sm">
+                <p>免责声明：本团队不对任何因观看此页面导致的喷咖啡、笑到腹痛或职业选择困惑负责。</p>
+                <p class="mt-2">特别鸣谢：咖啡因、深夜灵感和不靠谱的互联网连接。</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 彩蛋区域 -->
+    <div id="easterEgg" class="fixed bottom-4 right-4 bg-yellow-400 text-black px-4 py-2 rounded-full font-bold shadow-lg cursor-pointer hidden">
+        <i class="fas fa-egg mr-2"></i> 点击发现彩蛋!
+    </div>
+
+    <script>
+        // 派对按钮效果
+        document.getElementById('partyBtn').addEventListener('click', function() {
+            // 创建彩带效果
+            for (let i = 0; i < 100; i++) {
+                createConfetti();
+            }
+            
+            // 播放音效
+            const audio = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-happy-birthday-balloons-in-the-sky-2920.mp3');
+            audio.play();
+            
+            // 让所有卡片跳动
+            const cards = document.querySelectorAll('.team-card');
+            cards.forEach(card => {
+                card.style.animation = 'bounce 0.5s';
+                setTimeout(() => {
+                    card.style.animation = '';
+                }, 500);
+            });
+            
+            // 改变标题颜色
+            const title = document.querySelector('h1');
+            title.classList.add('rainbow-text');
+            
+            // 显示彩蛋按钮
+            document.getElementById('easterEgg').classList.remove('hidden');
+        });
+        
+        // 创建彩带函数
+        function createConfetti() {
+            const confetti = document.createElement('div');
+            confetti.classList.add('confetti');
+            
+            // 随机颜色
+            const colors = ['#f00', '#0f0', '#00f', '#ff0', '#f0f', '#0ff'];
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            confetti.style.backgroundColor = randomColor;
+            
+            // 随机位置
+            confetti.style.left = Math.random() * 100 + 'vw';
+            confetti.style.top = -10 + 'px';
+            
+            // 随机大小
+            const size = Math.random() * 10 + 5;
+            confetti.style.width = size + 'px';
+            confetti.style.height = size + 'px';
+            
+            // 随机形状
+            confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+            
+            document.body.appendChild(confetti);
+            
+            // 动画
+            const animationDuration = Math.random() * 3 + 2;
+            confetti.style.transition = `all ${animationDuration}s linear`;
+            confetti.style.opacity = '1';
+            
+            setTimeout(() => {
+                confetti.style.top = '100vh';
+                confetti.style.transform = `rotate(${Math.random() * 360}deg) translateX(${Math.random() * 100 - 50}px)`;
+                confetti.style.opacity = '0';
+            }, 10);
+            
+            // 移除元素
+            setTimeout(() => {
+                confetti.remove();
+            }, animationDuration * 1000);
+        }
+        
+        // 申请按钮效果
+        document.getElementById('applyBtn').addEventListener('click', function() {
+            this.innerHTML = '<i class="fas fa-spinner spinning mr-2"></i> 正在发射...';
+            this.classList.remove('from-purple-500', 'to-pink-500');
+            this.classList.add('from-green-500', 'to-blue-500');
+            
+            setTimeout(() => {
+                this.innerHTML = '<i class="fas fa-check mr-2"></i> 发射成功!';
+                createConfetti();
+            }, 1500);
+            
+            setTimeout(() => {
+                this.innerHTML = '<i class="fas fa-paper-plane mr-2"></i> 发射申请!';
+                this.classList.remove('from-green-500', 'to-blue-500');
+                this.classList.add('from-purple-500', 'to-pink-500');
+            }, 3000);
+        });
+        
+        // 睡眠图标动画
+        const sleepIcon = document.getElementById('sleepIcon');
+        let isSleeping = false;
+        
+        sleepIcon.addEventListener('mouseenter', function() {
+            if (!isSleeping) {
+                this.innerHTML = '<i class="fas fa-bed text-blue-600 text-2xl"></i>';
+                isSleeping = true;
+                setTimeout(() => {
+                    this.innerHTML = '<i class="fas fa-snoring text-blue-600 text-2xl"></i>';
+                }, 1000);
+            }
+        });
+        
+        sleepIcon.addEventListener('mouseleave', function() {
+            if (isSleeping) {
+                this.innerHTML = '<i class="fas fa-bed text-blue-600 text-2xl"></i>';
+                isSleeping = false;
+            }
+        });
+        
+        // 彩蛋功能
+        document.getElementById('easterEgg').addEventListener('click', function() {
+            // 创建大量彩带
+            for (let i = 0; i < 200; i++) {
+                setTimeout(() => {
+                    createConfetti();
+                }, i * 50);
+            }
+            
+            // 让所有元素跳舞
+            const allElements = document.querySelectorAll('*');
+            allElements.forEach(el => {
+                el.style.animation = 'shake 0.5s infinite';
+            });
+            
+            // 播放更欢快的音乐
+            const audio = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-game-show-suspense-waiting-668.mp3');
+            audio.play();
+            
+            // 5秒后停止
+            setTimeout(() => {
+                allElements.forEach(el => {
+                    el.style.animation = '';
+                });
+            }, 5000);
+            
+            // 隐藏彩蛋按钮
+            this.classList.add('hidden');
+        });
+        
+        // 页面加载动画
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                document.querySelector('header').classList.add('animate__animated', 'animate__fadeIn');
+            }, 100);
+        });
+    </script>
+</body>
+</html>

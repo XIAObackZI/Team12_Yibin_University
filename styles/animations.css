@@ -84,41 +84,6 @@
     transition: 0s;
 }
 
-/* 鼠标跟随效果 */
-.custom-cursor {
-    position: fixed;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background-color: rgba(52, 152, 219, 0.5);
-    pointer-events: none;
-    transform: translate(-50%, -50%);
-    z-index: 9999;
-    transition: width 0.3s, height 0.3s, background-color 0.3s;
-}
-
-.particle {
-    position: fixed;
-    width: 5px;
-    height: 5px;
-    background-color: rgba(52, 152, 219, 0.3);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 9998;
-    animation: particle-fade 1s ease-out forwards;
-}
-
-@keyframes particle-fade {
-    0% {
-        opacity: 1;
-        transform: translate(0, 0) scale(1);
-    }
-    100% {
-        opacity: 0;
-        transform: translate(var(--x, 10px), var(--y, 10px)) scale(0);
-    }
-}
-
 /* 3D卡片悬停效果增强 */
 .card-3d {
     transition: transform 0.3s ease;

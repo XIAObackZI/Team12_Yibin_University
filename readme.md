@@ -1,27 +1,43 @@
 # 个人博客项目
 
 ## 项目结构
-```
-├── index.html                 # 主页
-├── articles.html             # 文章页面
-├── other_pages/              # 其他页面 (新增)
-│   └── publish.html          #   发布文章页面
-├── components/               # 组件目录
-│   ├── layout/              # 布局组件
-│   │   ├── Navbar.html     # 导航栏组件
-│   │   └── Footer.html     # 页脚组件
-│   └── music-player/        # 音乐播放器组件
-├── scripts/                 # JavaScript脚本
-│   ├── component-loader.js  # 组件加载器
-│   └── music-player.js      # 音乐播放器逻辑
-├── styles/                  # 样式文件
-└── assets/                  # 静态资源
-    ├── images/             # 图片资源
-    └── music/              # 音乐文件
-```
+
+- `index.html`: 项目主页。
+- `articles.html`: 文章页面。
+- `presentation.html`: 演示页面。
+- `other_pages/`: 存放次要页面。
+    - `team.html`: 团队介绍页面。
+    - `publish.html`: 文章发布页面。
+- `styles/`: 存放 CSS 样式文件。
+    - `main.css`: 主要样式。
+    - `components.css`: 组件样式。
+    - `animations.css`: CSS 动画。
+    - `dark-mode.css`: 暗黑模式样式。
+    - `themes.css`: 主题样式。
+- `scripts/`: 存放 JavaScript 脚本文件。
+    - `page-transitions.js`: 处理页面之间的过渡动画。
+    - `three-effects.js`: 实现 `other_pages/team.html` 页面的 Three.js 背景和 3D 模型效果。
+    - `main.js`: 页面主要交互逻辑。
+    - `animations.js`: JavaScript 动画逻辑。
+    - `component-loader.js`: 加载通用组件 (如 header, footer)。
+    - `carousel.js`: 实现轮播图功能。
+    - `content-generator.js`: 可能用于动态生成内容。
+    - `pin-component.js`: 实现 3D Pin 组件效果。
+    - `music-player.js`: 实现音乐播放器功能。
+    - `3d-card-component.js`: 实现 3D 卡片效果。
+    - `highlight.js`: 可能用于代码高亮或文本高亮。
+    - `utils.js`: 通用工具函数。
+- `assets/`: 存放图片、声音等静态资源。
+- `components/`: 存放可复用的 HTML 组件片段。
+- `README.md`: 项目说明文件。
+- `develop.md`: 开发相关文档。
 
 ## 最近更新
 ### 2024-03-XX (持续更新)
+- 更新团队页面设计风格，采用更有趣的搞怪风格设计。
+- 移动团队页面至 `other_pages/team.html`。
+- 删除原始的重定向页面 `team.html`，直接链接到 `other_pages/team.html`。
+- 删除了不再需要的 `original_team.html` 文件。
 - 添加了丰富的页面过渡动画：点击"探索我们的团队"链接时会有精美的过渡效果，team页面内容会缓慢渐入。
 - 修复了首页与文章页面之间跳转时导航栏抖动的问题，统一了两个页面的导航栏实现。
 - 修复了首页团队展示区域的3D Pin动画效果。
@@ -62,13 +78,19 @@
    - 返回主页按钮
    - 音乐播放器集成
 
-4. 发布页面 (`publish.html`)
+4. 发布页面 (`other_pages/publish.html`)
    - 文章发布表单 (标题、内容、分类、标签)
    - 标签动态添加/移除
    - 模拟发布流程 (含加载动画)
    - 页面进入动画
 
-5. 音乐播放器
+5. 团队页面 (`other_pages/team.html`)
+   - 搞怪风格的团队成员展示
+   - 动态交互效果（卡片翻转、派对模式）
+   - 响应式布局
+   - 有趣的动画效果
+
+6. 音乐播放器
    - 播放/暂停控制
    - 进度条控制
    - 音量调节
@@ -110,14 +132,16 @@
 
 实现了无缝衔接的页面切换体验，增强用户体验的流畅度和视觉吸引力。
 
-### 2. 团队展示页面 (team.html)
+### 2. 团队展示页面 (other_pages/team.html)
 
 展示团队成员信息的页面，包含：
 
-- 成员卡片悬停效果
-- 滚动时的渐入动画
-- 自适应布局设计
-- 导航栏和页脚组件
+- 搞怪风格的成员卡片和互动效果
+- 卡片翻转动画展示成员"秘密档案"
+- 有趣的动画效果（浮动、旋转、彩虹文字等）
+- 派对模式功能
+- 响应式设计
+- 独特的表单互动效果
 
 ## 技术特点
 
@@ -126,3 +150,45 @@
 - 响应式设计适配不同设备
 - 性能优化的动画实现（使用requestAnimationFrame）
 - 优雅的错误处理和兼容性解决方案
+
+## 主要功能及对应文件
+
+- **页面路由与过渡**: 主要由 `index.html` 内的链接和 `scripts/page-transitions.js` 控制。
+- **团队页面效果**: 由 `other_pages/team.html` 实现，包含内联JavaScript动画效果。
+- **首页轮播图**: 由 `index.html` 和 `scripts/carousel.js` 实现。
+- **3D Pin 组件**: 由 `index.html` 和 `scripts/pin-component.js` 实现。
+- **音乐播放器**: 由 `scripts/music-player.js` 实现，可能被多个页面引用。
+- **3D 卡片**: 由 `scripts/3d-card-component.js` 实现。
+- **通用组件加载**: 由 `scripts/component-loader.js` 实现。
+
+## 近期修改
+
+- **优化页面过渡动画性能和对齐 (`scripts/page-transitions.js`)**:
+    - 注释掉了粒子效果 (`createParticles`)。
+    - 简化了过渡 Logo 的复杂 CSS 动画 (光环、旋转、闪光)。
+    - 将进度条动画从 JS 驱动改为 CSS 过渡。
+    - 暂时禁用了页面预加载以排查问题。
+    - 修复了过渡动画元素（Logo、进度条）显示不对称的问题，确保居中显示。
+    - 调整了动画元素的尺寸和间距。
+    - 创建了新的内部容器结构，使用完美居中布局。
+    - 精简了过渡动画的尺寸和光晕效果。
+    - **修复了页面过渡时滚动条消失导致的页面左移问题**，通过在过渡期间添加对应的右侧填充来保持页面稳定。
+    - 添加了滚动条状态的保存和恢复逻辑，确保跨页面的一致性。
+- **改版团队页面 (`other_pages/team.html`)**:
+    - 采用全新的搞怪风格设计，更具趣味性和互动性。
+    - 添加了卡片翻转、彩虹文字、浮动动画等特效。
+    - 增加了"派对模式"功能，点击按钮触发五彩纸屑动画。
+    - 实现了更丰富的交互效果和响应式设计。
+- **优化团队页面背景性能 (`scripts/three-effects.js`)**:
+    - 降低了 Three.js 波浪背景平面的分段数 (从 50x50 减至 20x20)。
+    - 减少了背景中的粒子数量 (从 500 减至 300)。
+    - 添加了动画帧率限制，从60fps降低到约20fps提高性能。
+    - 优化了波浪计算，每次只更新部分顶点。
+    - 降低了波浪动画的复杂度和速度。
+    - 添加了性能模式切换功能，允许用户禁用 3D 效果以提高性能。
+    - 优化了窗口大小变化事件，添加防抖处理避免频繁重绘。
+- **移除鼠标跟随效果 (`scripts/main.js`, `styles/animations.css`)**: 
+    - 删除了创建自定义光标和跟随粒子的代码。
+    - 删除了相关的 CSS 样式。
+- **添加全局点击涟漪效果 (`scripts/main.js`)**: 
+    - 实现了一个简单的点击涟漪动画，在用户点击页面任意位置时触发。 
