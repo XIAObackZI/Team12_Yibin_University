@@ -1,1 +1,0 @@
-# Team12_Yibin-University
