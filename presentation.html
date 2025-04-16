@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="zh" data-theme="blue">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>设计理念演示</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/animations.css">
+    <link rel="stylesheet" href="styles/presentation.css">
+    <link rel="stylesheet" href="styles/dark-mode.css">
+    <link rel="stylesheet" href="styles/themes.css">
+</head>
+<body class="presentation-body theme-body">
+    <!-- 导航控制 -->
+    <nav class="presentation-nav">
+        <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> 返回博客</a>
+        <div class="slide-progress">
+            <div class="progress-bar"></div>
+        </div>
+        <div class="slide-counter">1 / 6</div>
+    </nav>
+
+    <!-- 演示内容 -->
+    <div class="presentation-container pt-16">
+        <!-- 左侧：PPT内容 -->
+        <div class="ppt-content">
+            <!-- 幻灯片1：设计理念 -->
+            <div class="slide active" id="slide-1">
+                <div class="slide-inner">
+                    <h1>设计理念</h1>
+                    <div class="slide-content">
+                        <h2>项目目标与受众分析</h2>
+                        <ul>
+                            <li>创建一个现代化、交互性强的团队展示网站</li>
+                            <li>目标受众：潜在客户、合作伙伴和招聘人才</li>
+                            <li>提供沉浸式体验，展示团队专业能力</li>
+                        </ul>
+                        
+                        <h2>设计灵感来源</h2>
+                        <ul>
+                            <li>现代数字机构网站</li>
+                            <li>3D交互设计趋势</li>
+                            <li>微动效与视觉反馈</li>
+                        </ul>
+                        
+                        <h2>品牌标识与色彩选择</h2>
+                        <ul>
+                            <li>主色调：蓝色 (#3498db) - 代表专业、信任和稳定</li>
+                            <li>辅助色：绿色 (#2ecc71) - 象征创新、成长和活力</li>
+                            <li>强调色：红色 (#e74c3c) - 传达激情和关注点</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 幻灯片2：人机交互原则应用 -->
+            <div class="slide" id="slide-2">
+                <div class="slide-inner">
+                    <h1>人机交互原则应用</h1>
+                    <div class="slide-content">
+                        <h2>可见性原则</h2>
+                        <ul>
+                            <li>清晰的导航结构，用户随时知道自己的位置</li>
+                            <li>视觉层次分明，重要内容突出显示</li>
+                            <li>交互元素（按钮、链接）设计明确，易于识别</li>
+                        </ul>
+                        
+                        <h2>反馈原则</h2>
+                        <ul>
+                            <li>所有交互元素提供即时视觉反馈（悬停、点击效果）</li>
+                            <li>表单输入提供实时验证反馈</li>
+                            <li>页面滚动和转场提供平滑动画反馈</li>
+                        </ul>
+                        
+                        <h2>一致性原则</h2>
+                        <ul>
+                            <li>统一的色彩方案和设计语言</li>
+                            <li>一致的交互模式和导航结构</li>
+                            <li>统一的动画效果和过渡时间</li>
+                        </ul>
+                        
+                        <h2>容错性原则</h2>
+                        <ul>
+                            <li>表单设计包含清晰的错误提示和修复建议</li>
+                            <li>防止用户误操作的确认机制</li>
+                            <li>提供撤销和返回选项</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 幻灯片3：UI设计分析 -->
+            <div class="slide" id="slide-3">
+                <div class="slide-inner">
+                    <h1>UI设计分析</h1>
+                    <div class="slide-content">
+                        <h2>视觉层次结构</h2>
+                        <ul>
+                            <li>使用大小、颜色和间距创建清晰的视觉层次</li>
+                            <li>重要内容放置在视觉焦点位置</li>
+                            <li>使用网格系统确保布局平衡</li>
+                        </ul>
+                        
+                        <h2>色彩心理学应用</h2>
+                        <ul>
+                            <li>蓝色（主色）：建立信任感和专业形象</li>
+                            <li>绿色（辅助色）：传达成长和创新理念</li>
+                            <li>渐变色：增加现代感和视觉吸引力</li>
+                        </ul>
+                        
+                        <h2>排版原则</h2>
+                        <ul>
+                            <li>标题使用Montserrat（无衬线）：现代、清晰</li>
+                            <li>正文使用Open Sans：高可读性</li>
+                            <li>强调文本使用Playfair Display：增加优雅感</li>
+                            <li>遵循排版比例和行高规则</li>
+                        </ul>
+                        
+                        <h2>动效设计理念</h2>
+                        <ul>
+                            <li>微动效：增强用户体验而不分散注意力</li>
+                            <li>目的性动画：引导用户注意力和操作流程</li>
+                            <li>性能优化：确保动画流畅不影响加载速度</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 幻灯片4：用户体验设计 -->
+            <div class="slide" id="slide-4">
+                <div class="slide-inner">
+                    <h1>用户体验设计</h1>
+                    <div class="slide-content">
+                        <h2>用户旅程地图</h2>
+                        <ul>
+                            <li>首次访问：吸引注意 → 了解团队 → 查看项目 → 联系</li>
+                            <li>重复访问：快速导航 → 查看新内容 → 深入了解</li>
+                            <li>每个阶段都考虑用户需求和情感状态</li>
+                        </ul>
+                        
+                        <h2>交互设计亮点</h2>
+                        <ul>
+                            <li>3D卡片翻转：提供信息层次，增加趣味性</li>
+                            <li>视差滚动：创造深度感，增强沉浸体验</li>
+                            <li>自定义光标：提供独特品牌体验</li>
+                        </ul>
+                        
+                        <h2>可访问性考量</h2>
+                        <ul>
+                            <li>符合WCAG 2.1标准的色彩对比度</li>
+                            <li>键盘导航支持</li>
+                            <li>适当的文本大小和间距</li>
+                            <li>图像的替代文本</li>
+                        </ul>
+                        
+                        <h2>响应式设计策略</h2>
+                        <ul>
+                            <li>移动优先设计思维</li>
+                            <li>流式布局与弹性组件</li>
+                            <li>针对不同设备优化的交互模式</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 幻灯片5：技术实现 -->
+            <div class="slide" id="slide-5">
+                <div class="slide-inner">
+                    <h1>技术实现</h1>
+                    <div class="slide-content">
+                        <h2>技术栈选择理由</h2>
+                        <ul>
+                            <li>HTML5/CSS3：现代Web标准，丰富的表现力</li>
+                            <li>JavaScript：实现复杂交互和动画效果</li>
+                            <li>Three.js：创建沉浸式3D体验</li>
+                            <li>TailwindCSS：快速构建响应式UI</li>
+                        </ul>
+                        
+                        <h2>性能优化措施</h2>
+                        <ul>
+                            <li>资源懒加载：提高初始加载速度</li>
+                            <li>代码分割：按需加载功能</li>
+                            <li>图像优化：适当的格式和大小</li>
+                            <li>动画性能优化：使用GPU加速</li>
+                        </ul>
+                        
+                        <h2>创新技术应用</h2>
+                        <ul>
+                            <li>Three.js创建的交互式3D背景</li>
+                            <li>自定义光标与粒子效果</li>
+                            <li>CSS高级动画与过渡效果</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 幻灯片6：总结与展望 -->
+            <div class="slide" id="slide-6">
+                <div class="slide-inner">
+                    <h1>总结与展望</h1>
+                    <div class="slide-content">
+                        <h2>项目亮点回顾</h2>
+                        <ul>
+                            <li>现代化的UI设计与沉浸式体验</li>
+                            <li>严格遵循人机交互原则</li>
+                            <li>创新的3D和动画效果</li>
+                            <li>优化的性能和可访问性</li>
+                        </ul>
+                        
+                        <h2>未来改进方向</h2>
+                        <ul>
+                            <li>增加更多交互式内容和游戏化元素</li>
+                            <li>实现更复杂的3D场景和模型</li>
+                            <li>添加多语言支持</li>
+                            <li>集成更多社交媒体功能</li>
+                            <li>开发配套移动应用</li>
+                        </ul>
+                        
+                        <div class="conclusion">
+                            <p>通过将人机交互原则与现代Web技术相结合，我们创造了一个既美观又实用的团队展示网站，为用户提供了愉悦的浏览体验。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 右侧：原型预览 -->
+        <div class="prototype-preview">
+            <div class="preview-header">
+                <h3>网页原型预览</h3>
+                <div class="preview-controls">
+                    <button class="highlight-btn" title="高亮当前讲解部分"><i class="fas fa-highlighter"></i></button>
+                    <button class="fullscreen-btn" title="全屏预览"><i class="fas fa-expand"></i></button>
+                </div>
+            </div>
+            <div class="preview-frame">
+                <iframe src="index.html" title="网页原型预览"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- 控制区域 -->
+    <div class="presentation-controls">
+        <button class="prev-slide"><i class="fas fa-chevron-left"></i> 上一页</button>
+        <div class="slide-thumbnails">
+            <div class="thumbnail active" data-slide="1">1</div>
+            <div class="thumbnail" data-slide="2">2</div>
+            <div class="thumbnail" data-slide="3">3</div>
+            <div class="thumbnail" data-slide="4">4</div>
+            <div class="thumbnail" data-slide="5">5</div>
+            <div class="thumbnail" data-slide="6">6</div>
+        </div>
+        <button class="next-slide">下一页 <i class="fas fa-chevron-right"></i></button>
+    </div>
+
+    <!-- 音乐播放器容器 -->
+    <div id="music-player-container" class="fixed bottom-10 right-10 z-50"></div>
+    
+    <!-- 脚本 -->
+    <script src="scripts/utils.js"></script>
+    <script src="scripts/content-generator.js"></script>
+    <script src="scripts/music-player.js"></script>
+    <script src="scripts/presentation.js"></script>
+</body>
+</html>

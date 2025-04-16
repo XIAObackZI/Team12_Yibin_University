@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="zh" data-theme="blue">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>开发团队 | TechBlog</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/animations.css">
+    <link rel="stylesheet" href="styles/dark-mode.css">
+    <link rel="stylesheet" href="styles/themes.css">
+    <style>
+        /* 为导航栏添加自定义样式 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #3b82f6;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .mobile-menu {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+        
+        .search-bar {
+            transition: all 0.3s ease;
+        }
+        
+        /* 演示按钮样式 */
+        .presentation-btn {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background-color: #3b82f6;
+            color: white;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+        
+        .presentation-btn:hover {
+            background-color: #2563eb;
+        }
+    </style>
+</head>
+<body class="theme-body">
+    <!-- 导航栏 -->
+    <nav class="backdrop-blur-md shadow-lg sticky top-0 z-50 border-b border-gray-200/30 theme-nav">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <!-- Logo区域 - 调整为更靠左 -->
+                <div class="flex-shrink-0 flex items-center pr-8">
+                    <i class="fas fa-pen-fancy text-blue-500 text-2xl mr-2"></i>
+                    <span class="text-xl font-bold text-gray-800 title-font gradient-text">TechBlog</span>
+                </div>
+                
+                <!-- 导航链接 - 居中区域 -->
+                <div class="hidden md:flex md:items-center">
+                    <div class="flex space-x-8">
+                        <a href="index.html" class="nav-link text-gray-500 hover:text-gray-900 inline-flex items-center px-1 pt-1 text-sm font-medium">
+                            <i class="fas fa-home mr-1"></i> 首页
+                        </a>
+                        <a href="#about" class="nav-link text-gray-500 hover:text-gray-900 inline-flex items-center px-1 pt-1 text-sm font-medium">
+                            <i class="fas fa-info-circle mr-1"></i> 关于我们
+                        </a>
+                        <a href="#projects" class="nav-link text-gray-500 hover:text-gray-900 inline-flex items-center px-1 pt-1 text-sm font-medium">
+                            <i class="fas fa-project-diagram mr-1"></i> 项目
+                        </a>
+                        <a href="#team" class="nav-link text-gray-900 inline-flex items-center px-1 pt-1 text-sm font-medium">
+                            <i class="fas fa-users mr-1"></i> 团队
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- 右侧元素：搜索、主题选择、通知和个人资料 -->
+                <div class="flex items-center space-x-4">
+                    <!-- 搜索框 -->
+                    <div class="flex-1 flex items-center justify-center lg:justify-end mr-4">
+                        <div class="max-w-lg w-full lg:max-w-xs relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-search text-gray-400"></i>
+                            </div>
+                            <input id="search" class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-full leading-5 bg-white/70 backdrop-blur-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="搜索..." type="search">
+                        </div>
+                    </div>
+                    
+                    <!-- 主题切换器容器 -->
+                    <div id="theme-switcher-container" class="hidden md:block"></div>
+                    
+                    <!-- 通知按钮 -->
+                    <button class="hidden md:flex bg-white/70 backdrop-blur-sm p-2 rounded-full text-gray-500 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all">
+                        <i class="fas fa-bell text-lg"></i>
+                    </button>
+                    
+                    <!-- 个人资料下拉菜单 -->
+                    <div class="relative hidden md:block">
+                        <div>
+                            <button id="user-menu" class="flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all" aria-expanded="false">
+                                <img class="h-9 w-9 rounded-full border-2 border-white shadow-md" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="User profile">
+                            </button>
+                        </div>
+                        
+                        <!-- 下拉菜单（默认隐藏） -->
+                        <div id="dropdown-menu" class="hidden origin-top-right absolute right-0 mt-2 w-48 rounded-xl shadow-lg py-1 bg-white/80 backdrop-blur-lg ring-1 ring-black ring-opacity-5 border border-gray-200/50">
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50/80"><i class="fas fa-user mr-2"></i> 个人资料</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50/80"><i class="fas fa-cog mr-2"></i> 设置</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50/80"><i class="fas fa-sign-out-alt mr-2"></i> 退出</a>
+                        </div>
+                    </div>
+                    
+                    <!-- 移动菜单按钮 -->
+                    <div class="flex items-center md:hidden">
+                        <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-500 hover:text-gray-900 hover:bg-gray-100/70 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <i class="fas fa-bars text-xl"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile menu (hidden by default) -->
+        <div id="mobile-menu" class="hidden md:hidden mobile-menu">
+            <div class="pt-2 pb-3 space-y-1 bg-white/80 backdrop-blur-md">
+                <a href="index.html" class="border-transparent text-gray-600 hover:bg-gray-50/80 hover:border-gray-300 hover:text-gray-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">
+                    <i class="fas fa-home mr-2"></i> 首页
+                </a>
+                <a href="#about" class="border-transparent text-gray-600 hover:bg-gray-50/80 hover:border-gray-300 hover:text-gray-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">
+                    <i class="fas fa-info-circle mr-2"></i> 关于我们
+                </a>
+                <a href="#projects" class="border-transparent text-gray-600 hover:bg-gray-50/80 hover:border-gray-300 hover:text-gray-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">
+                    <i class="fas fa-project-diagram mr-2"></i> 项目
+                </a>
+                <a href="#team" class="bg-blue-50/80 border-blue-500 text-blue-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">
+                    <i class="fas fa-users mr-2"></i> 团队
+                </a>
+                <a href="#contact" class="border-transparent text-gray-600 hover:bg-gray-50/80 hover:border-gray-300 hover:text-gray-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">
+                    <i class="fas fa-envelope mr-2"></i> 联系我们
+                </a>
+                <a href="presentation.html" class="border-transparent text-gray-600 hover:bg-gray-50/80 hover:border-gray-300 hover:text-gray-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">
+                    <i class="fas fa-tv mr-2"></i> 演示
+                </a>
+            </div>
+            <div class="pt-4 pb-3 border-t border-gray-200/30 bg-white/80 backdrop-blur-md">
+                <div class="flex items-center px-4">
+                    <div class="flex-shrink-0">
+                        <img class="h-10 w-10 rounded-full border-2 border-white shadow-sm" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="User profile">
+                    </div>
+                    <div class="ml-3">
+                        <div class="text-base font-medium text-gray-800">用户名</div>
+                        <div class="text-sm font-medium text-gray-500">user@example.com</div>
+                    </div>
+                </div>
+                <div class="mt-3 space-y-1">
+                    <a href="#" class="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100/70"><i class="fas fa-user mr-2"></i> 个人资料</a>
+                    <a href="#" class="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100/70"><i class="fas fa-cog mr-2"></i> 设置</a>
+                    <a href="#" class="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100/70"><i class="fas fa-sign-out-alt mr-2"></i> 退出</a>
+                    <!-- 移动端主题切换器容器 -->
+                    <div id="mobile-theme-switcher-container" class="flex justify-center py-2"></div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero区域 -->
+    <section id="hero" class="pt-16">
+        <div class="three-js-background"></div>
+        <div class="content">
+            <h1 class="animated-title">TechBlog开发团队</h1>
+            <p class="animated-subtitle">创新设计，卓越体验</p>
+            <button class="cta-button">了解更多</button>
+        </div>
+    </section>
+
+    <!-- 团队介绍 -->
+    <section id="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>关于我们</h2>
+                    <p>我们是一支充满创造力和激情的团队，致力于提供卓越的用户体验和创新的设计解决方案。</p>
+                    <p>我们的使命是通过人机交互的最佳实践，创造既美观又实用的数字产品。</p>
+                </div>
+                <div class="about-3d">
+                    <!-- 3D模型将通过JavaScript加载 -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 项目展示 -->
+    <section id="projects">
+        <div class="container">
+            <h2>我们的项目</h2>
+            <div class="project-gallery">
+                <!-- 项目卡片 1 -->
+                <div class="card-3d">
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <img src="assets/images/project1.jpg" alt="项目图片">
+                            <h3>TechBlog平台</h3>
+                        </div>
+                        <div class="card-back">
+                            <h3>项目详情</h3>
+                            <p>这是一个创新的技术博客平台，融合了现代设计理念和先进技术，为开发者提供知识分享空间。</p>
+                            <a href="index.html" class="btn">查看详情</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- 项目卡片 2 -->
+                <div class="card-3d">
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <img src="assets/images/project2.jpg" alt="项目图片">
+                            <h3>移动应用开发</h3>
+                        </div>
+                        <div class="card-back">
+                            <h3>项目详情</h3>
+                            <p>我们开发了多款创新的移动应用，专注于用户体验和功能性的完美结合。</p>
+                            <a href="#" class="btn">查看详情</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- 项目卡片 3 -->
+                <div class="card-3d">
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <img src="assets/images/project3.jpg" alt="项目图片">
+                            <h3>AI解决方案</h3>
+                        </div>
+                        <div class="card-back">
+                            <h3>项目详情</h3>
+                            <p>我们提供创新的AI解决方案，帮助企业优化流程、提高效率。</p>
+                            <a href="#" class="btn">查看详情</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 团队成员 -->
+    <section id="team">
+        <div class="container">
+            <h2>团队成员</h2>
+            <div class="team-members">
+                <!-- 成员卡片 1 -->
+                <div class="member-card">
+                    <div class="member-photo">
+                        <img src="assets/images/member1.jpg" alt="团队成员">
+                    </div>
+                    <h3>张伟</h3>
+                    <p>首席技术官</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+                <!-- 成员卡片 2 -->
+                <div class="member-card">
+                    <div class="member-photo">
+                        <img src="assets/images/member2.jpg" alt="团队成员">
+                    </div>
+                    <h3>李娜</h3>
+                    <p>UI/UX设计师</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+                <!-- 成员卡片 3 -->
+                <div class="member-card">
+                    <div class="member-photo">
+                        <img src="assets/images/member3.jpg" alt="团队成员">
+                    </div>
+                    <h3>王强</h3>
+                    <p>全栈开发工程师</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 联系方式 -->
+    <section id="contact">
+        <div class="container">
+            <h2>联系我们</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <p>北京市海淀区科技园</p>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-envelope"></i>
+                        <p>contact@techblog.com</p>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-phone"></i>
+                        <p>+86 10 8888 8888</p>
+                    </div>
+                </div>
+                <form class="contact-form">
+                    <div class="form-group">
+                        <input type="text" placeholder="您的姓名">
+                    </div>
+                    <div class="form-group">
+                        <input type="email" placeholder="您的邮箱">
+                    </div>
+                    <div class="form-group">
+                        <textarea placeholder="您的留言"></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">发送留言</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h3>TechBlog团队</h3>
+                    <p>创新设计，卓越体验</p>
+                </div>
+                <div class="footer-links">
+                    <h4>快速链接</h4>
+                    <ul>
+                        <li><a href="index.html">博客首页</a></li>
+                        <li><a href="#about">关于我们</a></li>
+                        <li><a href="#projects">项目</a></li>
+                        <li><a href="#team">团队</a></li>
+                        <li><a href="#contact">联系我们</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h4>关注我们</h4>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 TechBlog团队. 保留所有权利.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 自定义光标 -->
+    <div class="custom-cursor"></div>
+
+    <!-- 音乐播放器容器 -->
+    <div id="music-player-container" class="fixed bottom-10 right-10 z-50"></div>
+
+    <!-- JavaScript文件 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="scripts/main.js"></script>
+    <script src="scripts/three-effects.js"></script>
+    <script src="scripts/animations.js"></script>
+    <script src="scripts/highlight.js"></script>
+    
+    <!-- 页面脚本 -->
+    <script src="scripts/utils.js"></script>
+    <script src="scripts/component-loader.js"></script>
+    <script src="scripts/pin-component.js"></script>
+    <script src="scripts/content-generator.js"></script>
+    <script src="scripts/music-player.js"></script>
+    
+    <!-- <script>
+        // 导航菜单交互 (已移至 component-loader.js)
+        // ... (removed code) ...
+        
+        // 用户下拉菜单交互 (已移至 component-loader.js)
+        // ... (removed code) ...
+        
+        // 初始化移动端主题切换器 (此逻辑由 theme-switcher.js 处理)
+        // ... (removed code) ...
+    </script> -->
+</body>
+</html>

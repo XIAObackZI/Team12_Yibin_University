@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="zh" data-theme="blue">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>技术博客 | 分享创新与知识</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/animations.css">
+    <link rel="stylesheet" href="styles/themes.css">
+    <link rel="stylesheet" href="styles/carousel.css">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --secondary: #10b981;
+            --dark: #1e293b;
+            --light: #f8fafc;
+        }
+        
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #f5f7fa;
+            color: var(--dark);
+        }
+        
+        .title-font {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .article-card {
+            transition: all 0.3s ease;
+        }
+        
+        .article-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .tag {
+            transition: all 0.2s ease;
+        }
+        
+        .tag:hover {
+            transform: scale(1.05);
+        }
+        
+        /* 为导航栏添加自定义样式 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #3b82f6;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .mobile-menu {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+        
+        .search-bar {
+            transition: all 0.3s ease;
+        }
+        
+        .hero-pattern {
+            background-image: radial-gradient(circle at 10% 20%, rgba(79, 70, 229, 0.1) 0%, rgba(79, 70, 229, 0.05) 90%);
+        }
+        
+        .sidebar-card {
+            border-radius: 0.5rem;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            margin-bottom: 1.5rem;
+        }
+        
+        .popular-tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            margin: 0.25rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            background-color: #e5e7eb;
+            color: #4b5563;
+            transition: all 0.2s ease;
+        }
+        
+        .popular-tag:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        /* 主题切换增强样式 */
+        /* 确保英雄区域背景色随主题变化 */
+        body > div:first-of-type {
+            background-color: var(--color-bg-highlight) !important;
+            transition: background-color 0.3s ease;
+        }
+        
+        /* 按钮颜色随主题变化 */
+        .cta-button, 
+        .action-button, 
+        button[type="submit"],
+        .browse-button,
+        .btn-primary {
+            background-color: var(--color-primary) !important;
+            color: white !important;
+            border-color: var(--color-primary-dark) !important;
+            transition: all 0.3s ease;
+        }
+        
+        /* 确保卡片背景色随主题变化 */
+        .card, 
+        [class*="card-"], 
+        .recommendation-card,
+        .sidebar-card,
+        .tag-card {
+            background-color: var(--color-bg-secondary) !important;
+            border-color: var(--color-border) !important;
+            transition: all 0.3s ease;
+        }
+        
+        /* 确保文本颜色随主题变化 */
+        h1, h2, h3, h4, h5, h6 {
+            color: var(--color-text-primary) !important;
+        }
+        
+        p, span {
+            color: var(--color-text-primary) !important;
+        }
+        
+        /* 确保主题图标颜色正确 */
+        .theme-switcher i,
+        nav i {
+            color: inherit !important;
+        }
+        
+        /* 暗黑模式下所有浅色背景区域处理 */
+        html.dark-mode body > div {
+            background-color: var(--color-bg-highlight) !important;
+        }
+        
+        /* 分类卡片样式 */
+        .category-card {
+            transition: all 0.3s ease;
+            background-color: var(--color-bg-secondary); /* 主题感知背景 */
+            border: 1px solid var(--color-border); /* 主题感知边框 */
+        }
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .category-card h3 {
+             color: var(--color-text-primary); /* 主题感知标题颜色 */
+        }
+         .category-card p, .category-card span {
+             color: var(--color-text-secondary); /* 主题感知文本颜色 */
+         }
+         .category-card i {
+             color: var(--color-primary); /* 主题感知图标颜色 */
+         }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-fadeIn {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.05); opacity: 0.4; }
+        }
+
+        .animate-pulse {
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        /* 拖拽相关样式 */
+        .popular-tag {
+            cursor: grab;
+            transition: all 0.3s ease;
+        }
+
+        .popular-tag:active {
+            cursor: grabbing;
+        }
+
+        .popular-tag.dragging {
+            opacity: 0.5;
+            transform: scale(0.95);
+        }
+
+        #tag-drop-zone.drag-over {
+            border-color: #4f46e5;
+            background-color: rgba(79, 70, 229, 0.05);
+        }
+
+        .selected-tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.75rem;
+            background-color: #4f46e5;
+            color: white;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin: 0.25rem;
+            animation: scaleIn 0.3s ease;
+        }
+
+        .selected-tag .remove-tag {
+            margin-left: 0.5rem;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.2s ease;
+        }
+
+        .selected-tag .remove-tag:hover {
+            opacity: 1;
+        }
+
+        @keyframes scaleIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        /* 增强卡片动画效果 */
+        .article-card {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .article-card:hover {
+            transform: translateY(-8px) scale(1.01);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        .article-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            background-size: 200% 200%;
+            animation: shine 3s infinite;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .article-card:hover::after {
+            opacity: 1;
+        }
+
+        @keyframes shine {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        /* 标签样式 */
+        .tag-item {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, rgba(79, 70, 229, 0.1) 0%, rgba(147, 51, 234, 0.1) 100%);
+            color: #4F46E5;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: grab;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(79, 70, 229, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tag-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.15);
+            background: linear-gradient(135deg, rgba(79, 70, 229, 0.15) 0%, rgba(147, 51, 234, 0.15) 100%);
+        }
+
+        .tag-item:active {
+            cursor: grabbing;
+            transform: scale(0.95);
+        }
+
+        /* 拖拽时的粒子效果 */
+        .tag-item.dragging::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(79, 70, 229, 0.2) 0%, transparent 70%);
+            animation: particleEffect 1s infinite;
+        }
+
+        @keyframes particleEffect {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(2); opacity: 0; }
+        }
+
+        /* 搜索框拖拽状态 */
+        .search-container.drag-over .search-indicator {
+            border-color: rgba(79, 70, 229, 0.5);
+            background: rgba(79, 70, 229, 0.05);
+        }
+
+        /* 已选择的标签样式 */
+        .selected-tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.75rem;
+            background: #4F46E5;
+            color: white;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            margin-right: 0.5rem;
+            animation: tagAppear 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .selected-tag .remove-tag {
+            margin-left: 0.5rem;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+
+        .selected-tag .remove-tag:hover {
+            opacity: 1;
+        }
+
+        @keyframes tagAppear {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        /* 文章卡片3D效果 */
+        .article-card {
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .article-card:hover {
+            transform: rotateX(5deg) rotateY(5deg);
+        }
+
+        .article-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                135deg,
+                transparent 0%,
+                rgba(255, 255, 255, 0.05) 50%,
+                transparent 100%
+            );
+            transform: translateZ(20px);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .article-card:hover::before {
+            opacity: 1;
+        }
+
+        /* 筛选结果动画 */
+        .filtered-article {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: articleAppear 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        @keyframes articleAppear {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body class="theme-body">
+    <!-- 导航栏容器 -->
+    <div id="navbar-container"></div>
+
+    <!-- Hero区域 -->
+    <div class="hero-pattern pt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+            <div class="text-center">
+                <h1 class="text-3xl md:text-5xl font-bold title-font mb-4">
+                    <span class="gradient-text">探索技术的奥秘</span> <br>分享创新的思考
+                </h1>
+                <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">
+                    发现前沿技术趋势，学习实用开发技巧，参与热门技术讨论，成为更优秀的开发者。
+                </p>
+                <div class="mt-8 flex flex-col sm:flex-row justify-center gap-4">
+                    <button class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-md text-sm font-medium transition duration-300">
+                        浏览文章
+                    </button>
+                    <button class="bg-white hover:bg-gray-50 text-gray-700 border border-gray-300 px-6 py-3 rounded-md text-sm font-medium transition duration-300">
+                        发布内容
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 主要内容区 -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="flex flex-col lg:flex-row gap-8">
+            <!-- 左侧内容区 -->
+            <div class="lg:w-2/3">
+                <!-- 热门文章轮播 -->
+                <div id="carousel-recommendations" class="mb-8">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-2xl font-bold title-font">热门推荐</h2>
+                        <a href="articles.html" class="text-indigo-600 hover:text-indigo-800 text-sm font-medium flex items-center">
+                            查看全部 <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                    <div id="hot-articles-container">
+                        <!-- 这里将通过JavaScript动态加载hot-articles.html的内容 -->
+                    </div>
+                </div>
+                
+                <!-- 最新文章 -->
+                <div>
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-2xl font-bold title-font">最新文章</h2>
+                        <a href="articles.html" class="text-indigo-600 hover:text-indigo-800 text-sm font-medium flex items-center">
+                            查看全部 <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                    
+                    <div class="space-y-6">
+                        <!-- 最新文章1 -->
+                        <div class="article-card bg-white rounded-xl overflow-hidden shadow-md flex flex-col md:flex-row">
+                            <div class="md:w-1/3 relative">
+                                <img class="h-48 md:h-full w-full object-cover" src="https://images.unsplash.com/photo-1607799279861-4dd421887fb3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="文章封面">
+                            </div>
+                            <div class="md:w-2/3 p-6">
+                                <div class="flex items-center mb-2">
+                                    <span class="tag bg-purple-100 text-purple-800 text-xs font-medium px-2.5 py-0.5 rounded">后端开发</span>
+                                    <span class="text-gray-500 text-sm ml-auto">2023-06-18</span>
+                                </div>
+                                <h3 class="text-xl font-bold mb-3 title-font">微服务架构实践：从单体应用到分布式系统</h3>
+                                <p class="text-gray-600 mb-4">详解微服务架构的设计原则、实施策略和常见陷阱，附带真实案例分析。</p>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center">
+                                        <img class="w-8 h-8 rounded-full mr-2" src="https://randomuser.me/api/portraits/men/68.jpg" alt="作者">
+                                        <span class="text-sm font-medium">王刚</span>
+                                    </div>
+                                    <div class="flex items-center text-gray-500 text-sm">
+                                        <span class="mr-3"><i class="far fa-eye mr-1"></i> 856</span>
+                                        <span><i class="far fa-comment mr-1"></i> 32</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 最新文章2 -->
+                        <div class="article-card bg-white rounded-xl overflow-hidden shadow-md flex flex-col md:flex-row">
+                            <div class="md:w-1/3 relative">
+                                <img class="h-48 md:h-full w-full object-cover" src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="文章封面">
+                            </div>
+                            <div class="md:w-2/3 p-6">
+                                <div class="flex items-center mb-2">
+                                    <span class="tag bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded">移动开发</span>
+                                    <span class="text-gray-500 text-sm ml-auto">2023-06-16</span>
+                                </div>
+                                <h3 class="text-xl font-bold mb-3 title-font">Flutter vs React Native：2023年跨平台开发对比</h3>
+                                <p class="text-gray-600 mb-4">全面对比两大主流跨平台开发框架的性能、生态和开发体验，帮助你做出明智选择。</p>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center">
+                                        <img class="w-8 h-8 rounded-full mr-2" src="https://randomuser.me/api/portraits/women/28.jpg" alt="作者">
+                                        <span class="text-sm font-medium">陈静</span>
+                                    </div>
+                                    <div class="flex items-center text-gray-500 text-sm">
+                                        <span class="mr-3"><i class="far fa-eye mr-1"></i> 723</span>
+                                        <span><i class="far fa-comment mr-1"></i> 29</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 最新文章3 -->
+                        <div class="article-card bg-white rounded-xl overflow-hidden shadow-md flex flex-col md:flex-row">
+                            <div class="md:w-1/3 relative">
+                                <img class="h-48 md:h-full w-full object-cover" src="https://images.unsplash.com/photo-1489875347897-49f64b51c1f8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="文章封面">
+                            </div>
+                            <div class="md:w-2/3 p-6">
+                                <div class="flex items-center mb-2">
+                                    <span class="tag bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded">DevOps</span>
+                                    <span class="text-gray-500 text-sm ml-auto">2023-06-14</span>
+                                </div>
+                                <h3 class="text-xl font-bold mb-3 title-font">CI/CD最佳实践：构建高效的开发流水线</h3>
+                                <p class="text-gray-600 mb-4">探索持续集成和持续部署的最佳实践，提高团队开发效率和产品质量。</p>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center">
+                                        <img class="w-8 h-8 rounded-full mr-2" src="https://randomuser.me/api/portraits/men/45.jpg" alt="作者">
+                                        <span class="text-sm font-medium">赵伟</span>
+                                    </div>
+                                    <div class="flex items-center text-gray-500 text-sm">
+                                        <span class="mr-3"><i class="far fa-eye mr-1"></i> 612</span>
+                                        <span><i class="far fa-comment mr-1"></i> 18</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 右侧侧边栏 -->
+            <div class="lg:w-1/3">
+                <!-- 搜索框 -->
+                <div class="sidebar-card bg-white p-4 mb-6">
+                    <div class="search-container relative group">
+                        <div class="search-box relative">
+                            <input type="text" id="search-input" placeholder="搜索文章或拖入标签..." 
+                                class="w-full px-4 py-3 pr-12 border-2 border-gray-200 rounded-xl 
+                                focus:outline-none focus:border-indigo-500 transition-all duration-300
+                                placeholder-gray-400 bg-white/90 backdrop-blur-sm
+                                group-hover:shadow-lg group-hover:border-indigo-400">
+                            <div id="selected-tags-container" class="flex flex-wrap gap-2 absolute left-3 top-1/2 -translate-y-1/2">
+                                <!-- 这里将显示已选择的标签 -->
+                            </div>
+                            <button class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 
+                                hover:text-indigo-600 transition-colors duration-300">
+                                <i class="fas fa-search text-lg"></i>
+                            </button>
+                        </div>
+                        <!-- 搜索提示和拖拽指示器 -->
+                        <div class="search-indicator absolute inset-0 border-2 border-dashed border-indigo-500/0 
+                            rounded-xl transition-all duration-300 pointer-events-none"></div>
+                    </div>
+                </div>
+                
+                <!-- 热门标签 -->
+                <div class="sidebar-card bg-white p-6 mb-6">
+                    <h3 class="text-lg font-bold mb-4">热门标签</h3>
+                    <div class="flex flex-wrap gap-2" id="tags-container">
+                        <a href="#" class="tag-item" draggable="true" data-tag="JavaScript">JavaScript</a>
+                        <a href="#" class="tag-item" draggable="true" data-tag="Python">Python</a>
+                        <a href="#" class="tag-item" draggable="true" data-tag="React">React</a>
+                        <a href="#" class="tag-item" draggable="true" data-tag="Vue">Vue</a>
+                        <a href="#" class="tag-item" draggable="true" data-tag="Node.js">Node.js</a>
+                        <a href="#" class="tag-item" draggable="true" data-tag="AI">人工智能</a>
+                        <a href="#" class="tag-item" draggable="true" data-tag="ML">机器学习</a>
+                        <a href="#" class="tag-item" draggable="true" data-tag="Cloud">云计算</a>
+                        <a href="#" class="tag-item" draggable="true" data-tag="Microservices">微服务</a>
+                        <a href="#" class="tag-item" draggable="true" data-tag="DevOps">DevOps</a>
+                        <a href="#" class="tag-item" draggable="true" data-tag="Blockchain">区块链</a>
+                        <a href="#" class="tag-item" draggable="true" data-tag="DataAnalysis">数据分析</a>
+                    </div>
+                </div>
+                
+                <!-- 添加筛选结果区域 -->
+                <div id="filtered-articles" class="mt-6 space-y-4 hidden">
+                    <h3 class="text-lg font-bold mb-4">筛选结果</h3>
+                    <div id="filtered-articles-container"></div>
+                </div>
+                
+                <!-- 热门作者 -->
+                <div class="sidebar-card bg-white p-6 mb-6">
+                    <h3 class="text-lg font-bold mb-4">推荐作者</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center">
+                            <img class="w-10 h-10 rounded-full mr-3" src="https://randomuser.me/api/portraits/men/32.jpg" alt="作者">
+                            <div>
+                                <h4 class="font-medium">李明</h4>
+                                <p class="text-sm text-gray-500">前端技术专家</p>
+                            </div>
+                            <button class="ml-auto text-xs bg-gray-100 hover:bg-gray-200 text-gray-800 py-1 px-2 rounded-md">关注</button>
+                        </div>
+                        <div class="flex items-center">
+                            <img class="w-10 h-10 rounded-full mr-3" src="https://randomuser.me/api/portraits/women/44.jpg" alt="作者">
+                            <div>
+                                <h4 class="font-medium">张雪</h4>
+                                <p class="text-sm text-gray-500">AI研究员</p>
+                            </div>
+                            <button class="ml-auto text-xs bg-gray-100 hover:bg-gray-200 text-gray-800 py-1 px-2 rounded-md">关注</button>
+                        </div>
+                        <div class="flex items-center">
+                            <img class="w-10 h-10 rounded-full mr-3" src="https://randomuser.me/api/portraits/men/68.jpg" alt="作者">
+                            <div>
+                                <h4 class="font-medium">王刚</h4>
+                                <p class="text-sm text-gray-500">架构师</p>
+                            </div>
+                            <button class="ml-auto text-xs bg-gray-100 hover:bg-gray-200 text-gray-800 py-1 px-2 rounded-md">关注</button>
+                        </div>
+                        <div class="flex items-center">
+                            <img class="w-10 h-10 rounded-full mr-3" src="https://randomuser.me/api/portraits/women/28.jpg" alt="作者">
+                            <div>
+                                <h4 class="font-medium">陈静</h4>
+                                <p class="text-sm text-gray-500">移动开发专家</p>
+                            </div>
+                            <button class="ml-auto text-xs bg-gray-100 hover:bg-gray-200 text-gray-800 py-1 px-2 rounded-md">关注</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 公告栏 -->
+                <div class="sidebar-card bg-white p-6 mb-6">
+                    <h3 class="text-lg font-bold mb-4">公告</h3>
+                    <div class="space-y-3">
+                        <div class="p-3 bg-blue-50 rounded-md">
+                            <p class="text-sm">🎉 技术分享活动：云原生应用开发实战，6月25日晚8点线上直播</p>
+                        </div>
+                        <div class="p-3 bg-green-50 rounded-md">
+                            <p class="text-sm">📢 新功能上线：代码片段分享与协作功能已正式发布</p>
+                        </div>
+                        <div class="p-3 bg-yellow-50 rounded-md">
+                            <p class="text-sm">🏆 征文活动：分享你的开发故事，赢取丰厚奖品</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 分类区域 -->
+    <section class="py-12 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-3xl font-bold text-gray-900">分类浏览</h2>
+                <a href="articles.html" class="inline-flex items-center text-indigo-600 hover:text-indigo-700">
+                    查看全部
+                    <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <!-- 分类卡片 -->
+                <a href="articles.html?category=frontend" class="group">
+                    <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-all">
+                        <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-code text-xl text-indigo-600"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-2">前端开发</h3>
+                        <p class="text-sm text-gray-600">探索现代前端技术和框架</p>
+                    </div>
+                </a>
+                <a href="articles.html?category=backend" class="group">
+                    <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-all">
+                        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-server text-xl text-blue-600"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-2">后端开发</h3>
+                        <p class="text-sm text-gray-600">服务器端技术和架构设计</p>
+                    </div>
+                </a>
+                <a href="articles.html?category=ai" class="group">
+                    <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-all">
+                        <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-brain text-xl text-purple-600"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-2">人工智能</h3>
+                        <p class="text-sm text-gray-600">AI技术和机器学习应用</p>
+                    </div>
+                </a>
+                <a href="articles.html?category=cloud" class="group">
+                    <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-all">
+                        <div class="w-12 h-12 bg-cyan-100 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-cloud text-xl text-cyan-600"></i>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-2">云计算</h3>
+                        <p class="text-sm text-gray-600">云服务和容器化技术</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 热门推荐区域 -->
+    <section class="py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-3xl font-bold text-gray-900">热门推荐</h2>
+                <a href="articles.html" class="inline-flex items-center text-indigo-600 hover:text-indigo-700">
+                    查看全部
+                    <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+            <!-- 热门文章卡片 -->
+            <div id="hot-articles"></div>
+        </div>
+    </section>
+
+    <!-- 页脚上方 - 团队展示区域 -->
+    <div id="team-section" class="bg-gradient-to-b from-gray-50 to-white py-20 relative overflow-hidden">
+        <!-- 背景装饰 -->
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(79,70,229,0.03),transparent)]"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-16 transform transition-all duration-500 hover:scale-105">
+                <span class="text-indigo-600 font-medium mb-2 block animate-fadeIn">专业团队</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">认识我们的团队</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto font-medium">了解幕后的创意团队，我们致力于打造卓越的用户体验和创新的设计解决方案。</p>
+                <div class="h-1 w-20 bg-indigo-600 mx-auto mt-4 rounded-full"></div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+                <!-- 团队简介卡片 - 创新设计 -->
+                <div class="group relative bg-white rounded-2xl p-8 border border-gray-200 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 overflow-hidden">
+                    <div class="absolute top-0 right-0 w-20 h-20 bg-indigo-100 rounded-full -mr-10 -mt-10 opacity-50 group-hover:scale-150 transition-transform duration-500"></div>
+                    <div class="relative">
+                        <div class="text-3xl text-indigo-600 mb-4 transform transition-transform duration-300 group-hover:scale-110">
+                            <i class="fas fa-paint-brush"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">创新设计</h3>
+                        <p class="text-gray-600 text-sm mb-4 font-medium">我们的设计团队融合艺术与科技，创造既美观又实用的数字体验。</p>
+                        <div class="h-1 w-12 bg-gradient-to-r from-indigo-400 to-blue-400 rounded group-hover:w-full transition-all duration-500"></div>
+                    </div>
+                </div>
+                
+                <!-- 团队简介卡片 - 前沿技术 -->
+                <div class="group relative bg-white rounded-2xl p-8 border border-gray-200 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 overflow-hidden">
+                    <div class="absolute top-0 right-0 w-20 h-20 bg-blue-100 rounded-full -mr-10 -mt-10 opacity-50 group-hover:scale-150 transition-transform duration-500"></div>
+                    <div class="relative">
+                        <div class="text-3xl text-blue-600 mb-4 transform transition-transform duration-300 group-hover:scale-110">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">前沿技术</h3>
+                        <p class="text-gray-600 text-sm mb-4 font-medium">我们不断探索最新的技术趋势，确保为用户提供最佳的交互体验。</p>
+                        <div class="h-1 w-12 bg-gradient-to-r from-blue-400 to-cyan-400 rounded group-hover:w-full transition-all duration-500"></div>
+                    </div>
+                </div>
+                
+                <!-- 团队简介卡片 - 用户至上 -->
+                <div class="group relative bg-white rounded-2xl p-8 border border-gray-200 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 overflow-hidden">
+                    <div class="absolute top-0 right-0 w-20 h-20 bg-cyan-100 rounded-full -mr-10 -mt-10 opacity-50 group-hover:scale-150 transition-transform duration-500"></div>
+                    <div class="relative">
+                        <div class="text-3xl text-cyan-600 mb-4 transform transition-transform duration-300 group-hover:scale-110">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-3">用户至上</h3>
+                        <p class="text-gray-600 text-sm mb-4 font-medium">我们以用户为中心，打造真正满足用户需求的产品和服务。</p>
+                        <div class="h-1 w-12 bg-gradient-to-r from-cyan-400 to-emerald-400 rounded group-hover:w-full transition-all duration-500"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 团队展示卡片 -->
+            <div class="flex justify-center items-center mt-16">
+                <div class="group relative bg-white rounded-2xl p-8 border border-gray-200 shadow-xl hover:shadow-2xl transition-all duration-500 w-full max-w-[420px] overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-br from-indigo-50 to-white opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div class="relative flex flex-col items-center">
+                        <div class="w-full h-48 rounded-xl overflow-hidden mb-6 transform group-hover:scale-105 transition-transform duration-500">
+                            <img src="assets/images/team-photo.jpg" alt="团队合影" class="w-full h-full object-cover">
+                        </div>
+                        <h3 class="text-2xl font-bold mb-3 text-gray-900 group-hover:text-indigo-600 transition-colors duration-300">我们的团队</h3>
+                        <p class="text-gray-600 text-sm text-center font-medium mb-6">了解幕后的创意与设计专家，探索我们如何打造卓越的用户体验</p>
+                        <div class="flex flex-wrap justify-center gap-2">
+                            <span class="px-3 py-1.5 bg-indigo-100 text-indigo-700 rounded-full text-xs font-medium transform hover:scale-105 transition-transform duration-300">创新设计</span>
+                            <span class="px-3 py-1.5 bg-blue-100 text-blue-700 rounded-full text-xs font-medium transform hover:scale-105 transition-transform duration-300">技术专家</span>
+                            <span class="px-3 py-1.5 bg-purple-100 text-purple-700 rounded-full text-xs font-medium transform hover:scale-105 transition-transform duration-300">用户体验</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 装饰元素 -->
+        <div class="absolute top-20 left-10 w-72 h-72 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-full filter blur-3xl opacity-30 animate-pulse"></div>
+        <div class="absolute bottom-20 right-10 w-80 h-80 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-full filter blur-3xl opacity-30 animate-pulse"></div>
+    </div>
+
+    <!-- 订阅区域 - 增强设计 -->
+    <div class="bg-indigo-600 py-16 relative overflow-hidden">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_70%_70%,rgba(16,185,129,0.2),transparent)]"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-8">
+                <h2 class="text-2xl md:text-3xl font-bold text-white mb-4">订阅我们的技术周刊</h2>
+                <p class="text-indigo-100 mb-6 max-w-2xl mx-auto">每周精选优质技术文章，掌握最新技术动态和实用开发技巧。</p>
+                <div class="flex flex-col sm:flex-row justify-center max-w-lg mx-auto relative">
+                    <input type="email" placeholder="输入您的邮箱地址" class="px-4 py-3 rounded-lg sm:rounded-r-none mb-2 sm:mb-0 w-full focus:outline-none bg-white/90 backdrop-blur-sm shadow-md">
+                    <button class="bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white px-6 py-3 rounded-lg sm:rounded-l-none font-medium transition duration-300 shadow-md hover:shadow-emerald-500/25">
+                        订阅
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 订阅者数据 -->
+            <div class="flex flex-wrap justify-center mt-8 space-x-4 text-center">
+                <div class="bg-white/10 backdrop-blur-sm px-6 py-3 rounded-lg">
+                    <span class="block text-2xl font-bold text-white">12K+</span>
+                    <span class="text-xs text-indigo-100">订阅者</span>
+                </div>
+                <div class="bg-white/10 backdrop-blur-sm px-6 py-3 rounded-lg">
+                    <span class="block text-2xl font-bold text-white">150+</span>
+                    <span class="text-xs text-indigo-100">文章</span>
+                </div>
+                <div class="bg-white/10 backdrop-blur-sm px-6 py-3 rounded-lg">
+                    <span class="block text-2xl font-bold text-white">98%</span>
+                    <span class="text-xs text-indigo-100">满意度</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 装饰元素 -->
+        <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-emerald-500/20 rounded-full filter blur-3xl"></div>
+        <div class="absolute bottom-0 left-0 -mb-10 -ml-10 w-40 h-40 bg-blue-500/20 rounded-full filter blur-3xl"></div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">TechBlog</h3>
+                    <p class="text-gray-400 mb-4">分享技术，连接开发者</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-github"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fas fa-rss"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4">关于我们</h3>
+                    <ul class="text-gray-400">
+                        <li><a href="#" class="hover:text-white">团队</a></li>
+                        <li><a href="#" class="hover:text-white">隐私政策</a></li>
+                        <li><a href="#" class="hover:text-white">使用条款</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4">帮助</h3>
+                    <ul class="text-gray-400">
+                        <li><a href="#" class="hover:text-white">常见问题</a></li>
+                        <li><a href="#" class="hover:text-white">联系我们</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-4">订阅</h3>
+                    <p class="text-gray-400 mb-4">获取最新文章和更新</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fas fa-envelope"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fas fa-rss"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 音乐播放器容器 -->
+    <div id="music-player-container" class="fixed bottom-10 right-10 z-50"></div>
+    
+    <!-- 页面脚本 -->
+    <script src="scripts/component-loader.js"></script>
+    <script src="scripts/carousel.js"></script>
+    <script src="scripts/content-generator.js"></script>
+    <script src="scripts/pin-component.js"></script>
+    <script src="scripts/music-player.js"></script>
+    <script src="scripts/3d-card-component.js"></script>
+    
+    <!-- 导航栏交互脚本 (已移至 component-loader.js) -->
+    <!-- <script>
+        // Toggle mobile menu
+        // ... (removed code) ...
+        
+        // Toggle user dropdown menu
+        // ... (removed code) ...
+        
+        // Initialize mobile theme switcher (此逻辑由 theme-switcher.js 处理)
+        // ... (removed code) ...
+    </script> -->
+
+    <script>
+    // 拖拽功能实现
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchContainer = document.querySelector('.search-container');
+        const searchInput = document.getElementById('search-input');
+        const selectedTagsContainer = document.getElementById('selected-tags-container');
+        const tagsContainer = document.getElementById('tags-container');
+        
+        // 存储已选择的标签
+        const selectedTags = new Set();
+        
+        // 为所有标签添加拖拽事件
+        document.querySelectorAll('.tag-item').forEach(tag => {
+            tag.addEventListener('dragstart', handleDragStart);
+            tag.addEventListener('dragend', handleDragEnd);
+            
+            // 点击标签也可以添加
+            tag.addEventListener('click', (e) => {
+                e.preventDefault();
+                const tag = e.target.dataset.tag;
+                addTag(tag);
+            });
+        });
+        
+        // 搜索框拖拽区域事件
+        searchContainer.addEventListener('dragover', handleDragOver);
+        searchContainer.addEventListener('dragleave', handleDragLeave);
+        searchContainer.addEventListener('drop', handleDrop);
+        
+        function handleDragStart(e) {
+            this.classList.add('dragging');
+            e.dataTransfer.setData('text/plain', this.dataset.tag);
+            
+            // 创建拖拽时的粒子效果
+            createParticles(e.clientX, e.clientY);
+        }
+        
+        function handleDragEnd(e) {
+            this.classList.remove('dragging');
+        }
+        
+        function handleDragOver(e) {
+            e.preventDefault();
+            searchContainer.classList.add('drag-over');
+        }
+        
+        function handleDragLeave(e) {
+            searchContainer.classList.remove('drag-over');
+        }
+        
+        function handleDrop(e) {
+            e.preventDefault();
+            searchContainer.classList.remove('drag-over');
+            
+            const tag = e.dataTransfer.getData('text/plain');
+            addTag(tag);
+        }
+        
+        function addTag(tag) {
+            if (selectedTags.has(tag)) return;
+            
+            selectedTags.add(tag);
+            const tagElement = document.createElement('div');
+            tagElement.className = 'selected-tag';
+            tagElement.innerHTML = `
+                ${tag}
+                <span class="remove-tag" onclick="removeTag('${tag}')">&times;</span>
+            `;
+            selectedTagsContainer.appendChild(tagElement);
+            
+            // 更新搜索框的padding以适应标签
+            updateSearchInputPadding();
+            
+            // 触发搜索
+            performSearch();
+        }
+        
+        window.removeTag = function(tag) {
+            selectedTags.delete(tag);
+            const tagElement = selectedTagsContainer.querySelector(`.selected-tag:has(span[onclick*="${tag}"])`);
+            if (tagElement) {
+                tagElement.remove();
+            }
+            updateSearchInputPadding();
+            performSearch();
+        }
+        
+        function updateSearchInputPadding() {
+            const tagsWidth = Array.from(selectedTagsContainer.children).reduce((width, tag) => {
+                return width + tag.offsetWidth + 4;
+            }, 0);
+            searchInput.style.paddingLeft = `${tagsWidth + 16}px`;
+        }
+        
+        function createParticles(x, y) {
+            for (let i = 0; i < 10; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.cssText = `
+                    position: fixed;
+                    width: 4px;
+                    height: 4px;
+                    background: #4F46E5;
+                    border-radius: 50%;
+                    pointer-events: none;
+                    z-index: 1000;
+                    left: ${x}px;
+                    top: ${y}px;
+                    animation: particle 0.6s ease-out forwards;
+                `;
+                document.body.appendChild(particle);
+                
+                // 随机动画
+                const angle = (Math.random() * 360) * (Math.PI / 180);
+                const velocity = Math.random() * 100 + 50;
+                particle.style.setProperty('--angle', angle);
+                particle.style.setProperty('--velocity', velocity);
+                
+                // 清理粒子
+                setTimeout(() => particle.remove(), 600);
+            }
+        }
+        
+        function performSearch() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const tags = Array.from(selectedTags);
+            
+            // 模拟API调用
+            const results = mockArticles.filter(article => {
+                const matchesSearch = article.title.toLowerCase().includes(searchTerm) || 
+                                    article.excerpt.toLowerCase().includes(searchTerm);
+                const matchesTags = tags.length === 0 || 
+                                  tags.some(tag => article.tags.includes(tag));
+                return matchesSearch && matchesTags;
+            });
+            
+            displayResults(results);
+        }
+        
+        function displayResults(results) {
+            const container = document.getElementById('filtered-articles');
+            container.classList.remove('hidden');
+            
+            const resultsHtml = results.map((article, index) => `
+                <div class="filtered-article article-card bg-white rounded-xl overflow-hidden shadow-md p-6 mb-4"
+                     style="animation-delay: ${index * 0.1}s">
+                    <div class="flex items-center mb-2">
+                        ${article.tags.map(tag => `
+                            <span class="tag bg-indigo-100 text-indigo-800 text-xs font-medium px-2.5 py-0.5 rounded mr-2">${tag}</span>
+                        `).join('')}
+                        <span class="text-gray-500 text-sm ml-auto">${article.date}</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">${article.title}</h3>
+                    <p class="text-gray-600 mb-4">${article.excerpt}</p>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <span class="text-sm font-medium">${article.author}</span>
+                        </div>
+                        <div class="flex items-center text-gray-500 text-sm">
+                            <span class="mr-3"><i class="far fa-eye mr-1"></i> ${article.views}</span>
+                            <span><i class="far fa-comment mr-1"></i> ${article.comments}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            
+            container.innerHTML = `
+                <h3 class="text-lg font-bold mb-4">搜索结果</h3>
+                <div class="space-y-4">
+                    ${resultsHtml}
+                </div>
+            `;
+        }
+        
+        // 监听搜索框输入
+        searchInput.addEventListener('input', performSearch);
+    });
+
+    // 添加粒子动画样式
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes particle {
+            0% {
+                transform: translate(0, 0);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(
+                    calc(cos(var(--angle)) * var(--velocity) * 1px),
+                    calc(sin(var(--angle)) * var(--velocity) * 1px)
+                );
+                opacity: 0;
+            }
+        }
+    `;
+    document.head.appendChild(style);
+    </script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!-- components/sections/hot-recommendations.html (普通卡片版本) -->
+<div class="mb-12">
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold title-font">热门推荐</h2>
+        <a href="recommendations-all.html" class="text-indigo-600 hover:text-indigo-800 text-sm font-medium flex items-center">
+            查看全部 <i class="fas fa-arrow-right ml-2"></i>
+        </a>
+    </div>
+
+    <!-- 特色文章 (保持不变，或按需修改为普通卡片) -->
+    <div class="flex justify-center mb-12">
+        <div 
+            class="relative bg-gradient-to-r from-violet-900 to-blue-900 p-6 rounded-lg shadow-lg h-[300px] w-full max-w-[600px] mb-6 text-white"
+        >
+            <div class="h-full w-full flex flex-row items-center justify-start">
+                <div class="w-2/5 pr-4">
+                    <img src="assets/images/tech-feature.jpg" 
+                        alt="AI技术专题" class="w-full h-auto object-cover rounded-lg shadow-md">
+                </div>
+                <div class="w-3/5 pl-4">
+                    <span class="px-3 py-1 bg-blue-500/30 text-blue-200 rounded-full text-xs mb-3 inline-block">技术专题</span>
+                    <h3 class="text-xl font-bold mb-3">人工智能如何重塑编程体验</h3>
+                    <p class="text-gray-300 text-sm mb-4">深入探讨AI辅助编程工具如何提升开发效率，以及它们在未来软件开发中的角色定位。</p>
+                    <div class="flex items-center text-sm text-gray-400">
+                        <span class="mr-4"><i class="far fa-clock mr-1"></i> 阅读时间: 15分钟</span>
+                        <span><i class="far fa-eye mr-1"></i> 3.2k 阅读</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- 热门文章1 - 普通卡片样式 -->
+        <div class="article-card bg-white rounded-xl overflow-hidden shadow-md">
+            <div class="relative">
+                 <img class="h-48 w-full object-cover" 
+                    src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+                    alt="文章封面">
+            </div>
+            <div class="p-6">
+                <div class="flex items-center mb-2">
+                    <span class="tag bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">前端开发</span>
+                    <span class="text-gray-500 text-sm ml-auto">2023-06-15</span>
+                </div>
+                <h3 class="text-xl font-bold mb-3 title-font">现代前端框架对比：React、Vue与Angular</h3>
+                <p class="text-gray-600 text-sm mb-4">深入分析三大主流前端框架的优缺点，帮助开发者选择最适合自己项目的技术栈。</p>
+                <div class="flex items-center justify-between mt-4">
+                    <div class="flex items-center">
+                        <img class="w-8 h-8 rounded-full mr-2" src="https://randomuser.me/api/portraits/men/32.jpg" alt="作者">
+                        <span class="text-sm font-medium">李明</span>
+                    </div>
+                    <div class="flex items-center text-gray-500 text-sm">
+                        <span class="mr-3"><i class="far fa-eye mr-1"></i> 1.2k</span>
+                        <span><i class="far fa-comment mr-1"></i> 48</span>
+                    </div>
+                </div>
+                 <a href="#" class="mt-4 inline-block px-4 py-2 rounded-xl text-xs font-normal text-indigo-600 hover:text-indigo-800">
+                    阅读全文 →
+                </a>
+            </div>
+        </div>
+        
+        <!-- 热门文章2 - 普通卡片样式 -->
+        <div class="article-card bg-white rounded-xl overflow-hidden shadow-md">
+             <div class="relative">
+                 <img class="h-48 w-full object-cover" 
+                    src="https://images.unsplash.com/photo-1573164713988-8665fc963095?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1469&q=80" 
+                    alt="文章封面">
+            </div>
+            <div class="p-6">
+                 <div class="flex items-center mb-2">
+                    <span class="tag bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded">人工智能</span>
+                    <span class="text-gray-500 text-sm ml-auto">2023-06-10</span>
+                </div>
+                <h3 class="text-xl font-bold mb-3 title-font">AI在软件开发中的应用与未来趋势</h3>
+                <p class="text-gray-600 text-sm mb-4">探讨人工智能如何改变软件开发流程，以及开发者如何利用AI工具提高生产力。</p>
+                 <div class="flex items-center justify-between mt-4">
+                    <div class="flex items-center">
+                        <img class="w-8 h-8 rounded-full mr-2" src="https://randomuser.me/api/portraits/women/44.jpg" alt="作者">
+                        <span class="text-sm font-medium">张雪</span>
+                    </div>
+                    <div class="flex items-center text-gray-500 text-sm">
+                        <span class="mr-3"><i class="far fa-eye mr-1"></i> 2.5k</span>
+                        <span><i class="far fa-comment mr-1"></i> 76</span>
+                    </div>
+                </div>
+                 <a href="#" class="mt-4 inline-block px-4 py-2 rounded-xl text-xs font-normal text-indigo-600 hover:text-indigo-800">
+                    阅读全文 →
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 移除了原有的 <style> 块，因为普通卡片样式应该由全局 CSS 定义 --> 

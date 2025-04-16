@@ -1,0 +1,287 @@
+/* 演示页面样式 */
+
+:root {
+    --slide-bg: #ffffff;
+    --slide-text: #333333;
+    --nav-bg: #2c3e50;
+    --nav-text: #ffffff;
+    --control-bg: #f8f9fa;
+    --highlight: #f39c12;
+}
+
+.presentation-body {
+    background-color: #f0f4f8;
+    overflow: hidden;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 导航控制样式 */
+.presentation-nav {
+    background-color: var(--nav-bg);
+    color: var(--nav-text);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+
+.back-btn {
+    color: var(--nav-text);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: transform 0.3s ease;
+}
+
+.back-btn:hover {
+    transform: translateX(-5px);
+    color: var(--nav-text);
+}
+
+.slide-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.progress-bar {
+    height: 100%;
+    background: var(--primary-gradient);
+    width: 16.66%; /* 1/6 for first slide */
+    transition: width 0.3s ease;
+}
+
+.slide-counter {
+    font-weight: 600;
+}
+
+/* 演示内容样式 */
+.presentation-container {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+/* PPT内容区域样式 */
+.ppt-content {
+    flex: 3;
+    position: relative;
+    overflow: hidden;
+    background-color: #f8f9fa;
+}
+
+.slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: translateX(100px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    pointer-events: none;
+}
+
+.slide.active {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+}
+
+.slide-inner {
+    background-color: var(--slide-bg);
+    color: var(--slide-text);
+    width: 90%;
+    height: 90%;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+}
+
+.slide-inner h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--primary);
+    text-align: center;
+}
+
+.slide-content {
+    padding: 1rem;
+}
+
+.slide-content h2 {
+    font-size: 1.8rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--secondary);
+}
+
+.slide-content ul {
+    margin-left: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.slide-content li {
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+}
+
+/* 原型预览区域样式 */
+.prototype-preview {
+    flex: 2;
+    background-color: white;
+    border-left: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+}
+
+.preview-header {
+    padding: 1rem;
+    background-color: var(--control-bg);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.preview-header h3 {
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.preview-controls {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.preview-controls button {
+    background: none;
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.preview-controls button:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.preview-controls button.active {
+    background-color: var(--highlight);
+    color: white;
+}
+
+.preview-content {
+    flex: 1;
+    overflow: hidden;
+}
+
+.preview-content iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* 控制区域样式 */
+.presentation-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    background-color: var(--control-bg);
+    border-top: 1px solid var(--border);
+}
+
+.prev-slide, .next-slide {
+    background: none;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 1.2rem;
+}
+
+.prev-slide:hover, .next-slide:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.slide-indicators {
+    display: flex;
+    gap: 0.5rem;
+    margin: 0 1rem;
+}
+
+.indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.indicator:hover {
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.indicator.active {
+    background-color: var(--primary);
+    transform: scale(1.2);
+}
+
+/* 响应式设计 */
+@media (max-width: 1023px) {
+    .presentation-container {
+        flex-direction: column;
+    }
+    
+    .ppt-content, .prototype-preview {
+        flex: none;
+    }
+    
+    .ppt-content {
+        height: 60vh;
+    }
+    
+    .prototype-preview {
+        height: 40vh;
+        border-left: none;
+        border-top: 1px solid var(--border);
+    }
+}
+
+@media (max-width: 767px) {
+    .slide-inner {
+        padding: 1rem;
+        width: 95%;
+        height: 95%;
+    }
+    
+    .slide-inner h1 {
+        font-size: 2rem;
+    }
+    
+    .slide-content h2 {
+        font-size: 1.5rem;
+    }
+}
