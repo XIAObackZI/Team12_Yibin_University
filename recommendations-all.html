@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>热门推荐 | TechBlog</title>
+    <!-- Link all necessary CSS from index.html -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/animations.css">
+    <link rel="stylesheet" href="styles/themes.css">
+     <style>
+        /* Add specific styles if needed, or reuse styles from index */
+        body { padding-top: 4rem; /* Account for fixed navbar */ }
+        .title-font { font-family: 'Playfair Display', serif; }
+        /* Removed 3D card styles */
+        .tag { transition: all 0.2s ease; }
+        .tag:hover { transform: scale(1.05); }
+     </style>
+</head>
+<body class="theme-body">
+    <!-- 导航栏容器 -->
+    <div id="navbar-container"></div>
+
+    <!-- 主要内容区 -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <h1 class="text-3xl font-bold mb-8 title-font border-b pb-4">热门推荐文章</h1>
+
+        <!-- 文章列表容器 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+            <!-- Card 1 - Normal Style -->
+            <div class="article-card bg-white rounded-xl overflow-hidden shadow-md">
+                <div class="relative">
+                    <img class="h-48 w-full object-cover" 
+                         src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+                         alt="文章封面">
+                </div>
+                <div class="p-6">
+                    <div class="flex items-center mb-2">
+                        <span class="tag bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">前端开发</span>
+                        <span class="text-gray-500 text-sm ml-auto">2023-06-15</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 title-font">现代前端框架对比：React、Vue与Angular</h3>
+                    <p class="text-gray-600 text-sm mb-4">深入分析三大主流前端框架的优缺点，帮助开发者选择最适合自己项目的技术栈。</p>
+                    <div class="flex items-center justify-between mt-4">
+                        <div class="flex items-center">
+                            <img class="w-8 h-8 rounded-full mr-2" src="https://randomuser.me/api/portraits/men/32.jpg" alt="作者">
+                            <span class="text-sm font-medium">李明</span>
+                        </div>
+                        <div class="flex items-center text-gray-500 text-sm">
+                            <span class="mr-3"><i class="far fa-eye mr-1"></i> 1.2k</span>
+                            <span><i class="far fa-comment mr-1"></i> 48</span>
+                        </div>
+                    </div>
+                    <a href="#" class="mt-4 inline-block px-4 py-2 rounded-xl text-xs font-normal text-indigo-600 hover:text-indigo-800">
+                        阅读全文 →
+                    </a>
+                </div>
+            </div>
+
+            <!-- Card 2 - Normal Style -->
+            <div class="article-card bg-white rounded-xl overflow-hidden shadow-md">
+                <div class="relative">
+                    <img class="h-48 w-full object-cover" 
+                         src="https://images.unsplash.com/photo-1573164713988-8665fc963095?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1469&q=80" 
+                         alt="文章封面">
+                </div>
+                <div class="p-6">
+                    <div class="flex items-center mb-2">
+                        <span class="tag bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded">人工智能</span>
+                        <span class="text-gray-500 text-sm ml-auto">2023-06-10</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 title-font">AI在软件开发中的应用与未来趋势</h3>
+                    <p class="text-gray-600 text-sm mb-4">探讨人工智能如何改变软件开发流程，以及开发者如何利用AI工具提高生产力。</p>
+                    <div class="flex items-center justify-between mt-4">
+                        <div class="flex items-center">
+                            <img class="w-8 h-8 rounded-full mr-2" src="https://randomuser.me/api/portraits/women/44.jpg" alt="作者">
+                            <span class="text-sm font-medium">张雪</span>
+                        </div>
+                        <div class="flex items-center text-gray-500 text-sm">
+                            <span class="mr-3"><i class="far fa-eye mr-1"></i> 2.5k</span>
+                            <span><i class="far fa-comment mr-1"></i> 76</span>
+                        </div>
+                    </div>
+                    <a href="#" class="mt-4 inline-block px-4 py-2 rounded-xl text-xs font-normal text-indigo-600 hover:text-indigo-800">
+                        阅读全文 →
+                    </a>
+                </div>
+            </div>
+
+            <!-- Card 3 - Normal Style -->
+            <div class="article-card bg-white rounded-xl overflow-hidden shadow-md">
+                <div class="relative">
+                    <img class="h-48 w-full object-cover" 
+                         src="https://images.unsplash.com/photo-1607799279861-4dd421887fb3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+                         alt="文章封面">
+                </div>
+                <div class="p-6">
+                    <div class="flex items-center mb-2">
+                        <span class="tag bg-purple-100 text-purple-800 text-xs font-medium px-2.5 py-0.5 rounded">后端开发</span>
+                        <span class="text-gray-500 text-sm ml-auto">2023-06-18</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 title-font">微服务架构实践：从单体应用到分布式系统</h3>
+                    <p class="text-gray-600 text-sm mb-4">详解微服务架构的设计原则、实施策略和常见陷阱，附带真实案例分析。</p>
+                    <div class="flex items-center justify-between mt-4">
+                        <div class="flex items-center">
+                            <img class="w-8 h-8 rounded-full mr-2" src="https://randomuser.me/api/portraits/men/68.jpg" alt="作者">
+                            <span class="text-sm font-medium">王刚</span>
+                        </div>
+                        <div class="flex items-center text-gray-500 text-sm">
+                            <span class="mr-3"><i class="far fa-eye mr-1"></i> 856</span>
+                            <span><i class="far fa-comment mr-1"></i> 32</span>
+                        </div>
+                    </div>
+                    <a href="#" class="mt-4 inline-block px-4 py-2 rounded-xl text-xs font-normal text-indigo-600 hover:text-indigo-800">
+                        阅读全文 →
+                    </a>
+                </div>
+            </div>
+
+            <!-- Card 4 - Normal Style -->
+            <div class="article-card bg-white rounded-xl overflow-hidden shadow-md">
+                <div class="relative">
+                    <img class="h-48 w-full object-cover" 
+                         src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+                         alt="文章封面">
+                </div>
+                <div class="p-6">
+                    <div class="flex items-center mb-2">
+                        <span class="tag bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded">移动开发</span>
+                        <span class="text-gray-500 text-sm ml-auto">2023-06-16</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 title-font">Flutter vs React Native：2023年跨平台开发对比</h3>
+                    <p class="text-gray-600 text-sm mb-4">全面对比两大主流跨平台开发框架的性能、生态和开发体验，帮助你做出明智选择。</p>
+                    <div class="flex items-center justify-between mt-4">
+                        <div class="flex items-center">
+                            <img class="w-8 h-8 rounded-full mr-2" src="https://randomuser.me/api/portraits/women/28.jpg" alt="作者">
+                            <span class="text-sm font-medium">陈静</span>
+                        </div>
+                        <div class="flex items-center text-gray-500 text-sm">
+                            <span class="mr-3"><i class="far fa-eye mr-1"></i> 723</span>
+                            <span><i class="far fa-comment mr-1"></i> 29</span>
+                        </div>
+                    </div>
+                    <a href="#" class="mt-4 inline-block px-4 py-2 rounded-xl text-xs font-normal text-indigo-600 hover:text-indigo-800">
+                        阅读全文 →
+                    </a>
+                </div>
+            </div>
+
+            <!-- 可以添加更多卡片 -->
+
+        </div>
+
+         <!-- Simple Pagination Example -->
+        <div class="mt-12 flex justify-center">
+            <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                <span class="sr-only">Previous</span>
+                <i class="fas fa-chevron-left h-5 w-5"></i>
+                </a>
+                <a href="#" aria-current="page" class="z-10 bg-indigo-50 border-indigo-500 text-indigo-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium"> 1 </a>
+                <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium"> 2 </a>
+                <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 hidden md:inline-flex relative items-center px-4 py-2 border text-sm font-medium"> 3 </a>
+                <span class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700"> ... </span>
+                <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 hidden md:inline-flex relative items-center px-4 py-2 border text-sm font-medium"> 8 </a>
+                <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium"> 9 </a>
+                <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium"> 10 </a>
+                <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                <span class="sr-only">Next</span>
+                <i class="fas fa-chevron-right h-5 w-5"></i>
+                </a>
+            </nav>
+        </div>
+
+    </div> <!-- End Main Content Area -->
+
+    <!-- 页脚 (Assume footer is loaded/present similarly to index.html) -->
+    <!-- <div id="footer-container"></div> -->
+    <footer class="bg-gray-800 text-white py-12 mt-16">
+        <!-- Simplified Footer Content -->
+         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p>&copy; 2023 TechBlog. All rights reserved.</p>
+         </div>
+    </footer>
+
+    <!-- Load necessary JS -->
+    <script src="scripts/component-loader.js"></script>
+    <script src="scripts/music-player.js"></script>
+    <!-- Removed 3d-card-component.js as it's not needed for normal cards -->
+    <!-- <script src="scripts/3d-card-component.js"></script> -->
+    <!-- Add other scripts if needed for this page -->
+
+</body>
+</html> 
