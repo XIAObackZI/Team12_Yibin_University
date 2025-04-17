@@ -116,7 +116,7 @@
                 <i class="fas fa-envelope"></i><span>联系我们</span>
             </a>
             <!-- 添加移动端演示按钮 -->
-            <a href="#" id="mobile-demo-button" class="mobile-menu-item bg-gradient-to-r from-indigo-500 to-purple-600 text-white" onclick="triggerDemoAnimation()">
+            <a href="javascript:void(0);" id="mobile-demo-button" class="mobile-menu-item bg-gradient-to-r from-indigo-500 to-purple-600 text-white" onclick="if(typeof triggerDemoAnimation === 'function') { triggerDemoAnimation(); } else { console.error('triggerDemoAnimation函数未定义'); }">
                 <i class="fas fa-rocket"></i><span>演示</span>
             </a>
         </div>
@@ -346,6 +346,86 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => {
                 window.location.reload();
             }, 1000);
+        });
+    }
+
+    // 移动菜单切换功能
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    
+    if (mobileMenuButton && mobileMenu) {
+        console.log('移动菜单按钮和菜单已初始化');
+        
+        // 点击切换菜单显示状态
+        mobileMenuButton.addEventListener('click', function() {
+            console.log('点击移动菜单按钮');
+            
+            // 切换按钮激活状态
+            mobileMenuButton.classList.toggle('active');
+            
+            // 切换菜单显示状态
+            mobileMenu.classList.toggle('hidden');
+            
+            // 设置aria-expanded状态
+            const isExpanded = !mobileMenu.classList.contains('hidden');
+            mobileMenuButton.setAttribute('aria-expanded', isExpanded);
+            
+            // 切换菜单按钮图标
+            const menuIcon = mobileMenuButton.querySelector('i');
+            if (menuIcon) {
+                if (isExpanded) {
+                    menuIcon.classList.remove('fa-bars');
+                    menuIcon.classList.add('fa-times');
+                } else {
+                    menuIcon.classList.remove('fa-times');
+                    menuIcon.classList.add('fa-bars');
+                }
+            }
+            
+            // 防止菜单打开时背景滚动
+            if (isExpanded) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
+            }
+        });
+        
+        // 点击菜单项后自动关闭菜单
+        const menuItems = mobileMenu.querySelectorAll('.mobile-menu-item');
+        menuItems.forEach(item => {
+            item.addEventListener('click', function() {
+                console.log('点击菜单项，关闭菜单');
+                mobileMenu.classList.add('hidden');
+                
+                const menuIcon = mobileMenuButton.querySelector('i');
+                if (menuIcon) {
+                    menuIcon.classList.remove('fa-times');
+                    menuIcon.classList.add('fa-bars');
+                }
+                
+                mobileMenuButton.setAttribute('aria-expanded', 'false');
+                document.body.style.overflow = '';
+            });
+        });
+        
+        // 点击菜单以外区域关闭菜单
+        document.addEventListener('click', function(event) {
+            if (!mobileMenu.classList.contains('hidden') && 
+                !mobileMenu.contains(event.target) && 
+                !mobileMenuButton.contains(event.target)) {
+                
+                console.log('点击菜单外部区域，关闭菜单');
+                mobileMenu.classList.add('hidden');
+                
+                const menuIcon = mobileMenuButton.querySelector('i');
+                if (menuIcon) {
+                    menuIcon.classList.remove('fa-times');
+                    menuIcon.classList.add('fa-bars');
+                }
+                
+                mobileMenuButton.setAttribute('aria-expanded', 'false');
+                document.body.style.overflow = '';
+            }
         });
     }
 

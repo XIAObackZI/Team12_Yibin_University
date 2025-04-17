@@ -366,9 +366,9 @@ function addButtonEventListeners() {
                     button.classList.toggle('bg-gray-100');
                     button.classList.toggle('bg-blue-100');
                 } else {
-                    alert(`您点击了"${button.textContent.trim()}"按钮（前端模拟）`);
+                    // alert(`您点击了"${button.textContent.trim()}"按钮（前端模拟）`); // 移除通用按钮点击提示
                 }
             });
         }
     });
-} 
+}

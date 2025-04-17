@@ -254,27 +254,32 @@
         </div>
     </div>
 
-    <!-- 控制区域 -->
-    <div class="presentation-controls">
-        <button class="prev-slide"><i class="fas fa-chevron-left"></i> 上一页</button>
-        <div class="slide-thumbnails">
-            <div class="thumbnail active" data-slide="1">1</div>
-            <div class="thumbnail" data-slide="2">2</div>
-            <div class="thumbnail" data-slide="3">3</div>
-            <div class="thumbnail" data-slide="4">4</div>
-            <div class="thumbnail" data-slide="5">5</div>
-            <div class="thumbnail" data-slide="6">6</div>
+    <!-- 控制区域 - 新设计 -->
+    <div class="presentation-controls enhanced-controls bg-gray-100 dark:bg-gray-800 p-4 rounded-lg shadow-md flex items-center justify-between space-x-4">
+        <button class="prev-slide control-btn text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 p-2 rounded-full bg-white dark:bg-gray-700 shadow-sm hover:shadow-md" title="上一页">
+            <i class="fas fa-chevron-left fa-fw"></i>
+        </button>
+        <div class="slide-indicators flex items-center space-x-2 flex-grow justify-center">
+            <!-- 页码指示器将由JS动态生成或更新 -->
+            <span class="indicator-dot active" data-slide="1"></span>
+            <span class="indicator-dot" data-slide="2"></span>
+            <span class="indicator-dot" data-slide="3"></span>
+            <span class="indicator-dot" data-slide="4"></span>
+            <span class="indicator-dot" data-slide="5"></span>
+            <span class="indicator-dot" data-slide="6"></span>
         </div>
-        <button class="next-slide">下一页 <i class="fas fa-chevron-right"></i></button>
+        <div class="slide-number-input flex items-center space-x-2">
+            <input type="number" id="slide-jumper" min="1" max="6" class="w-16 p-1 border rounded text-center text-sm bg-white dark:bg-gray-700 dark:text-gray-200 border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-1 focus:ring-blue-500" placeholder="页码">
+            <button id="jump-to-slide" class="text-xs bg-blue-500 hover:bg-blue-600 text-white py-1 px-2 rounded-md transition-colors duration-200">跳转</button>
+        </div>
+        <button class="next-slide control-btn text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 p-2 rounded-full bg-white dark:bg-gray-700 shadow-sm hover:shadow-md" title="下一页">
+            <i class="fas fa-chevron-right fa-fw"></i>
+        </button>
     </div>
 
-    <!-- 音乐播放器容器 -->
-    <div id="music-player-container" class="fixed bottom-10 right-10 z-50"></div>
-    
     <!-- 脚本 -->
     <script src="scripts/utils.js"></script>
     <script src="scripts/content-generator.js"></script>
-    <script src="scripts/music-player.js"></script>
     <script src="scripts/presentation.js"></script>
 </body>
 </html>

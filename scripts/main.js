@@ -17,49 +17,65 @@ document.addEventListener('DOMContentLoaded', function() {
     // 初始化平滑滚动
     initSmoothScroll();
     
+    // 初始化返回顶部按钮
+    initBackToTop();
+    
     // 移动菜单切换功能
     const mobileMenuButton = document.getElementById('mobile-menu-button');
     const mobileMenu = document.getElementById('mobile-menu');
     
     if (mobileMenuButton && mobileMenu) {
-        // 初始化隐藏菜单
-        mobileMenu.style.display = 'none';
-        mobileMenu.style.opacity = '0';
-        mobileMenu.style.transform = 'translateY(-10px)';
-        
         // 点击切换菜单显示状态
         mobileMenuButton.addEventListener('click', function() {
-            if (mobileMenu.style.display === 'none') {
-                // 显示菜单
-                mobileMenu.style.display = 'block';
-                setTimeout(() => {
-                    mobileMenu.style.opacity = '1';
-                    mobileMenu.style.transform = 'translateY(0)';
-                }, 10);
+            mobileMenuButton.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+            
+            // 设置aria-expanded状态
+            const isExpanded = mobileMenuButton.classList.contains('active');
+            mobileMenuButton.setAttribute('aria-expanded', isExpanded);
+            
+            // 防止菜单打开时背景滚动
+            if (isExpanded) {
+                document.body.style.overflow = 'hidden';
             } else {
-                // 隐藏菜单
-                mobileMenu.style.opacity = '0';
-                mobileMenu.style.transform = 'translateY(-10px)';
-                setTimeout(() => {
-                    mobileMenu.style.display = 'none';
-                }, 300);
+                document.body.style.overflow = '';
             }
+        });
+        
+        // 点击菜单项后自动关闭菜单
+        const menuItems = mobileMenu.querySelectorAll('.mobile-menu-item');
+        menuItems.forEach(item => {
+            item.addEventListener('click', function() {
+                mobileMenuButton.classList.remove('active');
+                mobileMenu.classList.remove('active');
+                mobileMenuButton.setAttribute('aria-expanded', 'false');
+                document.body.style.overflow = '';
+            });
         });
         
         // 点击菜单以外区域关闭菜单
         document.addEventListener('click', function(event) {
-            if (mobileMenu.style.display !== 'none' && 
+            if (mobileMenu.classList.contains('active') && 
                 !mobileMenu.contains(event.target) && 
                 !mobileMenuButton.contains(event.target)) {
                 
-                mobileMenu.style.opacity = '0';
-                mobileMenu.style.transform = 'translateY(-10px)';
-                setTimeout(() => {
-                    mobileMenu.style.display = 'none';
-                }, 300);
+                mobileMenuButton.classList.remove('active');
+                mobileMenu.classList.remove('active');
+                mobileMenuButton.setAttribute('aria-expanded', 'false');
+                document.body.style.overflow = '';
             }
         });
     }
+    
+    // 监听滚动事件，当页面滚动时收起移动菜单
+    window.addEventListener('scroll', function() {
+        if (mobileMenu && mobileMenuButton && mobileMenu.classList.contains('active')) {
+            mobileMenuButton.classList.remove('active');
+            mobileMenu.classList.remove('active');
+            mobileMenuButton.setAttribute('aria-expanded', 'false');
+            document.body.style.overflow = '';
+        }
+    });
 });
 
 // 导航栏滚动效果
@@ -174,4 +190,48 @@ function initSmoothScroll() {
             }
         });
     });
+}
+
+// 初始化返回顶部按钮
+function initBackToTop() {
+    // 创建返回顶部按钮
+    const backToTopBtn = document.createElement('div');
+    backToTopBtn.className = 'back-to-top';
+    backToTopBtn.innerHTML = '<i class="fas fa-arrow-up"></i>';
+    backToTopBtn.setAttribute('aria-label', '返回顶部');
+    document.body.appendChild(backToTopBtn);
+    
+    // 监听滚动事件，显示/隐藏按钮
+    window.addEventListener('scroll', function() {
+        if (window.pageYOffset > 300) { // 滚动超过300px显示按钮
+            backToTopBtn.classList.add('visible');
+        } else {
+            backToTopBtn.classList.remove('visible');
+        }
+    });
+    
+    // 点击按钮返回顶部
+    backToTopBtn.addEventListener('click', function() {
+        // 平滑滚动到顶部
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+    
+    // 针对iOS设备，增加触摸事件支持
+    backToTopBtn.addEventListener('touchend', function(e) {
+        e.preventDefault();
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+    
+    // 确保按钮不会和音乐播放器按钮重叠
+    const musicPlayerButton = document.querySelector('.music-player-button');
+    if (musicPlayerButton) {
+        // 调整返回顶部按钮的位置
+        backToTopBtn.style.bottom = '80px';
+    }
 }

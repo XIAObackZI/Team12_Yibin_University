@@ -83,15 +83,30 @@ function initializeNavbarInteractions(navbarContainer) {
 
     if (mobileMenuButton && mobileMenu) {
         mobileMenuButton.addEventListener('click', () => {
-            const isExpanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
-            mobileMenuButton.setAttribute('aria-expanded', !isExpanded);
-            mobileMenu.classList.toggle('hidden');
-
-            if (!isExpanded) {
-                mobileMenuButton.innerHTML = '<i class="fas fa-times text-xl"></i>';
+            mobileMenuButton.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+            
+            // 设置aria-expanded状态
+            const isExpanded = mobileMenuButton.classList.contains('active');
+            mobileMenuButton.setAttribute('aria-expanded', isExpanded);
+            
+            // 防止菜单打开时背景滚动
+            if (isExpanded) {
+                document.body.style.overflow = 'hidden';
             } else {
-                mobileMenuButton.innerHTML = '<i class="fas fa-bars text-xl"></i>';
+                document.body.style.overflow = '';
             }
+        });
+        
+        // 点击菜单项后自动关闭菜单
+        const menuItems = mobileMenu.querySelectorAll('.mobile-menu-item');
+        menuItems.forEach(item => {
+            item.addEventListener('click', function() {
+                mobileMenuButton.classList.remove('active');
+                mobileMenu.classList.remove('active');
+                mobileMenuButton.setAttribute('aria-expanded', 'false');
+                document.body.style.overflow = '';
+            });
         });
     }
 

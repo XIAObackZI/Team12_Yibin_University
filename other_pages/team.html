@@ -424,7 +424,6 @@
     <nav class="bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg border-b border-gray-200/30 dark:border-gray-700/30 fixed top-0 left-0 right-0 z-50 transition-colors duration-300" id="navbar">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
-
                 <!-- Left Section: Logo -->
                 <div class="flex-shrink-0">
                     <a href="../index.html" class="flex items-center text-xl font-bold text-gray-800 dark:text-white title-font">
@@ -474,24 +473,7 @@
                         <span class="sr-only">设置</span>
                         <i class="fas fa-cog"></i>
                     </button>
-                    <!-- Settings Dropdown -->
-                    <div id="settings-dropdown" class="hidden origin-top-right absolute right-28 top-16 mt-2 w-56 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5 focus:outline-none z-50" role="menu">
-                        <div class="py-1">
-                            <div class="px-4 py-2 text-sm text-gray-700 dark:text-gray-200 border-b border-gray-200 dark:border-gray-700">
-                                <span class="font-medium">显示设置</span>
-                            </div>
-                            <button id="toggle-animation-mode" class="w-full text-left block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700" role="menuitem">
-                                <i class="fas fa-fire-alt mr-2 text-indigo-500"></i>
-                                <span id="animation-mode-text">切换到标准模式</span>
-                            </button>
-                            <button id="toggle-dark-mode" class="w-full text-left block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700" role="menuitem">
-                                <i class="fas fa-adjust mr-2 text-indigo-500"></i>
-                                <span>明暗模式切换</span>
-                            </button>
-                        </div>
-                    </div>
 
-                    <!-- Notification -->
                     <!-- Profile dropdown -->
                     <div class="relative hidden md:block">
                         <button id="user-menu" class="flex text-sm bg-gray-200 dark:bg-gray-700 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 dark:focus:ring-offset-gray-800 focus:ring-indigo-500" aria-expanded="false" aria-haspopup="true">
@@ -500,55 +482,15 @@
                                 <img class="h-full w-full object-cover" src="https://randomuser.me/api/portraits/men/32.jpg" alt="用户头像">
                             </div>
                         </button>
-                        <!-- Dropdown menu -->
-                        <div id="dropdown-menu" class="hidden origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu">
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700" role="menuitem">个人资料</a>
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700" role="menuitem">设置</a>
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700" role="menuitem">退出</a>
-                        </div>
                     </div>
 
-                     <!-- Mobile menu button -->
-                     <div class="flex items-center md:hidden">
+                    <!-- Mobile menu button -->
+                    <div class="flex items-center md:hidden">
                         <button id="mobile-menu-button" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500" aria-controls="mobile-menu" aria-expanded="false">
                             <span class="sr-only">Open main menu</span>
                             <i class="fas fa-bars text-xl"></i>
                         </button>
-                     </div>
-
-                </div> <!-- End Right Section -->
-            </div> <!-- End Flex Container -->
-        </div> <!-- End Max Width Container -->
-
-        <!-- Mobile menu, show/hide based on menu state. -->
-        <div class="hidden md:hidden" id="mobile-menu">
-            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <a href="../index.html" class="mobile-menu-item">
-                    <i class="fas fa-home"></i><span>首页</span>
-                </a>
-                <a href="../articles.html" class="mobile-menu-item">
-                    <i class="fas fa-book-open"></i><span>文章</span>
-                </a>
-                <a href="../index.html#categories-section" class="mobile-menu-item">
-                    <i class="fas fa-tags"></i><span>分类</span>
-                </a>
-                <a href="#" class="mobile-menu-item active">
-                    <i class="fas fa-users"></i><span>第十二组-开发团队</span>
-                </a>
-                <a href="../index.html#contact" class="mobile-menu-item">
-                    <i class="fas fa-envelope"></i><span>联系我们</span>
-                </a>
-                <!-- 添加移动端演示按钮 -->
-                <a href="#" id="mobile-demo-button" class="mobile-menu-item bg-gradient-to-r from-indigo-500 to-purple-600 text-white" onclick="triggerDemoAnimation()">
-                    <i class="fas fa-rocket"></i><span>演示</span>
-                </a>
-            </div>
-            <!-- Mobile User Profile (Optional) -->
-            <div class="pt-4 pb-3 border-t border-gray-200 dark:border-gray-700">
-                <div class="mt-3 px-2 space-y-1">
-                    <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-800 dark:hover:text-white">个人资料</a>
-                    <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-800 dark:hover:text-white">设置</a>
-                    <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-800 dark:hover:text-white">退出</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1043,6 +985,76 @@
                     behavior: 'smooth'
                 });
             });
+            
+            // 添加triggerDemoAnimation函数，确保可以从移动端菜单调用
+            window.triggerDemoAnimation = function() {
+                console.log('触发演示动画');
+                // 触发演示模式动画
+                const overlay = document.getElementById('pageOverlay');
+                overlay.classList.add('active');
+                
+                // 创建彩色碎屑效果
+                createConfetti();
+                
+                // 飞入图标效果
+                setTimeout(() => {
+                    createFlyingIcons();
+                }, 500);
+                
+                // 团队卡片入场动画
+                setTimeout(() => {
+                    animateTeamCards();
+                }, 1000);
+                
+                // 文字动画效果
+                setTimeout(() => {
+                    animateTexts();
+                }, 1500);
+                
+                // 添加新的最终动画效果
+                setTimeout(() => {
+                    createFinalAnimation();
+                }, 2500);
+                
+                // 移除覆盖层
+                setTimeout(() => {
+                    overlay.classList.remove('active');
+                }, 3000);
+                
+                // 在所有动画完成后跳转到演示页面
+                setTimeout(() => {
+                    window.location.href = '../presentation.html';
+                }, 4000);
+            };
+            
+            // 为移动菜单项添加点击事件监听
+            document.addEventListener('click', function(e) {
+                // 获取所有移动菜单项
+                const menuItems = document.querySelectorAll('.mobile-menu-item');
+                
+                // 检查点击是否在菜单项上
+                menuItems.forEach(item => {
+                    if (item.contains(e.target) && item.id !== 'mobile-demo-button') {
+                        // 如果点击的是菜单项但不是演示按钮(演示按钮有自己的处理)
+                        console.log('点击了移动菜单项:', item.textContent.trim());
+                        
+                        // 关闭移动菜单
+                        const mobileMenu = document.getElementById('mobile-menu');
+                        const mobileMenuButton = document.getElementById('mobile-menu-button');
+                        
+                        if (mobileMenu && mobileMenuButton) {
+                            mobileMenu.classList.add('hidden');
+                            mobileMenuButton.setAttribute('aria-expanded', 'false');
+                            
+                            // 恢复按钮图标
+                            mobileMenuButton.innerHTML = '<i class="fas fa-bars text-xl"></i>';
+                            
+                            // 恢复滚动
+                            document.body.style.overflow = '';
+                        }
+                    }
+                });
+            });
         });
 
         // 演示动画函数
@@ -1242,68 +1254,152 @@
         document.addEventListener('DOMContentLoaded', function() {
             console.log('DOM已加载，初始化导航栏功能');
             
-            // 移动端菜单切换
+            // 移动端菜单切换 - 改进版
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
 
             if (mobileMenuButton && mobileMenu) {
-                mobileMenuButton.addEventListener('click', () => {
+                console.log('找到移动菜单元素，添加事件监听');
+                
+                // 确保初始状态正确
+                mobileMenuButton.setAttribute('aria-expanded', 'false');
+                mobileMenu.classList.add('hidden');
+                
+                mobileMenuButton.addEventListener('click', function(e) {
+                    console.log('点击移动菜单按钮');
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
                     const isExpanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
                     mobileMenuButton.setAttribute('aria-expanded', !isExpanded);
+                    
+                    // 切换菜单可见状态
                     mobileMenu.classList.toggle('hidden');
-
+                    
+                    // 按钮动画效果
                     if (!isExpanded) {
-                        mobileMenuButton.innerHTML = '<i class="fas fa-times text-xl"></i>';
+                        // 显示菜单时，更改图标为X
+                        // 使用延迟确保动画平滑
+                        setTimeout(() => {
+                            mobileMenuButton.innerHTML = '<i class="fas fa-times text-xl" style="transition: transform 0.3s ease-in-out; transform: rotate(0deg);"></i>';
+                            // 添加旋转动画
+                            setTimeout(() => {
+                                const icon = mobileMenuButton.querySelector('i');
+                                if (icon) {
+                                    icon.style.transform = 'rotate(90deg)';
+                                }
+                            }, 10);
+                        }, 0);
                     } else {
-                        mobileMenuButton.innerHTML = '<i class="fas fa-bars text-xl"></i>';
+                        // 隐藏菜单时，更改图标为汉堡图标
+                        // 使用延迟确保动画平滑
+                        const currentIcon = mobileMenuButton.querySelector('i');
+                        if (currentIcon) {
+                            currentIcon.style.transform = 'rotate(0deg)';
+                        }
+                        setTimeout(() => {
+                            mobileMenuButton.innerHTML = '<i class="fas fa-bars text-xl" style="transition: transform 0.3s ease-in-out;"></i>';
+                        }, 300);
+                    }
+                    
+                    // 防止滚动
+                    document.body.style.overflow = !isExpanded ? 'hidden' : '';
+                });
+                
+                // 点击其他区域关闭菜单
+                document.addEventListener('click', function(e) {
+                    if (!mobileMenu.classList.contains('hidden') && 
+                        !mobileMenuButton.contains(e.target) && 
+                        !mobileMenu.contains(e.target)) {
+                        
+                        mobileMenuButton.setAttribute('aria-expanded', 'false');
+                        mobileMenu.classList.add('hidden');
+                        
+                        // 恢复按钮图标
+                        const currentIcon = mobileMenuButton.querySelector('i');
+                        if (currentIcon) {
+                            currentIcon.style.transform = 'rotate(0deg)';
+                        }
+                        setTimeout(() => {
+                            mobileMenuButton.innerHTML = '<i class="fas fa-bars text-xl"></i>';
+                        }, 300);
+                        
+                        // 恢复滚动
+                        document.body.style.overflow = '';
                     }
                 });
             }
 
-            // 用户下拉菜单
+            // 用户下拉菜单 - 改进版
             const userMenuButton = document.getElementById('user-menu');
             const dropdownMenu = document.getElementById('dropdown-menu');
 
             if (userMenuButton && dropdownMenu) {
-                userMenuButton.addEventListener('click', (e) => {
+                console.log('找到用户菜单元素，添加事件监听');
+                
+                userMenuButton.addEventListener('click', function(e) {
+                    console.log('点击用户菜单按钮');
                     e.preventDefault();
                     e.stopPropagation();
+                    
                     const isExpanded = userMenuButton.getAttribute('aria-expanded') === 'true';
                     userMenuButton.setAttribute('aria-expanded', !isExpanded);
-                    dropdownMenu.classList.toggle('hidden');
+                    
+                    // 切换菜单可见状态
+                    if (isExpanded) {
+                        dropdownMenu.classList.add('hidden');
+                    } else {
+                        dropdownMenu.classList.remove('hidden');
+                    }
+                    
+                    // 添加动画效果
+                    if (!isExpanded) {
+                        userMenuButton.style.transform = 'scale(1.1)';
+                        setTimeout(() => {
+                            userMenuButton.style.transform = 'scale(1)';
+                        }, 300);
+                    }
                 });
 
                 // 点击外部关闭下拉菜单
-                document.addEventListener('click', (event) => {
-                    if (dropdownMenu.classList.contains('hidden')) return;
-                    if (!userMenuButton.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                document.addEventListener('click', function(e) {
+                    if (!dropdownMenu.classList.contains('hidden') && 
+                        !userMenuButton.contains(e.target) && 
+                        !dropdownMenu.contains(e.target)) {
+                        
                         userMenuButton.setAttribute('aria-expanded', 'false');
                         dropdownMenu.classList.add('hidden');
                     }
                 });
             }
             
-            // 设置按钮下拉菜单
+            // 设置按钮下拉菜单 - 改进版
             const settingsButton = document.getElementById('settings-button');
             const settingsDropdown = document.getElementById('settings-dropdown');
             
             if (settingsButton && settingsDropdown) {
                 console.log('找到设置按钮和下拉菜单');
                 
+                // 确保初始状态
+                settingsDropdown.classList.add('hidden');
+                
                 settingsButton.addEventListener('click', function(e) {
                     console.log('设置按钮被点击');
                     e.preventDefault();
                     e.stopPropagation();
-                    settingsDropdown.classList.toggle('hidden');
-                });
-                
-                // 点击页面其他地方关闭下拉菜单
-                document.addEventListener('click', function(e) {
-                    console.log('页面被点击');
-                    if (!settingsDropdown.classList.contains('hidden') && 
-                        !settingsButton.contains(e.target) && 
-                        !settingsDropdown.contains(e.target)) {
+                    
+                    // 切换下拉菜单显示状态
+                    const isVisible = !settingsDropdown.classList.contains('hidden');
+                    
+                    if (isVisible) {
                         settingsDropdown.classList.add('hidden');
+                    } else {
+                        settingsDropdown.classList.remove('hidden');
+                        // 添加动画效果
+                        settingsButton.querySelector('i').style.transform = 'rotate(45deg)';
+                        setTimeout(() => {
+                            settingsButton.querySelector('i').style.transform = 'rotate(0deg)';
+                        }, 300);
                     }
                 });
                 
@@ -1312,8 +1408,29 @@
                     console.log('下拉菜单被点击');
                     e.stopPropagation();
                 });
+                
+                // 点击页面其他地方关闭下拉菜单
+                document.addEventListener('click', function(e) {
+                    console.log('页面被点击，检查是否需要关闭菜单');
+                    if (!settingsDropdown.classList.contains('hidden') && 
+                        !settingsButton.contains(e.target) && 
+                        !settingsDropdown.contains(e.target)) {
+                        
+                        console.log('关闭设置下拉菜单');
+                        settingsDropdown.classList.add('hidden');
+                    }
+                });
             } else {
                 console.error('未找到设置按钮或下拉菜单元素');
+                console.error('设置按钮:', settingsButton ? '存在' : '不存在');
+                console.error('设置下拉菜单:', settingsDropdown ? '存在' : '不存在');
+                
+                // 输出所有按钮和菜单元素，帮助调试
+                const allButtons = document.querySelectorAll('button');
+                console.log('页面上的所有按钮:', allButtons.length);
+                allButtons.forEach((btn, i) => {
+                    console.log(`按钮 ${i}:`, btn.id || 'No ID', btn.innerText || 'No Text');
+                });
             }
             
             // 动画模式切换
@@ -1360,6 +1477,70 @@
                 console.error('未找到动画模式切换按钮或文本元素');
             }
         });
+    </script>
+
+    <!-- 添加页面过渡动画检测和结束动画脚本 -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // 检查是否来自页面过渡
+        if (localStorage.getItem('fromPageTransition') === 'true') {
+            showTransitionEndAnimation();
+        }
+    });
+
+    function showTransitionEndAnimation() {
+        // 创建过渡结束动画容器
+        const endContainer = document.createElement('div');
+        endContainer.id = 'transition-end-container';
+        endContainer.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            backdrop-filter: blur(10px);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        `;
+
+        // 创建Logo容器
+        const logoContainer = document.createElement('div');
+        logoContainer.style.cssText = `
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle, rgba(79, 70, 229, 0.8) 0%, rgba(45, 38, 183, 0.5) 70%, transparent 100%);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform: scale(20);
+            opacity: 0.2;
+            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+        `;
+
+        endContainer.appendChild(logoContainer);
+        document.body.appendChild(endContainer);
+
+        // 执行结束动画
+        requestAnimationFrame(() => {
+            logoContainer.style.transform = 'scale(0)';
+            logoContainer.style.opacity = '0';
+            endContainer.style.opacity = '0';
+            
+            // 动画结束后移除容器
+            setTimeout(() => {
+                endContainer.remove();
+                // 清除过渡状态
+                localStorage.removeItem('fromPageTransition');
+                localStorage.removeItem('scrollBarWidth');
+            }, 800);
+        });
+    }
     </script>
 </body>
 </html>
