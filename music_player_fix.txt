@@ -1,0 +1,77 @@
+# 音乐播放器修复记录
+
+## 问题描述
+音乐播放器点击"播放列表"按钮无法正常切换显示，依然显示推荐页面。
+
+## 解决方案
+1. 修改`scripts/music-player.js`文件中的`updateServiceLogo`函数：
+   - 删除对不存在的`service-logo`元素的引用
+   - 直接使用现有的视图切换逻辑
+
+2. 改进`setupEventListeners`函数中的服务标签切换事件：
+   - 添加分支处理相同服务标签点击事件
+   - 确保即使点击当前激活的标签也能触发视图切换
+
+## 修改文件
+- `scripts/music-player.js`
+
+## 修改细节
+1. `updateServiceLogo`函数修改：
+   ```javascript
+   function updateServiceLogo(service) {
+     // 删除对不存在的service-logo元素的引用
+     // 直接切换视图到对应页面
+     
+     if (service === 'apple') {
+       // 切换视图到推荐页面
+       const recommendView = document.getElementById('recommend-view');
+       const playlistView = document.getElementById('playlist-view');
+       
+       if (recommendView && playlistView) {
+         recommendView.classList.add('active');
+         playlistView.classList.remove('active');
+       }
+     } else if (service === 'spotify') {
+       // 切换视图到歌曲列表页面
+       const recommendView = document.getElementById('recommend-view');
+       const playlistView = document.getElementById('playlist-view');
+       
+       if (recommendView && playlistView) {
+         recommendView.classList.remove('active');
+         playlistView.classList.add('active');
+         
+         // 渲染播放列表
+         renderPlaylist();
+         
+         // 更新当前播放歌曲信息
+         updatePlaylistNowPlaying();
+       }
+     }
+   }
+   ```
+
+2. `setupEventListeners`函数修改：
+   ```javascript
+   tab.addEventListener('click', () => {
+     const service = tab.getAttribute('data-service');
+     if (service !== currentService) {
+       currentService = service;
+       currentTrackId = 1;
+       updateActiveTab(service);
+       updateServiceLogo(service);
+       updateTrackInfo();
+       if (service === 'spotify') {
+         renderPlaylist();
+       }
+       if (isPlaying) {
+         playCurrentTrack();
+       }
+     } else {
+       // 即使是同一个服务，也确保视图切换正确
+       updateServiceLogo(service);
+     }
+   });
+   ```
+
+## 效果
+修复后，音乐播放器现在可以正常在"推荐"和"歌曲列表"页面之间切换。 

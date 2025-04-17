@@ -43,7 +43,7 @@
                 </div>
 
                 <!-- Notification -->
-                <button id="notification-bell" class="hidden md:flex items-center justify-center p-2 rounded-full text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 dark:focus:ring-offset-gray-800 focus:ring-indigo-500 relative" onclick="toggleNotificationPanel(event)">
+                <button id="notification-bell" class="hidden md:flex items-center justify-center p-2 rounded-full text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 dark:focus:ring-offset-gray-800 focus:ring-indigo-500 relative" onclick="window.toggleNotificationPanel ? window.toggleNotificationPanel(event) : console.error('toggleNotificationPanel函数未定义')">
                     <span class="sr-only">查看通知</span>
                     <i class="far fa-bell text-lg"></i>
                     <span class="notification-badge absolute -top-1 -right-1 bg-red-500 text-white text-xs w-4 h-4 rounded-full flex items-center justify-center">3</span>
@@ -97,7 +97,7 @@
                         </div>
                     </div>
                     <div class="px-4 py-2 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700 rounded-b-lg">
-                        <button id="mark-all-read" class="text-xs text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 font-medium" onclick="markAllNotificationsAsRead(event)">标记全部已读</button>
+                        <button id="mark-all-read" class="text-xs text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 font-medium" onclick="window.markAllNotificationsAsRead ? window.markAllNotificationsAsRead(event) : console.error('markAllNotificationsAsRead函数未定义')">标记全部已读</button>
                     </div>
                 </div>
 
@@ -342,11 +342,11 @@
 </style>
 
 <script>
-// 直接定义全局函数，不再依赖DOMContentLoaded事件
+// 将通知功能函数定义为全局函数，确保在任何加载环境下都能访问
 console.log('通知功能脚本已加载');
 
-// 通知面板切换函数
-function toggleNotificationPanel(e) {
+// 通知面板切换函数 - 定义为全局函数
+window.toggleNotificationPanel = function(e) {
     console.log('点击了通知铃铛 (全局函数)');
     e.stopPropagation();
     
@@ -354,13 +354,18 @@ function toggleNotificationPanel(e) {
     const notificationPanel = document.getElementById('notification-panel');
     const notificationSound = document.getElementById('notification-sound');
     
+    if (!notificationBell) {
+        console.error('找不到通知铃铛元素!');
+        return;
+    }
+    
     if (!notificationPanel) {
         console.error('找不到通知面板元素!');
         return;
     }
     
     // 直接检查display属性，更可靠地判断可见性
-    const isVisible = window.getComputedStyle(notificationPanel).display !== 'none';
+    const isVisible = !notificationPanel.classList.contains('hidden');
     console.log('通知面板当前是否可见:', isVisible);
     
     if (isVisible) {
@@ -407,16 +412,26 @@ function toggleNotificationPanel(e) {
             console.error('播放通知音效时发生错误:', err);
         }
     }
-}
+};
 
-// 标记全部已读函数
-function markAllNotificationsAsRead(e) {
+// 标记全部已读函数 - 定义为全局函数
+window.markAllNotificationsAsRead = function(e) {
     console.log('点击了标记全部已读 (全局函数)');
     e.preventDefault();
     e.stopPropagation();
     
     const notificationBell = document.getElementById('notification-bell');
     const notificationPanel = document.getElementById('notification-panel');
+    
+    if (!notificationBell) {
+        console.error('找不到通知铃铛元素!');
+        return;
+    }
+    
+    if (!notificationPanel) {
+        console.error('找不到通知面板元素!');
+        return;
+    }
     
     // 获取所有未读通知
     const notificationItems = notificationPanel.querySelectorAll('.border-l-4');

@@ -127,17 +127,9 @@ function createMusicPlayerUI() {
 
 // 更新服务标志
 function updateServiceLogo(service) {
-  const logoContainer = document.getElementById('service-logo');
-  if (!logoContainer) return;
+  // 直接切换视图到对应页面
   
   if (service === 'apple') {
-    logoContainer.innerHTML = `
-      <div class="music-theme">
-        <span class="music-note">♪</span>
-        <span class="music-text">推荐</span>
-      </div>
-    `;
-    
     // 切换视图到推荐页面
     const recommendView = document.getElementById('recommend-view');
     const playlistView = document.getElementById('playlist-view');
@@ -147,13 +139,6 @@ function updateServiceLogo(service) {
       playlistView.classList.remove('active');
     }
   } else if (service === 'spotify') {
-    logoContainer.innerHTML = `
-      <div class="music-theme">
-        <span class="music-note">♫</span>
-        <span class="music-text">歌曲列表</span>
-      </div>
-    `;
-    
     // 切换视图到歌曲列表页面
     const recommendView = document.getElementById('recommend-view');
     const playlistView = document.getElementById('playlist-view');
@@ -289,6 +274,9 @@ function setupEventListeners() {
         if (isPlaying) {
           playCurrentTrack();
         }
+      } else {
+        // 即使是同一个服务，也确保视图切换正确
+        updateServiceLogo(service);
       }
     });
   });
