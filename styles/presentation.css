@@ -47,7 +47,7 @@
     left: 0;
     width: 100%;
     height: 4px;
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.3); /* Increased opacity */
 }
 
 .progress-bar {
@@ -55,6 +55,31 @@
     background: var(--primary-gradient);
     width: 16.66%; /* 1/6 for first slide */
     transition: width 0.3s ease;
+}
+
+.slide-counter, #slide-jumper, #jump-to-slide {
+    color: var(--highlight);
+    background-color: rgba(243, 156, 18, 0.15);
+    padding: 0.3rem 1rem;
+    border-radius: 8px;
+    border: 2px solid var(--highlight);
+    font-weight: 700;
+    text-shadow: 0 0 8px rgba(243, 156, 18, 0.3);
+}
+
+#slide-jumper {
+    width: 50px; /* Adjust width as needed */
+    text-align: center;
+    margin: 0 0.5rem;
+}
+
+#jump-to-slide {
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#jump-to-slide:hover {
+    background-color: rgba(255, 255, 255, 0.2);
 }
 
 .slide-counter {
@@ -150,6 +175,7 @@
 
 /* 原型预览区域样式 */
 .prototype-preview {
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.05); /* Add subtle shadow */
     flex: 1;
     background-color: white;
     border-left: 1px solid var(--border);
@@ -158,6 +184,8 @@
 }
 
 .preview-header {
+    background-color: #ffffff; /* Cleaner white background */
+    border-bottom: 1px solid #e5e7eb; /* Lighter border */
     padding: 1rem;
     background-color: var(--control-bg);
     border-bottom: 1px solid var(--border);
@@ -201,6 +229,11 @@
 .preview-content {
     flex: 1;
     overflow: hidden;
+}
+
+.preview-content {
+    padding: 5px; /* Add slight padding around iframe */
+    background-color: #f9fafb; /* Light background for the content area */
 }
 
 .preview-content iframe {
@@ -258,7 +291,32 @@
         font-size: 0.9rem;
     }
 
-    .slide-counter {
+    .slide-counter, #slide-jumper, #jump-to-slide {
+    color: var(--highlight);
+    background-color: rgba(243, 156, 18, 0.15);
+    padding: 0.3rem 1rem;
+    border-radius: 8px;
+    border: 2px solid var(--highlight);
+    font-weight: 700;
+    text-shadow: 0 0 8px rgba(243, 156, 18, 0.3);
+}
+
+#slide-jumper {
+    width: 50px; /* Adjust width as needed */
+    text-align: center;
+    margin: 0 0.5rem;
+}
+
+#jump-to-slide {
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#jump-to-slide:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.slide-counter {
         font-size: 0.9rem;
     }
 
@@ -299,7 +357,8 @@
 
 /* 原始控制区域样式 - 保留以防万一 */
 .presentation-controls {
-    background-color: var(--control-bg);
+    background-color: rgba(248, 249, 250, 0.9); /* 增加不透明度 */
+    backdrop-filter: blur(4px); /* 调整模糊程度 */
     padding: 1rem 2rem;
     display: flex;
     justify-content: space-between;
@@ -309,7 +368,8 @@
 
 .presentation-controls button {
     background-color: var(--primary);
-    color: white;
+    color: #ffffff;
+    text-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
     border: none;
     padding: 0.5rem 1rem;
     border-radius: 5px;
@@ -359,8 +419,13 @@
     left: 50%;
     transform: translateX(-50%);
     width: 90%;
-    max-width: 800px; /* 限制最大宽度 */
-    z-index: 100; /* 确保在最上层 */
+    max-width: 800px;
+    z-index: 100;
+    background-color: rgba(248, 249, 250, 0.9);
+    backdrop-filter: blur(4px);
+    border-radius: 8px;
+    padding: 0.5rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .control-btn {
@@ -464,9 +529,16 @@
 }
 
 .indicator.active {
-    background-color: var(--primary);
-    transform: scale(1.4); /* 激活状态更明显 */
-    box-shadow: 0 0 5px var(--primary-light); /* 添加光晕效果 */
+    background-color: var(--highlight);
+    transform: scale(1.6);
+    box-shadow: 0 0 12px rgba(243, 156, 18, 0.5);
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(243, 156, 18, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(243, 156, 18, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(243, 156, 18, 0); }
 }
 
 /* 响应式设计 */
@@ -518,7 +590,12 @@
     width: 100%;
     height: 100%;
     border: none;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, opacity 0.2s ease; /* 添加过渡动画 */
+    opacity: 0.9;
+}
+
+.preview-frame iframe:hover {
+    opacity: 1;
 }
 
 /* 设备模拟器样式 */

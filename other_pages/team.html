@@ -417,6 +417,545 @@
         .floating-card {
             animation: float 3s ease-in-out infinite;
         }
+
+        /* Mobile menu base styles */
+        #mobile-menu {
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out;
+        }
+        /* Mobile menu active state */
+        #mobile-menu.active {
+            transform: translateX(0);
+        }
+
+        /* 移动端菜单项样式 (确保存在) */
+        .mobile-menu-item {
+            @apply block rounded-md px-3 py-2 text-base font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white flex items-center;
+        }
+        .mobile-menu-item i {
+            @apply mr-3 opacity-80;
+        }
+        .mobile-menu-item.active {
+             @apply bg-indigo-50 dark:bg-gray-700 text-indigo-700 dark:text-white;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-purple-100 to-blue-100 min-h-screen dark:bg-gray-900 text-gray-800 dark:text-gray-200 selection:bg-indigo-500 selection:text-white">
+    <!-- 导航栏 - 直接内联而非使用组件加载器 -->
+    <nav class="bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg border-b border-gray-200/30 dark:border-gray-700/30 fixed top-0 left-0 right-0 z-50 transition-colors duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Left Section: Logo -->
+                <div class="flex-shrink-0">
+                    <a href="../index.html" class="flex items-center text-xl font-bold text-gray-800 dark:text-white title-font">
+                        <i class="fas fa-pen-fancy text-indigo-600 dark:text-indigo-400 text-2xl mr-2"></i>
+                        <span>TechBlog</span>
+                    </a>
+                </div>
+
+                <!-- Center Section: Desktop Navigation Links -->
+                <div class="hidden md:flex flex-grow justify-center">
+                    <div class="flex items-baseline space-x-8">
+                        <a href="../index.html" class="nav-link text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white px-3 py-2 rounded-md text-base font-medium">
+                            <i class="fas fa-home mr-1 opacity-80"></i>首页
+                        </a>
+                        <a href="../articles.html" class="nav-link text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white px-3 py-2 rounded-md text-base font-medium">
+                            <i class="fas fa-book-open mr-1 opacity-80"></i>文章
+                        </a>
+                        <a href="../index.html#categories-section" class="nav-link text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white px-3 py-2 rounded-md text-base font-medium">
+                            <i class="fas fa-tags mr-1 opacity-80"></i>分类
+                        </a>
+                        <a href="#" class="nav-link text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 px-3 py-2 rounded-md text-base font-medium">
+                            <i class="fas fa-users mr-1 opacity-80"></i>第十二组-开发团队
+                        </a>
+                        <a href="../index.html#contact" class="nav-link text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white px-3 py-2 rounded-md text-base font-medium">
+                            <i class="fas fa-envelope mr-1 opacity-80"></i>联系我们
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right Section: Search, Theme, User, Mobile Menu -->
+                <div class="flex items-center space-x-4">
+                    <!-- Search (Optional: Hidden on small screens if needed) -->
+                    <div class="relative hidden sm:block">
+                         <input type="text" placeholder="搜索..." class="w-48 lg:w-64 px-4 py-1.5 rounded-full bg-gray-100 dark:bg-gray-800 border-transparent focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-sm transition">
+                         <button class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                             <i class="fas fa-search text-xs"></i>
+                         </button>
+                    </div>
+
+                    <!-- Demo Button (New) -->
+                    <button id="demo-button" class="hidden md:flex items-center justify-center px-6 py-1.5 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-full text-sm font-medium transform hover:scale-105 transition-all demo-btn-effect" onclick="triggerDemoAnimation()">
+                        <i class="fas fa-rocket"></i><span class="ml-2">演示</span>
+                    </button>
+
+                    <!-- Settings Button (New) -->
+                    <button id="settings-button" class="hidden md:block p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 dark:focus:ring-offset-gray-800 focus:ring-indigo-500">
+                        <span class="sr-only">设置</span>
+                        <i class="fas fa-cog"></i>
+                    </button>
+
+                    <!-- Profile dropdown -->
+                    <div class="relative hidden md:block">
+                        <button id="user-menu" class="flex text-sm bg-gray-200 dark:bg-gray-700 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 dark:focus:ring-offset-gray-800 focus:ring-indigo-500" aria-expanded="false" aria-haspopup="true">
+                            <span class="sr-only">Open user menu</span>
+                            <div class="h-8 w-8 rounded-full overflow-hidden">
+                                <img class="h-full w-full object-cover" src="https://randomuser.me/api/portraits/men/32.jpg" alt="用户头像">
+                            </div>
+                        </button>
+                    </div>
+
+                    <!-- Mobile menu button -->
+                    <div class="flex items-center md:hidden">
+                        <button id="mobile-menu-button" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500" aria-controls="mobile-menu" aria-expanded="false">
+                            <span class="sr-only">Open main menu</span>
+                            <i class="fas fa-bars text-xl"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我们的搞怪团队</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        @keyframes rainbow {
+            0% { color: red; }
+            14% { color: orange; }
+            28% { color: yellow; }
+            42% { color: green; }
+            57% { color: blue; }
+            71% { color: indigo; }
+            85% { color: violet; }
+            100% { color: red; }
+        }
+        
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .spinning {
+            animation: spin 2s linear infinite;
+        }
+        
+        .shaking {
+            animation: shake 0.5s ease-in-out infinite;
+        }
+        
+        .rainbow-text {
+            animation: rainbow 5s linear infinite;
+        }
+        
+        .team-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .team-card {
+            transition: all 0.3s ease;
+            perspective: 1000px;
+        }
+        
+        .team-card-inner {
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+        }
+        
+        .team-card:hover .team-card-inner {
+            transform: rotateY(180deg);
+        }
+        
+        .team-card-front, .team-card-back {
+            backface-visibility: hidden;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .team-card-back {
+            transform: rotateY(180deg);
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f00;
+            opacity: 0;
+        }
+        
+        .typewriter {
+            overflow: hidden;
+            border-right: .15em solid orange;
+            white-space: nowrap;
+            margin: 0 auto;
+            letter-spacing: .15em;
+            animation: 
+                typing 3.5s steps(40, end),
+                blink-caret .75s step-end infinite;
+        }
+        
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: orange; }
+        }
+        
+        .bounce {
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-30px);}
+            60% {transform: translateY(-15px);}
+        }
+        
+        /* 添加Three.js背景容器样式 */
+        .three-js-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        /* 确保内容在背景之上 */
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* 演示动画效果 */
+        .demo-animation-element {
+            position: fixed;
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        .falling-confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background-color: var(--color);
+            border-radius: 50%;
+            top: -10px;
+            animation: fall linear;
+        }
+
+        .flying-icon {
+            position: fixed;
+            color: var(--color, #6366f1);
+            font-size: 2rem;
+            animation: fly-in 1.5s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
+            opacity: 0;
+            transform: scale(0.3) translateY(100px);
+        }
+
+        .team-card.animate-entrance {
+            animation: card-entrance 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            opacity: 0;
+            transform: translateY(50px) scale(0.9);
+        }
+
+        .text-reveal {
+            overflow: hidden;
+        }
+
+        .text-reveal span {
+            display: inline-block;
+            transform: translateY(100%);
+            opacity: 0;
+            animation: text-slide-up 0.5s forwards;
+        }
+
+        .page-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 9998;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+
+        .page-overlay.active {
+            opacity: 1;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+
+        @keyframes fly-in {
+            0% {
+                opacity: 0;
+                transform: scale(0.3) translateY(100px);
+            }
+            70% {
+                opacity: 1;
+                transform: scale(1.2) translateY(-20px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        @keyframes card-entrance {
+            0% {
+                opacity: 0;
+                transform: translateY(50px) scale(0.9);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes text-slide-up {
+            0% {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* 团队卡片悬停效果增强 */
+        .team-card {
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .team-card:hover {
+            transform: translateY(-15px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .team-card .team-img {
+            transition: transform 0.5s ease;
+        }
+
+        .team-card:hover .team-img {
+            transform: scale(1.1);
+        }
+
+        /* 彩色发光效果 */
+        .rainbow-glow {
+            animation: rainbow-shadow 3s infinite;
+        }
+
+        @keyframes rainbow-shadow {
+            0% { box-shadow: 0 0 15px rgba(255, 0, 0, 0.7); }
+            25% { box-shadow: 0 0 15px rgba(255, 255, 0, 0.7); }
+            50% { box-shadow: 0 0 15px rgba(0, 255, 0, 0.7); }
+            75% { box-shadow: 0 0 15px rgba(0, 0, 255, 0.7); }
+            100% { box-shadow: 0 0 15px rgba(255, 0, 0, 0.7); }
+        }
+
+        /* 添加团队页面特有的导航栏特效 */
+        .nav-link {
+            position: relative;
+            white-space: nowrap; 
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px; 
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--color-primary, #6366f1); 
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 80%; 
+        }
+        /* 当前页面的导航项激活状态 */
+        .nav-link.active::after {
+            width: 80%;
+        }
+
+        /* 演示按钮特效 */
+        .demo-btn-effect {
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 15px rgba(99, 102, 241, 0.5);
+            width: 100px; /* 设定宽度使其成为横向椭圆形 */
+            height: 36px; /* 固定高度 */
+            border-radius: 18px; /* 圆角设置为高度的一半，确保是椭圆形 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* 闪光效果 */
+        .demo-btn-effect::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right, 
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.1) 100%
+            );
+            transform: rotate(45deg);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% {
+                transform: translateX(-100%) rotate(45deg);
+            }
+            100% {
+                transform: translateX(100%) rotate(45deg);
+            }
+        }
+
+        /* 设置按钮样式 */
+        #settings-button {
+            transition: all 0.3s ease;
+        }
+
+        #settings-button:hover {
+            transform: rotate(45deg);
+        }
+
+        /* 移动端菜单样式 */
+        .mobile-menu-item {
+            @apply block rounded-md px-3 py-2 text-base font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white flex items-center;
+        }
+        .mobile-menu-item i {
+            @apply mr-3 opacity-80;
+        }
+        /* Active mobile menu item style (Example) */
+        .mobile-menu-item.active {
+             @apply bg-indigo-50 dark:bg-gray-700 text-indigo-700 dark:text-white;
+        }
+
+        /* 新增团队成员展示样式 */
+        .team-testimonials {
+            @apply relative w-full overflow-hidden;
+            perspective: 1000px;
+        }
+
+        .testimonial-card {
+            @apply bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-xl;
+            transform-style: preserve-3d;
+            transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .testimonial-card:hover {
+            transform: translateZ(20px) rotateX(10deg);
+        }
+
+        .testimonial-image-wrapper {
+            @apply relative w-24 h-24 mx-auto mb-6 overflow-hidden rounded-full;
+            transform: translateZ(30px);
+        }
+
+        .testimonial-image {
+            @apply w-full h-full object-cover;
+            transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .testimonial-card:hover .testimonial-image {
+            transform: scale(1.1);
+        }
+
+        .testimonial-content {
+            @apply text-center;
+            transform: translateZ(10px);
+        }
+
+        .testimonial-quote {
+            @apply text-gray-600 dark:text-gray-300 text-lg mb-6 italic;
+        }
+
+        .testimonial-name {
+            @apply text-xl font-bold text-gray-900 dark:text-white mb-1;
+        }
+
+        .testimonial-designation {
+            @apply text-sm text-indigo-600 dark:text-indigo-400;
+        }
+
+        .testimonial-grid {
+            @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8;
+            transform-style: preserve-3d;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateZ(20px); }
+            50% { transform: translateY(-10px) translateZ(30px); }
+        }
+
+        .floating-card {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* Mobile menu base styles */
+        #mobile-menu {
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out;
+        }
+        /* Mobile menu active state */
+        #mobile-menu.active {
+            transform: translateX(0);
+        }
+
+        /* 移动端菜单项样式 (确保存在) */
+        .mobile-menu-item {
+            @apply block rounded-md px-3 py-2 text-base font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white flex items-center;
+        }
+        .mobile-menu-item i {
+            @apply mr-3 opacity-80;
+        }
+        .mobile-menu-item.active {
+             @apply bg-indigo-50 dark:bg-gray-700 text-indigo-700 dark:text-white;
+        }
     </style>
 </head>
 <body class="bg-gradient-to-br from-purple-100 to-blue-100 min-h-screen dark:bg-gray-900 text-gray-800 dark:text-gray-200 selection:bg-indigo-500 selection:text-white">
@@ -500,7 +1039,7 @@
     <div class="three-js-background"></div>
     
     <!-- 页面覆盖层 -->
-    <div class="page-overlay" id="pageOverlay"></div>
+    <div class="page-overlay fixed top-0 left-0 w-full h-full bg-black/50 z-30 opacity-0 pointer-events-none transition-opacity duration-300" id="pageOverlay"></div>
     
     <!-- 内容包装器 -->
     <div class="content-wrapper">
@@ -1055,6 +1594,69 @@
                     }
                 });
             });
+
+            // 移动端菜单按钮
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const pageOverlay = document.getElementById('pageOverlay'); // Get the overlay element
+
+            if (mobileMenuButton && mobileMenu && pageOverlay) {
+                mobileMenuButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation(); // Prevent event bubbling
+                    const isExpanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
+                    mobileMenuButton.setAttribute('aria-expanded', !isExpanded);
+
+                    if (isExpanded) {
+                        // Close menu
+                        mobileMenu.classList.remove('active');
+                        // mobileMenu.style.transform = 'translateX(-100%)'; // Style handles this now
+                        pageOverlay.classList.remove('active'); // Hide overlay
+                        pageOverlay.style.pointerEvents = 'none'; // Make overlay non-interactive
+                        // Restore button icon and scrolling
+                        mobileMenuButton.innerHTML = '<i class="fas fa-bars text-xl" style="transition: transform 0.3s ease-in-out;"></i>';
+                        document.body.style.overflow = '';
+
+                    } else {
+                        // Open menu
+                        mobileMenu.classList.add('active');
+                        // mobileMenu.style.transform = 'translateX(0)'; // Style handles this now
+                        pageOverlay.classList.add('active'); // Show overlay
+                        pageOverlay.style.pointerEvents = 'auto'; // Make overlay interactive
+                        // Change button icon and prevent scrolling
+                        mobileMenuButton.innerHTML = '<i class="fas fa-times text-xl" style="transition: transform 0.3s ease-in-out;"></i>';
+                        // Optional: Animate the icon if needed
+                        // const currentIcon = mobileMenuButton.querySelector('i');
+                        // if (currentIcon) { currentIcon.style.transform = 'rotate(90deg)'; }
+                        document.body.style.overflow = 'hidden';
+                    }
+                });
+
+                // Click overlay to close menu
+                pageOverlay.addEventListener('click', function() {
+                    if (mobileMenu.classList.contains('active')) {
+                        mobileMenuButton.click(); // Simulate button click to close
+                    }
+                });
+
+                // Click menu item to close menu (optional)
+                const mobileMenuItems = mobileMenu.querySelectorAll('a');
+                mobileMenuItems.forEach(item => {
+                    item.addEventListener('click', function() {
+                        if (mobileMenu.classList.contains('active')) {
+                            // Add slight delay to allow navigation before closing
+                            setTimeout(() => { 
+                                mobileMenuButton.click(); // Close menu
+                            }, 100); 
+                        }
+                    });
+                });
+
+            } else {
+                if (!mobileMenuButton) console.error('错误：未找到 ID 为 "mobile-menu-button" 的元素！');
+                if (!mobileMenu) console.error('错误：未找到 ID 为 "mobile-menu" 的元素！');
+                if (!pageOverlay) console.error('错误：未找到 ID 为 "pageOverlay" 的元素！');
+            }
         });
 
         // 演示动画函数
@@ -1263,7 +1865,7 @@
                 
                 // 确保初始状态正确
                 mobileMenuButton.setAttribute('aria-expanded', 'false');
-                mobileMenu.classList.add('hidden');
+                mobileMenu.classList.remove('active');
                 
                 mobileMenuButton.addEventListener('click', function(e) {
                     console.log('点击移动菜单按钮');
@@ -1274,7 +1876,7 @@
                     mobileMenuButton.setAttribute('aria-expanded', !isExpanded);
                     
                     // 切换菜单可见状态
-                    mobileMenu.classList.toggle('hidden');
+                    mobileMenu.classList.toggle('active');
                     
                     // 按钮动画效果
                     if (!isExpanded) {
@@ -1308,12 +1910,1123 @@
                 
                 // 点击其他区域关闭菜单
                 document.addEventListener('click', function(e) {
-                    if (!mobileMenu.classList.contains('hidden') && 
+                    if (mobileMenu.classList.contains('active') && 
                         !mobileMenuButton.contains(e.target) && 
                         !mobileMenu.contains(e.target)) {
                         
                         mobileMenuButton.setAttribute('aria-expanded', 'false');
-                        mobileMenu.classList.add('hidden');
+                        mobileMenu.classList.remove('active');
+                        
+                        // 恢复按钮图标
+                        const currentIcon = mobileMenuButton.querySelector('i');
+                        if (currentIcon) {
+                            currentIcon.style.transform = 'rotate(0deg)';
+                        }
+                        setTimeout(() => {
+                            mobileMenuButton.innerHTML = '<i class="fas fa-bars text-xl"></i>';
+                        }, 300);
+                        
+                        // 恢复滚动
+                        document.body.style.overflow = '';
+                    }
+                });
+            }
+
+            // 用户下拉菜单 - 改进版
+            const userMenuButton = document.getElementById('user-menu');
+            const dropdownMenu = document.getElementById('dropdown-menu');
+
+            if (userMenuButton && dropdownMenu) {
+                console.log('找到用户菜单元素，添加事件监听');
+                
+                userMenuButton.addEventListener('click', function(e) {
+                    console.log('点击用户菜单按钮');
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    const isExpanded = userMenuButton.getAttribute('aria-expanded') === 'true';
+                    userMenuButton.setAttribute('aria-expanded', !isExpanded);
+                    
+                    // 切换菜单可见状态
+                    if (isExpanded) {
+                        dropdownMenu.classList.add('hidden');
+                    } else {
+                        dropdownMenu.classList.remove('hidden');
+                    }
+                    
+                    // 添加动画效果
+                    if (!isExpanded) {
+                        userMenuButton.style.transform = 'scale(1.1)';
+                        setTimeout(() => {
+                            userMenuButton.style.transform = 'scale(1)';
+                        }, 300);
+                    }
+                });
+
+                // 点击外部关闭下拉菜单
+                document.addEventListener('click', function(e) {
+                    if (!dropdownMenu.classList.contains('hidden') && 
+                        !userMenuButton.contains(e.target) && 
+                        !dropdownMenu.contains(e.target)) {
+                        
+                        userMenuButton.setAttribute('aria-expanded', 'false');
+                        dropdownMenu.classList.add('hidden');
+                    }
+                });
+            }
+            
+            // 设置按钮下拉菜单 - 改进版
+            const settingsButton = document.getElementById('settings-button');
+            const settingsDropdown = document.getElementById('settings-dropdown');
+            
+            if (settingsButton && settingsDropdown) {
+                console.log('找到设置按钮和下拉菜单');
+                
+                // 确保初始状态
+                settingsDropdown.classList.add('hidden');
+                
+                settingsButton.addEventListener('click', function(e) {
+                    console.log('设置按钮被点击');
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    // 切换下拉菜单显示状态
+                    const isVisible = !settingsDropdown.classList.contains('hidden');
+                    
+                    if (isVisible) {
+                        settingsDropdown.classList.add('hidden');
+                    } else {
+                        settingsDropdown.classList.remove('hidden');
+                        // 添加动画效果
+                        settingsButton.querySelector('i').style.transform = 'rotate(45deg)';
+                        setTimeout(() => {
+                            settingsButton.querySelector('i').style.transform = 'rotate(0deg)';
+                        }, 300);
+                    }
+                });
+                
+                // 阻止下拉菜单内的点击事件冒泡
+                settingsDropdown.addEventListener('click', function(e) {
+                    console.log('下拉菜单被点击');
+                    e.stopPropagation();
+                });
+                
+                // 点击页面其他地方关闭下拉菜单
+                document.addEventListener('click', function(e) {
+                    console.log('页面被点击，检查是否需要关闭菜单');
+                    if (!settingsDropdown.classList.contains('hidden') && 
+                        !settingsButton.contains(e.target) && 
+                        !settingsDropdown.contains(e.target)) {
+                        
+                        console.log('关闭设置下拉菜单');
+                        settingsDropdown.classList.add('hidden');
+                    }
+                });
+            } else {
+                console.error('未找到设置按钮或下拉菜单元素');
+                console.error('设置按钮:', settingsButton ? '存在' : '不存在');
+                console.error('设置下拉菜单:', settingsDropdown ? '存在' : '不存在');
+                
+                // 输出所有按钮和菜单元素，帮助调试
+                const allButtons = document.querySelectorAll('button');
+                console.log('页面上的所有按钮:', allButtons.length);
+                allButtons.forEach((btn, i) => {
+                    console.log(`按钮 ${i}:`, btn.id || 'No ID', btn.innerText || 'No Text');
+                });
+            }
+            
+            // 动画模式切换
+            const toggleAnimationButton = document.getElementById('toggle-animation-mode');
+            const animationModeText = document.getElementById('animation-mode-text');
+            
+            if (toggleAnimationButton && animationModeText) {
+                console.log('找到动画模式切换按钮');
+                // 检查当前状态
+                const isAnimationDisabled = localStorage.getItem('disableThreeEffects') === 'true';
+                animationModeText.textContent = isAnimationDisabled ? '切换到动画模式' : '切换到标准模式';
+                
+                toggleAnimationButton.addEventListener('click', function() {
+                    console.log('动画模式切换按钮被点击');
+                    const currentSetting = localStorage.getItem('disableThreeEffects') === 'true';
+                    localStorage.setItem('disableThreeEffects', !currentSetting);
+                    
+                    // 提示用户刷新页面
+                    const message = document.createElement('div');
+                    message.style.cssText = `
+                        position: fixed;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        background: rgba(0,0,0,0.8);
+                        color: white;
+                        padding: 20px;
+                        border-radius: 10px;
+                        text-align: center;
+                        z-index: 10000;
+                    `;
+                    message.innerHTML = `
+                        <p>显示模式已更改</p>
+                        <p>正在刷新页面应用新设置...</p>
+                    `;
+                    document.body.appendChild(message);
+                    
+                    // 短暂延迟后刷新页面
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1000);
+                });
+            } else {
+                console.error('未找到动画模式切换按钮或文本元素');
+            }
+        });
+    </script>
+
+    <!-- 添加页面过渡动画检测和结束动画脚本 -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // 检查是否来自页面过渡
+        if (localStorage.getItem('fromPageTransition') === 'true') {
+            showTransitionEndAnimation();
+        }
+    });
+
+    function showTransitionEndAnimation() {
+        // 创建过渡结束动画容器
+        const endContainer = document.createElement('div');
+        endContainer.id = 'transition-end-container';
+        endContainer.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            backdrop-filter: blur(10px);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        `;
+
+        // 创建Logo容器
+        const logoContainer = document.createElement('div');
+        logoContainer.style.cssText = `
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle, rgba(79, 70, 229, 0.8) 0%, rgba(45, 38, 183, 0.5) 70%, transparent 100%);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform: scale(20);
+            opacity: 0.2;
+            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+        `;
+
+        endContainer.appendChild(logoContainer);
+        document.body.appendChild(endContainer);
+
+        // 执行结束动画
+        requestAnimationFrame(() => {
+            logoContainer.style.transform = 'scale(0)';
+            logoContainer.style.opacity = '0';
+            endContainer.style.opacity = '0';
+            
+            // 动画结束后移除容器
+            setTimeout(() => {
+                endContainer.remove();
+                // 清除过渡状态
+                localStorage.removeItem('fromPageTransition');
+                localStorage.removeItem('scrollBarWidth');
+            }, 800);
+        });
+    }
+    </script>
+</body>
+</html>
+    <!-- 添加Three.js背景容器 -->
+    <div class="three-js-background"></div>
+    
+    <!-- 页面覆盖层 -->
+    <div class="page-overlay fixed top-0 left-0 w-full h-full bg-black/50 z-30 opacity-0 pointer-events-none transition-opacity duration-300" id="pageOverlay"></div>
+    
+    <!-- 内容包装器 -->
+    <div class="content-wrapper">
+        <!-- 添加一个顶部边距，防止导航栏遮挡内容 -->
+        <div class="pt-20"></div>
+        
+        <!-- 搞怪标题 -->
+        <header class="text-center py-12 relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-full flex justify-center items-center pointer-events-none">
+                <div class="text-9xl opacity-5 font-black">TEAM</div>
+            </div>
+            <h1 class="text-6xl font-bold mb-4 rainbow-text relative z-10">
+                <span class="typewriter">第十二组 - 我们的超级无敌搞怪团队</span>
+            </h1>
+            <p class="text-xl text-gray-600 mb-8">一群不正经的人在做正经(?)的事</p>
+            
+            <div class="flex justify-center">
+                <button id="partyBtn" class="px-6 py-3 bg-pink-500 text-white rounded-full font-bold hover:bg-pink-600 transition-all transform hover:scale-110 flex items-center">
+                    <i class="fas fa-birthday-cake mr-2"></i> 点击开派对!
+                </button>
+            </div>
+        </header>
+
+        <!-- 团队介绍 -->
+        <section class="container mx-auto px-4 py-12">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-4">「IKUN宇宙第一有限公司@yibin」</h2>
+                <p class="text-2xl text-purple-600 font-bold mb-4">专业解决甲方需求之代码炼丹师联盟</p>
+                <p class="text-xl text-indigo-500 italic mb-8">专业处理各种技术难题，偶尔处理同事的咖啡机故障</p>
+                <p class="text-xl text-indigo-500 italic mb-8">一下描述除了名字其他都是编写，请勿在意。</p>
+                <!-- 调整后的团队成员展示区域 (顶部4个，带翻转图片) -->
+                <div id="top-cards" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- 成员1：算法巫师 -> 代码狂魔描述，翻转显示图片1 -->
+                    <div class="team-card bg-white dark:bg-gray-800 rounded-xl shadow-lg h-[30rem] relative group">
+                        <div class="team-card-inner w-full h-full relative duration-500 group-hover:[transform:rotateY(180deg)] [transform-style:preserve-3d]">
+                            <!-- 正面 -->
+                            <div class="team-card-front absolute w-full h-full p-6 flex flex-col items-center [backface-visibility:hidden]">
+                                <div class="w-32 h-32 rounded-full bg-yellow-200 mb-4 flex items-center justify-center">
+                                     <i class="fas fa-hat-wizard text-5xl text-yellow-600"></i>
+                                </div>
+                                <h3 class="text-2xl font-bold mb-2 text-center">从霍格沃茨魔法学校转行来的算法巫师</h3>
+                                <p class="text-pink-500 dark:text-pink-400 font-semibold mb-4 text-center">首席键盘破坏者</p>
+                                <p class="text-gray-600 dark:text-gray-300 text-center">每天写代码超过23小时，剩下1小时用来思考人生和吃泡面。</p>
+                                <div class="mt-4 flex space-x-2">
+                                    <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm">JavaScript</span>
+                                    <span class="px-3 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm">咖啡因</span>
+                                </div>
+                                <!-- Styled Name Container -->
+                                <div class="mt-4 px-4 py-2 rounded-lg bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500">
+                                    <p class="text-xl font-bold text-white text-center">余乐</p> 
+                                </div>
+                            </div>
+                            <!-- 背面 -->
+                            <div class="team-card-back absolute w-full h-full bg-gray-200 dark:bg-gray-700 rounded-xl [transform:rotateY(180deg)] [backface-visibility:hidden] overflow-hidden">
+                                <img src="../assets/images/Teams/1.yl.jpg" alt="算法巫师" class="w-full h-full object-cover" style="display: block; opacity: 1;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 成员2：键盘侠 -> 设计仙女描述，翻转显示图片2 -->
+                     <div class="team-card bg-white dark:bg-gray-800 rounded-xl shadow-lg h-[30rem] relative group">
+                        <div class="team-card-inner w-full h-full relative duration-500 group-hover:[transform:rotateY(180deg)] [transform-style:preserve-3d]">
+                             <!-- 正面 -->
+                            <div class="team-card-front absolute w-full h-full p-6 flex flex-col items-center [backface-visibility:hidden]">
+                                <div class="w-32 h-32 rounded-full bg-green-200 mb-4 flex items-center justify-center">
+                                    <i class="fas fa-keyboard text-5xl text-green-600"></i>
+                                </div>
+                                <h3 class="text-2xl font-bold mb-2 text-center">每天和键盘谈恋爱的全栈键盘侠</h3>
+                                <p class="text-purple-500 dark:text-purple-400 font-semibold mb-4 text-center">像素完美强迫症</p>
+                                <p class="text-gray-600 dark:text-gray-300 text-center">能用CSS实现的效果绝不用图片，包括3D动画和虚拟现实。</p>
+                                <div class="mt-4 flex space-x-2">
+                                     <span class="px-3 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-sm">CSS</span>
+                                     <span class="px-3 py-1 bg-pink-100 dark:bg-pink-900 text-pink-800 dark:text-pink-200 rounded-full text-sm">审美</span>
+                                </div>
+                                <!-- Styled Name Container -->
+                                <div class="mt-4 px-4 py-2 rounded-lg bg-gradient-to-r from-green-400 via-blue-500 to-purple-600">
+                                    <p class="text-xl font-bold text-white text-center">蒋春宇</p>
+                                </div>
+                            </div>
+                            <!-- 背面 -->
+                            <div class="team-card-back absolute w-full h-full bg-gray-200 dark:bg-gray-700 rounded-xl [transform:rotateY(180deg)] [backface-visibility:hidden] overflow-hidden">
+                                <img src="../assets/images/Teams/2.cjm.JPG" alt="键盘侠" class="w-full h-full object-cover" style="display: block; opacity: 1;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 成员3：哲学诗人 -> 数据巫师描述，翻转显示图片3 -->
+                    <div class="team-card bg-white dark:bg-gray-800 rounded-xl shadow-lg h-[30rem] relative group">
+                        <div class="team-card-inner w-full h-full relative duration-500 group-hover:[transform:rotateY(180deg)] [transform-style:preserve-3d]">
+                             <!-- 正面 -->
+                             <div class="team-card-front absolute w-full h-full p-6 flex flex-col items-center [backface-visibility:hidden]">
+                                 <div class="w-32 h-32 rounded-full bg-blue-200 mb-4 flex items-center justify-center">
+                                     <i class="fas fa-feather-alt text-5xl text-blue-600"></i>
+                                 </div>
+                                <h3 class="text-2xl font-bold mb-2 text-center">隐藏在代码注释里的哲学大诗人</h3>
+                                <p class="text-indigo-500 dark:text-indigo-400 font-semibold mb-4 text-center">Excel魔法师</p>
+                                <p class="text-gray-600 dark:text-gray-300 text-center">能用Excel制作游戏，用Python预测彩票号码(但从不中)。</p>
+                                <div class="mt-4 flex space-x-2">
+                                    <span class="px-3 py-1 bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200 rounded-full text-sm">Python</span>
+                                    <span class="px-3 py-1 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 rounded-full text-sm">大数据</span>
+                                </div>
+                                <!-- Styled Name Container -->
+                                <div class="mt-4 px-4 py-2 rounded-lg bg-gradient-to-r from-blue-400 via-indigo-500 to-violet-600">
+                                    <p class="text-xl font-bold text-white text-center">陈俊明</p>
+                                </div>
+                            </div>
+                            <!-- 背面 -->
+                            <div class="team-card-back absolute w-full h-full bg-gray-200 dark:bg-gray-700 rounded-xl [transform:rotateY(180deg)] [backface-visibility:hidden] overflow-hidden">
+                                <img src="../assets/images/Teams/3.jcy.JPG" alt="哲学诗人" class="w-full h-full object-cover" style="display: block; opacity: 1;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 成员4：时间管理大师 -> 开心果描述，翻转显示图片4 -->
+                    <div class="team-card bg-white dark:bg-gray-800 rounded-xl shadow-lg h-[30rem] relative group">
+                        <div class="team-card-inner w-full h-full relative duration-500 group-hover:[transform:rotateY(180deg)] [transform-style:preserve-3d]">
+                             <!-- 正面 -->
+                            <div class="team-card-front absolute w-full h-full p-6 flex flex-col items-center [backface-visibility:hidden]">
+                                <div class="w-32 h-32 rounded-full bg-red-200 mb-4 flex items-center justify-center">
+                                     <i class="fas fa-hourglass-half text-5xl text-red-600"></i>
+                                </div>
+                                <h3 class="text-2xl font-bold mb-2 text-center">Git提交记录里的时间管理大师</h3>
+                                <p class="text-orange-500 dark:text-orange-400 font-semibold mb-4 text-center">办公室气氛组组长</p>
+                                <p class="text-gray-600 dark:text-gray-300 text-center">专业解决周一忧郁症，擅长用冷笑话降低办公室温度3℃。</p>
+                                <div class="mt-4 flex space-x-2">
+                                    <span class="px-3 py-1 bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200 rounded-full text-sm">幽默</span>
+                                    <span class="px-3 py-1 bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 rounded-full text-sm">正能量</span>
+                                </div>
+                                <!-- Styled Name Container -->
+                                <div class="mt-4 px-4 py-2 rounded-lg bg-gradient-to-r from-red-400 via-orange-500 to-amber-500">
+                                    <p class="text-xl font-bold text-white text-center">闻璋</p>
+                                </div>
+                            </div>
+                            <!-- 背面 -->
+                            <div class="team-card-back absolute w-full h-full bg-gray-200 dark:bg-gray-700 rounded-xl [transform:rotateY(180deg)] [backface-visibility:hidden] overflow-hidden">
+                                <img src="../assets/images/Teams/4.wz.jpg" alt="时间管理大师" class="w-full h-full object-cover" style="display: block; opacity: 1;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- SVG Container for Connection Lines -->
+                <div class="relative h-8 md:h-12 my-4"> <!-- Adjust height as needed -->
+                    <svg id="connection-lines" class="absolute top-0 left-0 w-full h-full overflow-visible" style="pointer-events: none;"></svg>
+                </div>
+                
+                <!-- 原有的卡片区域 (底部4个，无翻转) -->
+                <div id="bottom-cards" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-8">
+                    <!-- 成员卡片1 -->
+                    <div class="team-card bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden h-96 relative p-6 flex flex-col items-center transform hover:scale-105 transition-all duration-300">
+                        <div class="w-32 h-32 rounded-full bg-yellow-200 mb-4 flex items-center justify-center floating">
+                            <i class="fas fa-robot text-5xl text-yellow-600"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-2 text-center">代码狂魔</h3>
+                        <p class="text-pink-500 font-semibold mb-4 text-center">首席键盘破坏者</p>
+                        <p class="text-gray-600 dark:text-gray-300 text-center">每天写代码超过23小时，剩下1小时用来思考人生和吃泡面。</p>
+                        <div class="mt-4 flex space-x-2">
+                            <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm">JavaScript</span>
+                            <span class="px-3 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm">咖啡因</span>
+                        </div>
+                    </div>
+                    
+                    <!-- 成员卡片2 -->
+                    <div class="team-card bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden h-96 relative p-6 flex flex-col items-center transform hover:scale-105 transition-all duration-300">
+                        <div class="w-32 h-32 rounded-full bg-green-200 mb-4 flex items-center justify-center floating" style="animation-delay: 0.5s;">
+                            <i class="fas fa-paint-brush text-5xl text-green-600"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-2 text-center">设计仙女</h3>
+                        <p class="text-purple-500 font-semibold mb-4 text-center">像素完美强迫症</p>
+                        <p class="text-gray-600 dark:text-gray-300 text-center">能用CSS实现的效果绝不用图片，包括3D动画和虚拟现实。</p>
+                        <div class="mt-4 flex space-x-2">
+                            <span class="px-3 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-sm">CSS</span>
+                            <span class="px-3 py-1 bg-pink-100 dark:bg-pink-900 text-pink-800 dark:text-pink-200 rounded-full text-sm">审美</span>
+                        </div>
+                    </div>
+                    
+                    <!-- 成员卡片3 -->
+                    <div class="team-card bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden h-96 relative p-6 flex flex-col items-center transform hover:scale-105 transition-all duration-300">
+                        <div class="w-32 h-32 rounded-full bg-blue-200 mb-4 flex items-center justify-center floating" style="animation-delay: 1s;">
+                            <i class="fas fa-chart-line text-5xl text-blue-600"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-2 text-center">数据巫师</h3>
+                        <p class="text-indigo-500 font-semibold mb-4 text-center">Excel魔法师</p>
+                        <p class="text-gray-600 dark:text-gray-300 text-center">能用Excel制作游戏，用SQL写诗，用Python预测彩票号码(但从不中)。</p>
+                        <div class="mt-4 flex space-x-2">
+                            <span class="px-3 py-1 bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200 rounded-full text-sm">Python</span>
+                            <span class="px-3 py-1 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 rounded-full text-sm">大数据</span>
+                        </div>
+                    </div>
+                    
+                    <!-- 成员卡片4 -->
+                    <div class="team-card bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden h-96 relative p-6 flex flex-col items-center transform hover:scale-105 transition-all duration-300">
+                        <div class="w-32 h-32 rounded-full bg-red-200 mb-4 flex items-center justify-center floating" style="animation-delay: 1.5s;">
+                            <i class="fas fa-laugh-squint text-5xl text-red-600"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-2 text-center">开心果</h3>
+                        <p class="text-orange-500 font-semibold mb-4 text-center">办公室气氛组组长</p>
+                        <p class="text-gray-600 dark:text-gray-300 text-center">专业解决周一忧郁症，擅长用冷笑话降低办公室温度3℃。</p>
+                        <div class="mt-4 flex space-x-2">
+                            <span class="px-3 py-1 bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200 rounded-full text-sm">幽默</span>
+                            <span class="px-3 py-1 bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 rounded-full text-sm">正能量</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 团队成员信息列表 (Moved below the cards) -->
+                <div class="max-w-3xl mx-auto bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm p-8 rounded-2xl shadow-xl mt-16 mb-16">
+                    <h3 class="text-2xl font-bold mb-4 text-left">团队成员包括但不限于：</h3>
+                    <ul class="text-left text-gray-700 dark:text-gray-300 space-y-4 mb-8">
+                        <li class="flex items-start">
+                            <i class="fas fa-magic text-purple-500 mt-1 mr-3"></i>
+                            <span>从霍格沃茨魔法学校转行来的算法巫师（擅长用Python召唤龙，但龙经常变成Bug）</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-keyboard text-blue-500 mt-1 mr-3"></i>
+                            <span>每天和键盘谈恋爱的全栈键盘侠（口头禅："我本地是好的啊！"）</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-comment text-green-500 mt-1 mr-3"></i>
+                            <span>隐藏在注释里的哲学诗人（代表作：// 这里有个Bug，但我不说是谁写的）</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-clock text-amber-500 mt-1 mr-3"></i>
+                            <span>Git提交记录里的时间管理大师（凌晨3点提交代码，备注："睡前随便改改"）</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-coffee text-red-500 mt-1 mr-3"></i>
+                            <span>咖啡因驱动的AI训练师（坚信咖啡和GPU是等价的能量源）</span>
+                        </li>
+                    </ul>
+                    
+                    <h3 class="text-2xl font-bold mb-4 text-left">我们的核心竞争力：</h3>
+                    <ul class="text-left text-gray-700 dark:text-gray-300 space-y-4 mb-8">
+                        <li class="flex items-start">
+                            <i class="fas fa-bug text-pink-500 mt-1 mr-3"></i>
+                            <span>能在一行代码里同时创造Bug和修复Bug（薛定谔式编程）</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-chalkboard text-indigo-500 mt-1 mr-3"></i>
+                            <span>讨论技术方案时，能用白板画出让达芬奇沉默的抽象派架构图</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-tachometer-alt text-cyan-500 mt-1 mr-3"></i>
+                            <span>解决需求的速度，取决于甲方的奶茶赞助到账速度</span>
+                        </li>
+                    </ul>
+                    
+                    <h3 class="text-2xl font-bold mb-4 text-left">如需验证我们的专业性，我们提供以下服务：</h3>
+                    <ul class="text-left text-gray-700 dark:text-gray-300 space-y-4 mb-8">
+                        <li class="flex items-start">
+                            <i class="fas fa-headset text-green-500 mt-1 mr-3"></i>
+                            <span>7x24小时在线，响应速度比502胶水还黏人</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-meteor text-purple-500 mt-1 mr-3"></i>
+                            <span>写代码时附带免费玄学服务（比如：开光版代码注释，专治各种需求鬼畜）</span>
+                        </li>
+                    </ul>
+                    
+                    <div class="mt-8 text-center">
+                        <p class="text-xl font-bold text-indigo-600 dark:text-indigo-400">我们的宗旨是——</p>
+                        <p class="text-2xl font-black mt-2 rainbow-text">"让bug退散，让代码永存！" 🚀</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center">
+                <h2 class="text-4xl font-bold mb-4">团队精神</h2>
+                <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="bg-white p-6 rounded-xl shadow-lg transform hover:rotate-2 transition-all">
+                        <div class="text-4xl text-indigo-500 mb-4 spinning">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">疯狂创新</h3>
+                        <p class="text-gray-600">我们的创新有时候疯狂到自己都害怕，但这不妨碍我们继续尝试。</p>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-xl shadow-lg transform hover:-rotate-2 transition-all">
+                        <div class="text-4xl text-pink-500 mb-4 spinning" style="animation-delay: 0.3s;">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">热爱代码</h3>
+                        <p class="text-gray-600">对代码的热爱程度，堪比对披萨和甜甜圈的热爱(这已经很高了)。</p>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-xl shadow-lg transform hover:rotate-2 transition-all">
+                        <div class="text-4xl text-amber-500 mb-4 spinning" style="animation-delay: 0.6s;">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">团队合作</h3>
+                        <p class="text-gray-600">我们的团队默契是建立在互相吐槽的基础上的，但我们依然相亲相爱。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 加入我们 -->
+        <section class="container mx-auto px-4 py-16">
+            <h2 class="text-4xl font-bold text-center mb-8">想加入这群疯子吗？</h2>
+            <p class="text-xl text-center text-gray-600 mb-12 max-w-3xl mx-auto">
+                如果你能接受随时爆发的即兴舞蹈，无厘头的梗，以及严肃会议上突然出现的表情包，那么你就是我们要的人！
+            </p>
+            
+            <div class="bg-gradient-to-r from-pink-500 to-orange-500 p-1 rounded-xl max-w-3xl mx-auto shadow-xl">
+                <div class="bg-white p-8 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-6 text-center">申请表</h3>
+                    
+                    <form>
+                        <div class="mb-6">
+                            <label class="block text-gray-700 mb-2">你的名字(或网名，或超级英雄身份)</label>
+                            <input type="text" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block text-gray-700 mb-2">你的超能力是？</label>
+                            <select class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                <option>调试别人看不见的bug</option>
+                                <option>一天只睡2小时还能正常编码</option>
+                                <option>把复杂需求转化为简单解释</option>
+                                <option>用表情包精准表达任何情绪</option>
+                                <option>拥有读懂产品经理心思的能力</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block text-gray-700 mb-2">你为什么想加入我们这群疯子？</label>
+                            <textarea class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 h-32"></textarea>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block text-gray-700 mb-2">紧急联系方式(以便我们发送搞笑猫咪视频)</label>
+                            <input type="email" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        </div>
+                        
+                        <div class="text-center">
+                            <button id="submit-btn" type="button" class="px-8 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-bold rounded-full hover:from-indigo-600 hover:to-purple-700 transition-all transform hover:scale-105 shadow-lg">
+                                申请加入疯子团队!
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 页脚 -->
+        <footer class="bg-gray-900 text-white py-12">
+            <div class="container mx-auto px-4">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <div class="mb-8 md:mb-0">
+                        <h3 class="text-2xl font-bold mb-2 text-indigo-400">搞怪团队</h3>
+                        <p class="text-gray-400">认真的公司，不正经的氛围</p>
+                    </div>
+                    
+                    <div class="flex space-x-6">
+                        <a href="#" class="text-gray-400 hover:text-white text-2xl"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white text-2xl"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white text-2xl"><i class="fab fa-github"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white text-2xl"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                
+                <div class="mt-8 pt-8 border-t border-gray-800 text-center text-gray-500">
+                    <p>© 2023 搞怪团队 · 所有现实都是虚构的</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- 返回顶部按钮 -->
+    <button id="back-to-top" class="fixed bottom-6 right-6 bg-indigo-600 text-white p-4 rounded-full shadow-lg opacity-0 invisible transition-all">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+    
+    <!-- 派对模式（默认隐藏） -->
+    <div id="party-overlay" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden items-center justify-center">
+        <div class="text-center">
+            <h2 class="text-6xl font-bold text-white mb-8 animate-bounce">派对模式已启动!</h2>
+            <button id="stop-party" class="px-8 py-4 bg-white text-red-500 rounded-full font-bold text-xl hover:bg-gray-100 transition-all">
+                停止派对 (扫兴)
+            </button>
+        </div>
+    </div>
+    
+    <!-- 引入组件加载器和Three.js效果脚本 -->
+    <script src="../scripts/component-loader.js"></script>
+    <script src="../scripts/three-effects.js"></script>
+    
+    <script>
+        // 页面特定脚本
+        document.addEventListener('DOMContentLoaded', function() {
+            // 加载导航栏组件（使用团队页面专用导航栏）
+            loadComponent('navbar-container', '../components/layout/team-navbar.html');
+            
+            // 添加页脚
+            const footerContainer = document.createElement('div');
+            footerContainer.id = 'footer-container';
+            document.body.appendChild(footerContainer);
+            loadComponent('footer-container', '../components/footer/footer.html');
+            
+            // 动态生成五彩纸屑
+            function createConfetti() {
+                const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'];
+                const confettiCount = 200;
+                const container = document.body;
+                
+                for (let i = 0; i < confettiCount; i++) {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.left = Math.random() * 100 + 'vw';
+                    confetti.style.top = -Math.random() * 20 + 'vh';
+                    confetti.style.width = Math.random() * 10 + 5 + 'px';
+                    confetti.style.height = Math.random() * 10 + 5 + 'px';
+                    confetti.style.opacity = 1;
+                    confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+                    
+                    const animationDuration = Math.random() * 3 + 2;
+                    confetti.style.animation = `fall ${animationDuration}s linear forwards`;
+                    
+                    // 创建CSS动画
+                    const style = document.createElement('style');
+                    style.innerHTML = `
+                        @keyframes fall {
+                            0% { 
+                                transform: translateY(0) rotate(0deg); 
+                                opacity: 1;
+                            }
+                            70% { opacity: 1; }
+                            100% { 
+                                transform: translateY(100vh) rotate(720deg); 
+                                opacity: 0;
+                            }
+                        }
+                    `;
+                    document.head.appendChild(style);
+                    
+                    container.appendChild(confetti);
+                    
+                    // 动画结束后移除元素
+                    setTimeout(() => {
+                        confetti.remove();
+                    }, animationDuration * 1000);
+                }
+            }
+            
+            // 派对模式
+            document.getElementById('partyBtn').addEventListener('click', function() {
+                document.getElementById('party-overlay').style.display = 'flex';
+                createConfetti();
+                
+                // 播放派对音乐（如果需要）
+                // const partyMusic = new Audio('party.mp3');
+                // partyMusic.play();
+            });
+            
+            document.getElementById('stop-party').addEventListener('click', function() {
+                document.getElementById('party-overlay').style.display = 'none';
+                
+                // 停止音乐
+                // partyMusic.pause();
+            });
+            
+            // 表单提交
+            document.getElementById('submit-btn').addEventListener('click', function() {
+                alert('恭喜！你已成功加入疯子团队！请准备好你的搞笑装备和无限的创意！');
+            });
+            
+            // 返回顶部按钮
+            const backToTopBtn = document.getElementById('back-to-top');
+            
+            window.addEventListener('scroll', function() {
+                if (window.pageYOffset > 300) {
+                    backToTopBtn.classList.remove('opacity-0', 'invisible');
+                } else {
+                    backToTopBtn.classList.add('opacity-0', 'invisible');
+                }
+            });
+            
+            backToTopBtn.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+            
+            // 添加triggerDemoAnimation函数，确保可以从移动端菜单调用
+            window.triggerDemoAnimation = function() {
+                console.log('触发演示动画');
+                // 触发演示模式动画
+                const overlay = document.getElementById('pageOverlay');
+                overlay.classList.add('active');
+                
+                // 创建彩色碎屑效果
+                createConfetti();
+                
+                // 飞入图标效果
+                setTimeout(() => {
+                    createFlyingIcons();
+                }, 500);
+                
+                // 团队卡片入场动画
+                setTimeout(() => {
+                    animateTeamCards();
+                }, 1000);
+                
+                // 文字动画效果
+                setTimeout(() => {
+                    animateTexts();
+                }, 1500);
+                
+                // 添加新的最终动画效果
+                setTimeout(() => {
+                    createFinalAnimation();
+                }, 2500);
+                
+                // 移除覆盖层
+                setTimeout(() => {
+                    overlay.classList.remove('active');
+                }, 3000);
+                
+                // 在所有动画完成后跳转到演示页面
+                setTimeout(() => {
+                    window.location.href = '../presentation.html';
+                }, 4000);
+            };
+            
+            // 为移动菜单项添加点击事件监听
+            document.addEventListener('click', function(e) {
+                // 获取所有移动菜单项
+                const menuItems = document.querySelectorAll('.mobile-menu-item');
+                
+                // 检查点击是否在菜单项上
+                menuItems.forEach(item => {
+                    if (item.contains(e.target) && item.id !== 'mobile-demo-button') {
+                        // 如果点击的是菜单项但不是演示按钮(演示按钮有自己的处理)
+                        console.log('点击了移动菜单项:', item.textContent.trim());
+                        
+                        // 关闭移动菜单
+                        const mobileMenu = document.getElementById('mobile-menu');
+                        const mobileMenuButton = document.getElementById('mobile-menu-button');
+                        
+                        if (mobileMenu && mobileMenuButton) {
+                            mobileMenu.classList.add('hidden');
+                            mobileMenuButton.setAttribute('aria-expanded', 'false');
+                            
+                            // 恢复按钮图标
+                            mobileMenuButton.innerHTML = '<i class="fas fa-bars text-xl"></i>';
+                            
+                            // 恢复滚动
+                            document.body.style.overflow = '';
+                        }
+                    }
+                });
+            });
+
+            // 移动端菜单按钮
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const pageOverlay = document.getElementById('pageOverlay'); // Get the overlay element
+
+            if (mobileMenuButton && mobileMenu && pageOverlay) {
+                mobileMenuButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation(); // Prevent event bubbling
+                    const isExpanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
+                    mobileMenuButton.setAttribute('aria-expanded', !isExpanded);
+
+                    if (isExpanded) {
+                        // Close menu
+                        mobileMenu.classList.remove('active');
+                        // mobileMenu.style.transform = 'translateX(-100%)'; // Style handles this now
+                        pageOverlay.classList.remove('active'); // Hide overlay
+                        pageOverlay.style.pointerEvents = 'none'; // Make overlay non-interactive
+                        // Restore button icon and scrolling
+                        mobileMenuButton.innerHTML = '<i class="fas fa-bars text-xl" style="transition: transform 0.3s ease-in-out;"></i>';
+                        document.body.style.overflow = '';
+
+                    } else {
+                        // Open menu
+                        mobileMenu.classList.add('active');
+                        // mobileMenu.style.transform = 'translateX(0)'; // Style handles this now
+                        pageOverlay.classList.add('active'); // Show overlay
+                        pageOverlay.style.pointerEvents = 'auto'; // Make overlay interactive
+                        // Change button icon and prevent scrolling
+                        mobileMenuButton.innerHTML = '<i class="fas fa-times text-xl" style="transition: transform 0.3s ease-in-out;"></i>';
+                        // Optional: Animate the icon if needed
+                        // const currentIcon = mobileMenuButton.querySelector('i');
+                        // if (currentIcon) { currentIcon.style.transform = 'rotate(90deg)'; }
+                        document.body.style.overflow = 'hidden';
+                    }
+                });
+
+                // Click overlay to close menu
+                pageOverlay.addEventListener('click', function() {
+                    if (mobileMenu.classList.contains('active')) {
+                        mobileMenuButton.click(); // Simulate button click to close
+                    }
+                });
+
+                // Click menu item to close menu (optional)
+                const mobileMenuItems = mobileMenu.querySelectorAll('a');
+                mobileMenuItems.forEach(item => {
+                    item.addEventListener('click', function() {
+                        if (mobileMenu.classList.contains('active')) {
+                            // Add slight delay to allow navigation before closing
+                            setTimeout(() => { 
+                                mobileMenuButton.click(); // Close menu
+                            }, 100); 
+                        }
+                    });
+                });
+
+            } else {
+                if (!mobileMenuButton) console.error('错误：未找到 ID 为 "mobile-menu-button" 的元素！');
+                if (!mobileMenu) console.error('错误：未找到 ID 为 "mobile-menu" 的元素！');
+                if (!pageOverlay) console.error('错误：未找到 ID 为 "pageOverlay" 的元素！');
+            }
+        });
+
+        // 演示动画函数
+        function triggerDemoAnimation() {
+            const overlay = document.getElementById('pageOverlay');
+            overlay.classList.add('active');
+            
+            // 创建彩色碎屑效果
+            createConfetti();
+            
+            // 飞入图标效果
+            setTimeout(() => {
+                createFlyingIcons();
+            }, 500);
+            
+            // 团队卡片入场动画
+            setTimeout(() => {
+                animateTeamCards();
+            }, 1000);
+            
+            // 文字动画效果
+            setTimeout(() => {
+                animateTexts();
+            }, 1500);
+            
+            // 添加新的最终动画效果
+            setTimeout(() => {
+                createFinalAnimation();
+            }, 2500);
+            
+            // 移除覆盖层
+            setTimeout(() => {
+                overlay.classList.remove('active');
+            }, 3000);
+            
+            // 在所有动画完成后跳转到演示页面
+            setTimeout(() => {
+                window.location.href = '../presentation.html';
+            }, 4000);
+        }
+        
+        // 创建彩色碎屑
+        function createConfetti() {
+            const colors = ['#FF5252', '#FFEB3B', '#69F0AE', '#40C4FF', '#E040FB'];
+            const confettiCount = 100;
+            
+            for (let i = 0; i < confettiCount; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('falling-confetti');
+                confetti.style.setProperty('--color', colors[Math.floor(Math.random() * colors.length)]);
+                confetti.style.left = `${Math.random() * 100}vw`;
+                confetti.style.animationDuration = `${Math.random() * 3 + 2}s`;
+                document.body.appendChild(confetti);
+                
+                // 自动移除
+                setTimeout(() => {
+                    confetti.remove();
+                }, 5000);
+            }
+        }
+        
+        // 创建飞入图标
+        function createFlyingIcons() {
+            const icons = ['fas fa-code', 'fas fa-heart', 'fas fa-star', 'fas fa-rocket', 'fas fa-lightbulb'];
+            const colors = ['#FF5252', '#FFEB3B', '#69F0AE', '#40C4FF', '#E040FB'];
+            const container = document.body;
+            
+            for (let i = 0; i < 15; i++) {
+                const icon = document.createElement('i');
+                const randomIcon = icons[Math.floor(Math.random() * icons.length)];
+                const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                
+                icon.className = `${randomIcon} flying-icon`;
+                icon.style.setProperty('--color', randomColor);
+                icon.style.left = `${Math.random() * 80 + 10}vw`;
+                icon.style.top = `${Math.random() * 80 + 10}vh`;
+                icon.style.animationDelay = `${Math.random() * 0.5}s`;
+                
+                container.appendChild(icon);
+                
+                // 自动移除
+                setTimeout(() => {
+                    icon.remove();
+                }, 5000);
+            }
+        }
+        
+        // 团队卡片动画
+        function animateTeamCards() {
+            const teamCards = document.querySelectorAll('.team-card');
+            teamCards.forEach((card, index) => {
+                card.classList.add('animate-entrance');
+                card.style.animationDelay = `${index * 0.1}s`;
+                
+                // 添加临时彩虹发光效果
+                setTimeout(() => {
+                    card.classList.add('rainbow-glow');
+                    setTimeout(() => {
+                        card.classList.remove('rainbow-glow');
+                    }, 3000);
+                }, index * 100 + 500);
+            });
+        }
+        
+        // 文字动画
+        function animateTexts() {
+            const headings = document.querySelectorAll('h1, h2, h3, .title');
+            
+            headings.forEach((heading, index) => {
+                // 保存原始文本
+                const originalText = heading.innerText;
+                // 清空文本
+                heading.innerHTML = '';
+                
+                // 为每个字符创建span包装
+                const wrapper = document.createElement('div');
+                wrapper.classList.add('text-reveal');
+                
+                originalText.split('').forEach((char, charIndex) => {
+                    const span = document.createElement('span');
+                    span.textContent = char === ' ' ? '\u00A0' : char; // 保留空格
+                    span.style.animationDelay = `${index * 0.05 + charIndex * 0.03}s`;
+                    wrapper.appendChild(span);
+                });
+                
+                heading.appendChild(wrapper);
+            });
+        }
+        
+        // 创建最终动画效果
+        function createFinalAnimation() {
+            // 创建一个中央圆形展开效果
+            const finalEffect = document.createElement('div');
+            finalEffect.style.position = 'fixed';
+            finalEffect.style.left = '50%';
+            finalEffect.style.top = '50%';
+            finalEffect.style.transform = 'translate(-50%, -50%)';
+            finalEffect.style.width = '0';
+            finalEffect.style.height = '0';
+            finalEffect.style.borderRadius = '50%';
+            finalEffect.style.backgroundColor = 'rgba(99, 102, 241, 0.3)';
+            finalEffect.style.boxShadow = '0 0 50px rgba(99, 102, 241, 0.8)';
+            finalEffect.style.zIndex = '9999';
+            finalEffect.style.transition = 'all 1s cubic-bezier(0.19, 1, 0.22, 1)';
+            
+            document.body.appendChild(finalEffect);
+            
+            // 火箭图标飞向中心
+            const rocket = document.createElement('i');
+            rocket.className = 'fas fa-rocket';
+            rocket.style.position = 'fixed';
+            rocket.style.fontSize = '2rem';
+            rocket.style.color = 'white';
+            rocket.style.left = '50%';
+            rocket.style.top = '120%';
+            rocket.style.transform = 'translateX(-50%)';
+            rocket.style.transition = 'all 1s cubic-bezier(0.19, 1, 0.22, 1)';
+            rocket.style.zIndex = '10000';
+            
+            document.body.appendChild(rocket);
+            
+            // 触发动画
+            setTimeout(() => {
+                finalEffect.style.width = '300vw';
+                finalEffect.style.height = '300vh';
+                
+                rocket.style.top = '50%';
+                rocket.style.transform = 'translate(-50%, -50%) rotate(-45deg) scale(3)';
+            }, 100);
+            
+            // 添加文字
+            setTimeout(() => {
+                const text = document.createElement('div');
+                text.textContent = '启动演示模式...';
+                text.style.position = 'fixed';
+                text.style.left = '50%';
+                text.style.top = '60%';
+                text.style.transform = 'translateX(-50%)';
+                text.style.color = 'white';
+                text.style.fontSize = '2rem';
+                text.style.fontWeight = 'bold';
+                text.style.zIndex = '10000';
+                text.style.opacity = '0';
+                text.style.transition = 'opacity 0.5s ease';
+                
+                document.body.appendChild(text);
+                
+                setTimeout(() => {
+                    text.style.opacity = '1';
+                }, 100);
+            }, 500);
+        }
+    </script>
+
+    <!-- 导航栏交互脚本 -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM已加载，初始化导航栏功能');
+            
+            // 移动端菜单切换 - 改进版
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            if (mobileMenuButton && mobileMenu) {
+                console.log('找到移动菜单元素，添加事件监听');
+                
+                // 确保初始状态正确
+                mobileMenuButton.setAttribute('aria-expanded', 'false');
+                mobileMenu.classList.remove('active');
+                
+                mobileMenuButton.addEventListener('click', function(e) {
+                    console.log('点击移动菜单按钮');
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    const isExpanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
+                    mobileMenuButton.setAttribute('aria-expanded', !isExpanded);
+                    
+                    // 切换菜单可见状态
+                    mobileMenu.classList.toggle('active');
+                    
+                    // 按钮动画效果
+                    if (!isExpanded) {
+                        // 显示菜单时，更改图标为X
+                        // 使用延迟确保动画平滑
+                        setTimeout(() => {
+                            mobileMenuButton.innerHTML = '<i class="fas fa-times text-xl" style="transition: transform 0.3s ease-in-out; transform: rotate(0deg);"></i>';
+                            // 添加旋转动画
+                            setTimeout(() => {
+                                const icon = mobileMenuButton.querySelector('i');
+                                if (icon) {
+                                    icon.style.transform = 'rotate(90deg)';
+                                }
+                            }, 10);
+                        }, 0);
+                    } else {
+                        // 隐藏菜单时，更改图标为汉堡图标
+                        // 使用延迟确保动画平滑
+                        const currentIcon = mobileMenuButton.querySelector('i');
+                        if (currentIcon) {
+                            currentIcon.style.transform = 'rotate(0deg)';
+                        }
+                        setTimeout(() => {
+                            mobileMenuButton.innerHTML = '<i class="fas fa-bars text-xl" style="transition: transform 0.3s ease-in-out;"></i>';
+                        }, 300);
+                    }
+                    
+                    // 防止滚动
+                    document.body.style.overflow = !isExpanded ? 'hidden' : '';
+                });
+                
+                // 点击其他区域关闭菜单
+                document.addEventListener('click', function(e) {
+                    if (mobileMenu.classList.contains('active') && 
+                        !mobileMenuButton.contains(e.target) && 
+                        !mobileMenu.contains(e.target)) {
+                        
+                        mobileMenuButton.setAttribute('aria-expanded', 'false');
+                        mobileMenu.classList.remove('active');
                         
                         // 恢复按钮图标
                         const currentIcon = mobileMenuButton.querySelector('i');
