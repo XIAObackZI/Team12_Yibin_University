@@ -5,12 +5,15 @@
         <div class="flex transition-all duration-700 ease-out will-change-transform" id="carousel-container">
             <!-- 文章卡片 1 -->
             <div class="w-full lg:w-1/3 p-4 flex-shrink-0">
-                <div class="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all h-full flex flex-col">
+                <div class="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all h-full flex flex-col" data-article-id="1">
                     <div class="relative h-48">
                         <img src="../../assets/images/Article-images/article1.jpg" alt="文章配图" class="w-full h-full object-cover rounded-t-xl">
                         <div class="absolute top-4 left-4">
                             <span class="bg-indigo-100 text-indigo-800 text-xs font-medium px-2.5 py-0.5 rounded-full">前端开发</span>
                         </div>
+                        <button class="favorite-btn absolute top-4 right-4 bg-white/80 hover:bg-white w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 hover:shadow-md" data-article-id="1">
+                            <i class="far fa-bookmark text-gray-600"></i>
+                        </button>
                     </div>
                     <div class="p-5 flex flex-col flex-grow">
                         <h3 class="text-lg font-bold mb-2 text-gray-900 line-clamp-2">现代前端框架对比：React vs Vue vs Angular</h3>
@@ -25,10 +28,14 @@
                                     <p class="text-xs text-gray-500">2024-03-15</p>
                                 </div>
                             </div>
-                            <div class="flex items-center text-gray-500 text-sm flex-shrink-0">
-                                <span class="inline-flex items-center">
-                                    <i class="fas fa-eye mr-1"></i>
-                                    <span>1.2k</span>
+                            <div class="flex flex-col items-end justify-center text-gray-500 text-sm flex-shrink-0 space-y-2">
+                                <button class="like-btn inline-flex items-center space-x-1 transition-colors duration-300" data-article-id="1">
+                                    <i class="far fa-heart text-gray-500"></i>
+                                    <span class="like-count">0</span>
+                                </button>
+                                <span class="inline-flex items-center space-x-1">
+                                    <i class="far fa-eye"></i>
+                                    <span class="view-count">1.2k</span>
                                 </span>
                             </div>
                         </div>
@@ -38,12 +45,15 @@
 
             <!-- 文章卡片 2 -->
             <div class="w-full lg:w-1/3 p-4 flex-shrink-0">
-                <div class="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all h-full flex flex-col">
+                <div class="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all h-full flex flex-col" data-article-id="2">
                     <div class="relative h-48">
                         <img src="../../assets/images/Article-images/article2.jpg" alt="文章配图" class="w-full h-full object-cover rounded-t-xl">
                         <div class="absolute top-4 left-4">
                             <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full">后端开发</span>
                         </div>
+                        <button class="favorite-btn absolute top-4 right-4 bg-white/80 hover:bg-white w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 hover:shadow-md" data-article-id="2">
+                            <i class="far fa-bookmark text-gray-600"></i>
+                        </button>
                     </div>
                     <div class="p-5 flex flex-col flex-grow">
                         <h3 class="text-lg font-bold mb-2 text-gray-900 line-clamp-2">微服务架构实践指南</h3>
@@ -58,10 +68,14 @@
                                     <p class="text-xs text-gray-500">2024-03-14</p>
                                 </div>
                             </div>
-                            <div class="flex items-center text-gray-500 text-sm flex-shrink-0">
-                                <span class="inline-flex items-center">
-                                    <i class="fas fa-eye mr-1"></i>
-                                    <span>980</span>
+                            <div class="flex flex-col items-end justify-center text-gray-500 text-sm flex-shrink-0 space-y-2">
+                                <button class="like-btn inline-flex items-center space-x-1 transition-colors duration-300" data-article-id="2">
+                                    <i class="far fa-heart text-gray-500"></i>
+                                    <span class="like-count">0</span>
+                                </button>
+                                <span class="inline-flex items-center space-x-1">
+                                    <i class="far fa-eye"></i>
+                                    <span class="view-count">980</span>
                                 </span>
                             </div>
                         </div>
@@ -71,12 +85,15 @@
 
             <!-- 文章卡片 3 -->
             <div class="w-full lg:w-1/3 p-4 flex-shrink-0">
-                <div class="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all h-full flex flex-col">
+                <div class="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all h-full flex flex-col" data-article-id="3">
                     <div class="relative h-48">
                         <img src="../../assets/images/Article-images/article3.jpg" alt="文章配图" class="w-full h-full object-cover rounded-t-xl">
                         <div class="absolute top-4 left-4">
                             <span class="bg-purple-100 text-purple-800 text-xs font-medium px-2.5 py-0.5 rounded-full">人工智能</span>
                         </div>
+                        <button class="favorite-btn absolute top-4 right-4 bg-white/80 hover:bg-white w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 hover:shadow-md" data-article-id="3">
+                            <i class="far fa-bookmark text-gray-600"></i>
+                        </button>
                     </div>
                     <div class="p-5 flex flex-col flex-grow">
                         <h3 class="text-lg font-bold mb-2 text-gray-900 line-clamp-2">深度学习在图像识别中的应用</h3>
@@ -91,10 +108,14 @@
                                     <p class="text-xs text-gray-500">2024-03-13</p>
                                 </div>
                             </div>
-                            <div class="flex items-center text-gray-500 text-sm flex-shrink-0">
-                                <span class="inline-flex items-center">
-                                    <i class="fas fa-eye mr-1"></i>
-                                    <span>856</span>
+                            <div class="flex flex-col items-end justify-center text-gray-500 text-sm flex-shrink-0 space-y-2">
+                                <button class="like-btn inline-flex items-center space-x-1 transition-colors duration-300" data-article-id="3">
+                                    <i class="far fa-heart text-gray-500"></i>
+                                    <span class="like-count">0</span>
+                                </button>
+                                <span class="inline-flex items-center space-x-1">
+                                    <i class="far fa-eye"></i>
+                                    <span class="view-count">856</span>
                                 </span>
                             </div>
                         </div>
@@ -104,12 +125,15 @@
 
             <!-- 文章卡片 4 -->
             <div class="w-full lg:w-1/3 p-4 flex-shrink-0">
-                <div class="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all h-full flex flex-col">
+                <div class="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all h-full flex flex-col" data-article-id="4">
                     <div class="relative h-48">
                         <img src="../../assets/images/Article-images/article1.jpg" alt="文章配图" class="w-full h-full object-cover rounded-t-xl">
                         <div class="absolute top-4 left-4">
                             <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full">Web3</span>
                         </div>
+                        <button class="favorite-btn absolute top-4 right-4 bg-white/80 hover:bg-white w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 hover:shadow-md" data-article-id="4">
+                            <i class="far fa-bookmark text-gray-600"></i>
+                        </button>
                     </div>
                     <div class="p-5 flex flex-col flex-grow">
                         <h3 class="text-lg font-bold mb-2 text-gray-900 line-clamp-2">Web3 DApp开发实战指南</h3>
@@ -124,10 +148,14 @@
                                     <p class="text-xs text-gray-500">2024-03-12</p>
                                 </div>
                             </div>
-                            <div class="flex items-center text-gray-500 text-sm flex-shrink-0">
-                                <span class="inline-flex items-center">
-                                    <i class="fas fa-eye mr-1"></i>
-                                    <span>723</span>
+                            <div class="flex flex-col items-end justify-center text-gray-500 text-sm flex-shrink-0 space-y-2">
+                                <button class="like-btn inline-flex items-center space-x-1 transition-colors duration-300" data-article-id="4">
+                                    <i class="far fa-heart text-gray-500"></i>
+                                    <span class="like-count">0</span>
+                                </button>
+                                <span class="inline-flex items-center space-x-1">
+                                    <i class="far fa-eye"></i>
+                                    <span class="view-count">723</span>
                                 </span>
                             </div>
                         </div>
@@ -137,12 +165,15 @@
 
             <!-- 文章卡片 5 -->
             <div class="w-full lg:w-1/3 p-4 flex-shrink-0">
-                <div class="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all h-full flex flex-col">
+                <div class="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all h-full flex flex-col" data-article-id="5">
                     <div class="relative h-48">
                         <img src="../../assets/images/Article-images/article2.jpg" alt="文章配图" class="w-full h-full object-cover rounded-t-xl">
                         <div class="absolute top-4 left-4">
                             <span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded-full">DevOps</span>
                         </div>
+                        <button class="favorite-btn absolute top-4 right-4 bg-white/80 hover:bg-white w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 hover:shadow-md" data-article-id="5">
+                            <i class="far fa-bookmark text-gray-600"></i>
+                        </button>
                     </div>
                     <div class="p-5 flex flex-col flex-grow">
                         <h3 class="text-lg font-bold mb-2 text-gray-900 line-clamp-2">云原生架构最佳实践</h3>
@@ -157,10 +188,14 @@
                                     <p class="text-xs text-gray-500">2024-03-11</p>
                                 </div>
                             </div>
-                            <div class="flex items-center text-gray-500 text-sm flex-shrink-0">
-                                <span class="inline-flex items-center">
-                                    <i class="fas fa-eye mr-1"></i>
-                                    <span>689</span>
+                            <div class="flex flex-col items-end justify-center text-gray-500 text-sm flex-shrink-0 space-y-2">
+                                <button class="like-btn inline-flex items-center space-x-1 transition-colors duration-300" data-article-id="5">
+                                    <i class="far fa-heart text-gray-500"></i>
+                                    <span class="like-count">0</span>
+                                </button>
+                                <span class="inline-flex items-center space-x-1">
+                                    <i class="far fa-eye"></i>
+                                    <span class="view-count">689</span>
                                 </span>
                             </div>
                         </div>
@@ -170,12 +205,15 @@
 
             <!-- 文章卡片 6 -->
             <div class="w-full lg:w-1/3 p-4 flex-shrink-0">
-                <div class="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all h-full flex flex-col">
+                <div class="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all h-full flex flex-col" data-article-id="6">
                     <div class="relative h-48">
                         <img src="../../assets/images/Article-images/article3.jpg" alt="文章配图" class="w-full h-full object-cover rounded-t-xl">
                         <div class="absolute top-4 left-4">
                             <span class="bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded-full">安全</span>
                         </div>
+                        <button class="favorite-btn absolute top-4 right-4 bg-white/80 hover:bg-white w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 hover:shadow-md" data-article-id="6">
+                            <i class="far fa-bookmark text-gray-600"></i>
+                        </button>
                     </div>
                     <div class="p-5 flex flex-col flex-grow">
                         <h3 class="text-lg font-bold mb-2 text-gray-900 line-clamp-2">Web应用安全防护指南</h3>
@@ -190,10 +228,14 @@
                                     <p class="text-xs text-gray-500">2024-03-10</p>
                                 </div>
                             </div>
-                            <div class="flex items-center text-gray-500 text-sm flex-shrink-0">
-                                <span class="inline-flex items-center">
-                                    <i class="fas fa-eye mr-1"></i>
-                                    <span>645</span>
+                            <div class="flex flex-col items-end justify-center text-gray-500 text-sm flex-shrink-0 space-y-2">
+                                <button class="like-btn inline-flex items-center space-x-1 transition-colors duration-300" data-article-id="6">
+                                    <i class="far fa-heart text-gray-500"></i>
+                                    <span class="like-count">0</span>
+                                </button>
+                                <span class="inline-flex items-center space-x-1">
+                                    <i class="far fa-eye"></i>
+                                    <span class="view-count">645</span>
                                 </span>
                             </div>
                         </div>
@@ -221,17 +263,272 @@
 
 <!-- 优化轮播脚本 -->
 <script>
+// 导入存储工具
+let storageUtils;
+(async function() {
+    try {
+        const module = await import('../../scripts/utils.js');
+        storageUtils = module.storageUtils;
+        
+        // 初始化文章交互状态
+        initializeArticleInteractions();
+    } catch (error) {
+        console.error('无法加载存储工具:', error);
+    }
+})();
+
+// 初始化文章交互功能
+function initializeArticleInteractions() {
+    if (!storageUtils) return;
+    
+    // 初始化点赞按钮
+    const likeButtons = document.querySelectorAll('.like-btn');
+    likeButtons.forEach(btn => {
+        const articleId = btn.getAttribute('data-article-id');
+        const status = storageUtils.getArticleInteractionStatus(articleId);
+        
+        // 更新点赞显示
+        updateLikeDisplay(btn, status.isLiked, status.likeCount);
+        
+        // 添加点击事件
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const articleId = this.getAttribute('data-article-id');
+            const result = storageUtils.toggleLike(articleId);
+            updateLikeDisplay(this, result.isLiked, result.count);
+        });
+    });
+    
+    // 初始化收藏按钮
+    const favoriteButtons = document.querySelectorAll('.favorite-btn');
+    favoriteButtons.forEach(btn => {
+        const articleId = btn.getAttribute('data-article-id');
+        const status = storageUtils.getArticleInteractionStatus(articleId);
+        
+        // 更新收藏显示
+        updateFavoriteDisplay(btn, status.isFavorited);
+        
+        // 添加点击事件
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const articleId = this.getAttribute('data-article-id');
+            const result = storageUtils.toggleFavorite(articleId);
+            updateFavoriteDisplayWithToast(this, result.isFavorited);
+        });
+    });
+    
+    // 更新浏览量显示
+    const viewCountElements = document.querySelectorAll('.view-count');
+    viewCountElements.forEach(element => {
+        const card = element.closest('[data-article-id]');
+        if (card) {
+            const articleId = card.getAttribute('data-article-id');
+            const status = storageUtils.getArticleInteractionStatus(articleId);
+            // 只显示存储的浏览量（如果有）
+            if (status.viewCount > 0) {
+                element.textContent = status.viewCount;
+            }
+        }
+    });
+    
+    // 为卡片添加点击事件，跳转到详情页时增加浏览量
+    console.log("开始为文章卡片添加点击事件");
+
+    // 首先给每个卡片添加一个明确的点击区域
+    document.querySelectorAll('div[data-article-id]').forEach((card, index) => {
+        const articleId = card.getAttribute('data-article-id');
+        console.log(`处理卡片 ${index+1}，ID: ${articleId}`);
+        
+        // 找到标题和图片区域
+        const imageContainer = card.querySelector('.relative.h-48');
+        const titleContainer = card.querySelector('.p-5');
+        
+        if (imageContainer && titleContainer) {
+            // 添加明确的样式指示这些区域是可点击的
+            imageContainer.classList.add('article-clickable-area');
+            imageContainer.style.cursor = 'pointer';
+            
+            titleContainer.classList.add('article-clickable-area');
+            titleContainer.style.cursor = 'pointer';
+            
+            // 添加一个明确的数据属性，用于事件委托
+            imageContainer.setAttribute('data-click-target', 'article');
+            titleContainer.setAttribute('data-click-target', 'article');
+        } else {
+            console.log(`卡片 ${index+1} 缺少必要的容器元素`);
+        }
+    });
+
+    // 使用事件委托方式，将点击事件绑定到轮播容器上
+    const carouselContainer = document.querySelector('.overflow-hidden');
+    if (carouselContainer) {
+        console.log("找到轮播容器，添加事件委托");
+        
+        carouselContainer.addEventListener('click', function(e) {
+            // 查找最近的可点击区域或卡片
+            const clickableArea = e.target.closest('.article-clickable-area');
+            const cardElement = e.target.closest('div[data-article-id]');
+            
+            // 如果没有找到可点击区域或卡片，或者点击了排除的元素，不做任何处理
+            if (!clickableArea || !cardElement || e.target.closest('.like-btn, .favorite-btn')) {
+                return;
+            }
+            
+            const articleId = cardElement.getAttribute('data-article-id');
+            const titleElement = cardElement.querySelector('h3');
+            
+            if (!titleElement) {
+                console.log(`找不到卡片 ${articleId} 的标题元素`);
+                return;
+            }
+            
+            const title = titleElement.textContent;
+            console.log(`处理卡片点击：${title} (ID: ${articleId})`);
+            
+            // 增加浏览量
+            const result = storageUtils.incrementView(articleId);
+            
+            // 更新显示
+            const viewCountElement = cardElement.querySelector('.view-count');
+            if (viewCountElement) {
+                viewCountElement.textContent = result.count;
+            }
+            
+            // 随机跳转到两个详情页之一
+            const detailPages = ['assets/Article_detail_page/article-detail-1.html', 'assets/Article_detail_page/article-detail-2.html'];
+            const randomPage = detailPages[Math.floor(Math.random() * detailPages.length)];
+            
+            console.log(`准备跳转到: ${randomPage}?id=${articleId}&title=${encodeURIComponent(title)}`);
+            
+            // 立即跳转
+            window.location.href = `${randomPage}?id=${articleId}&title=${encodeURIComponent(title)}`;
+        });
+    } else {
+        console.log("找不到轮播容器，无法添加事件委托");
+    }
+}
+
+// 更新点赞显示
+function updateLikeDisplay(button, isLiked, count) {
+    const iconElement = button.querySelector('i');
+    const countElement = button.querySelector('.like-count');
+    
+    if (isLiked) {
+        iconElement.classList.remove('far');
+        iconElement.classList.add('fas', 'text-red-500');
+        button.classList.add('text-red-500');
+    } else {
+        iconElement.classList.remove('fas', 'text-red-500');
+        iconElement.classList.add('far');
+        button.classList.remove('text-red-500');
+    }
+    
+    countElement.textContent = count;
+}
+
+// 更新收藏显示
+function updateFavoriteDisplay(button, isFavorited) {
+    const iconElement = button.querySelector('i');
+    
+    if (isFavorited) {
+        iconElement.classList.remove('far');
+        iconElement.classList.add('fas', 'text-yellow-500');
+    } else {
+        iconElement.classList.remove('fas', 'text-yellow-500');
+        iconElement.classList.add('far');
+    }
+}
+
+// 更新收藏显示（带提示）
+function updateFavoriteDisplayWithToast(button, isFavorited) {
+    updateFavoriteDisplay(button, isFavorited);
+    
+    if (isFavorited) {
+        showToast('已收藏文章', 'success');
+    } else {
+        showToast('已取消收藏', 'info');
+    }
+}
+
+// 显示提示消息
+function showToast(message, type = 'info') {
+    // 如果已经存在toast，先移除
+    const existingToast = document.querySelector('.toast-message');
+    if (existingToast) {
+        existingToast.remove();
+    }
+    
+    // 创建toast元素
+    const toast = document.createElement('div');
+    toast.className = 'toast-message fixed right-5 top-20 px-4 py-2 rounded-lg shadow-lg z-50 transform transition-all duration-500 translate-x-full';
+    
+    // 设置toast类型样式
+    if (type === 'success') {
+        toast.classList.add('bg-green-500', 'text-white');
+    } else if (type === 'error') {
+        toast.classList.add('bg-red-500', 'text-white');
+    } else if (type === 'warning') {
+        toast.classList.add('bg-yellow-500', 'text-white');
+    } else {
+        toast.classList.add('bg-blue-500', 'text-white');
+    }
+    
+    // 设置内容
+    toast.innerHTML = `
+        <div class="flex items-center">
+            <i class="${type === 'success' ? 'fas fa-check-circle' : type === 'error' ? 'fas fa-exclamation-circle' : type === 'warning' ? 'fas fa-exclamation-triangle' : 'fas fa-info-circle'} mr-2"></i>
+            <span>${message}</span>
+        </div>
+    `;
+    
+    // 添加到页面
+    document.body.appendChild(toast);
+    
+    // 显示动画
+    setTimeout(() => {
+        toast.classList.remove('translate-x-full');
+        toast.classList.add('translate-x-0');
+    }, 10);
+    
+    // 自动隐藏
+    setTimeout(() => {
+        toast.classList.remove('translate-x-0');
+        toast.classList.add('translate-x-full');
+        setTimeout(() => {
+            toast.remove();
+        }, 500);
+    }, 3000);
+}
+
+// 轮播相关代码
 let currentPosition = 0;
 const container = document.getElementById('carousel-container');
-const cards = container.children;
-const cardWidth = cards[0].offsetWidth;
-const maxPosition = -(cardWidth * (cards.length - 3));
+const cards = Array.from(container.children);
+const visibleCards = 3; // 设置可见卡片数为3
 let autoplayInterval;
 let isAnimating = false;
+
+// 计算卡片宽度的函数，用于动态获取实际卡片宽度
+function getCardWidth() {
+    // 获取容器宽度
+    const containerWidth = container.parentElement.clientWidth;
+    // 在大屏幕上每个卡片宽度是容器的1/3，考虑到padding
+    const calculatedWidth = containerWidth / visibleCards;
+    return calculatedWidth;
+}
+
+// 计算最大位移
+function getMaxPosition() {
+    const cardWidth = getCardWidth();
+    return -(cardWidth * (cards.length - visibleCards));
+}
 
 function moveCarousel(direction) {
     if (isAnimating) return;
     isAnimating = true;
+    
+    const cardWidth = getCardWidth();
+    const maxPosition = getMaxPosition();
 
     if (direction === 'next') {
         if (currentPosition > maxPosition) {
@@ -239,10 +536,9 @@ function moveCarousel(direction) {
         } else {
             // 平滑回到开始
             container.style.transition = 'none';
-            currentPosition = cardWidth;
+            currentPosition = 0;
             setTimeout(() => {
                 container.style.transition = 'transform 700ms ease-out';
-                currentPosition = 0;
             }, 50);
         }
     } else if (direction === 'prev') {
@@ -251,10 +547,9 @@ function moveCarousel(direction) {
         } else {
             // 平滑跳到最后
             container.style.transition = 'none';
-            currentPosition = maxPosition - cardWidth;
+            currentPosition = maxPosition;
             setTimeout(() => {
                 container.style.transition = 'transform 700ms ease-out';
-                currentPosition = maxPosition;
             }, 50);
         }
     }
@@ -272,6 +567,7 @@ function goToSlide(index) {
     if (isAnimating) return;
     isAnimating = true;
 
+    const cardWidth = getCardWidth();
     currentPosition = -(cardWidth * index);
     container.style.transform = `translateX(${currentPosition}px)`;
     updateIndicators();
@@ -283,10 +579,12 @@ function goToSlide(index) {
 
 function updateIndicators() {
     const indicators = document.querySelectorAll('.bottom-4 button');
-    const currentIndex = Math.abs(currentPosition / cardWidth);
+    const cardWidth = getCardWidth();
+    // 将当前位置转换为最接近的索引值
+    const currentSlide = Math.round(Math.abs(currentPosition) / cardWidth);
     
     indicators.forEach((indicator, index) => {
-        if (index === currentIndex) {
+        if (index === currentSlide) {
             indicator.classList.add('bg-indigo-500', 'scale-125');
             indicator.classList.remove('bg-gray-300', 'scale-100');
         } else {
@@ -313,19 +611,39 @@ function stopAutoplay() {
 container.addEventListener('mouseenter', stopAutoplay);
 container.addEventListener('mouseleave', startAutoplay);
 
+// 使所有卡片在大屏幕上保持相同宽度
+function updateCardWidths() {
+    const cardWidth = getCardWidth();
+    cards.forEach(card => {
+        card.style.width = `${cardWidth}px`;
+    });
+}
+
+// 初始化轮播
+function initCarousel() {
+    // 确保所有卡片宽度一致
+    updateCardWidths();
+    // 启动自动轮播
+    startAutoplay();
+    // 更新指示器
+    updateIndicators();
+}
+
 // 初始化
-startAutoplay();
-updateIndicators();
+initCarousel();
 
 // 优化窗口大小变化处理
 let resizeTimeout;
 window.addEventListener('resize', () => {
     clearTimeout(resizeTimeout);
     resizeTimeout = setTimeout(() => {
-        const newCardWidth = cards[0].offsetWidth;
-        if (newCardWidth !== cardWidth) {
-            location.reload();
-        }
+        // 重置轮播位置
+        currentPosition = 0;
+        container.style.transform = `translateX(0)`;
+        // 更新卡片宽度
+        updateCardWidths();
+        // 更新指示器
+        updateIndicators();
     }, 250);
 });
 </script>

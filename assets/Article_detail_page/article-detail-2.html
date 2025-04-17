@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文章详情 - 2024年最值得关注的前端技术趋势</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <link rel="stylesheet" href="../../styles/components.css">
+    <link rel="stylesheet" href="../../styles/animations.css">
+    <link rel="stylesheet" href="../../styles/themes.css">
+    <style>
+        .article-content p {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+        
+        .article-content h2 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 2rem 0 1rem;
+            color: #2d3748;
+            border-left: 4px solid #3b82f6;
+            padding-left: 1rem;
+        }
+        
+        .article-content img {
+            border-radius: 0.5rem;
+            margin: 1.5rem auto;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            max-width: 100%;
+            height: auto;
+        }
+        
+        .like-btn:hover .like-icon {
+            transform: scale(1.2);
+        }
+        
+        .like-btn.liked .like-icon {
+            color: #ef4444;
+        }
+        
+        .bookmark-btn:hover .bookmark-icon {
+            transform: scale(1.2);
+        }
+        
+        .bookmark-btn.bookmarked .bookmark-icon {
+            color: #f59e0b;
+        }
+        
+        .comment-item:hover {
+            background-color: #f8fafc;
+        }
+        
+        .tag:hover {
+            transform: translateY(-2px);
+        }
+        
+        .author-avatar:hover {
+            transform: scale(1.05);
+        }
+        
+        .progress-bar {
+            height: 4px;
+            background: #e2e8f0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+        }
+        
+        .progress {
+            height: 100%;
+            background: #3b82f6;
+            width: 0%;
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+        
+        .animate-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        pre {
+            background-color: #f1f5f9;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            font-family: monospace;
+        }
+
+        code {
+            color: #0f172a;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body class="bg-gray-50" style="font-family: 'Open Sans', sans-serif; background-color: #f5f7fa; color: var(--dark); padding-top: 5rem;">
+    <!-- 阅读进度条 -->
+    <div class="progress-bar w-full">
+        <div class="progress" id="progressBar"></div>
+    </div>
+
+    <!-- 导航栏容器 -->
+    <div id="navbar-container"></div>
+
+    <!-- 主要内容区 -->
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- 文章标题和元信息 -->
+        <div class="mb-8">
+            <div class="flex items-center space-x-2 mb-4">
+                <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">前端开发</span>
+                <span class="text-gray-500 text-sm">15分钟阅读</span>
+            </div>
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">2024年最值得关注的前端技术趋势</h1>
+            
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center space-x-3">
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="作者头像" class="w-10 h-10 rounded-full cursor-pointer author-avatar transition-transform duration-300">
+                    <div>
+                        <p class="font-medium text-gray-900">李明</p>
+                        <p class="text-sm text-gray-500">前端工程师 | 7年经验</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span class="text-gray-500 text-sm">发布于 2024年6月25日</span>
+                    <button class="text-gray-500 hover:text-blue-600">
+                        <i class="fas fa-share-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 文章封面图 -->
+        <div class="mb-8 rounded-xl overflow-hidden shadow-lg">
+            <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="文章封面" class="w-full h-auto">
+        </div>
+
+        <!-- 文章内容 -->
+        <div class="bg-white rounded-xl shadow-sm p-6 md:p-8 mb-8 article-content">
+            <p class="text-gray-700 mb-6">随着人工智能技术的飞速发展，设计行业正经历前所未有的变革。从自动生成图像到智能排版系统，AI正在成为设计师的强大助手，甚至在某些领域开始接管传统设计任务。本文将探讨AI与设计的融合趋势，以及这一融合对设计师和整个行业的深远影响。</p>
+            
+            <h2>1. 生成式AI设计工具的崛起</h2>
+            <p class="text-gray-700">过去两年，我们见证了DALL-E、Midjourney和Stable Diffusion等生成式AI工具的爆发式增长。这些工具能够根据文本描述生成高质量的图像，大大降低了创意表达的门槛。</p>
+            <img src="1.生成式AI设计.png" alt="生成式AI设计">
+            <p class="text-gray-700">据统计，已有超过70%的设计师在工作流程中使用某种形式的AI工具。这些工具不仅提高了设计效率，也为创意探索提供了全新的可能性，让设计师能够快速生成并迭代多种设计方案。</p>
+            
+            <h2>2. AI辅助的用户体验设计</h2>
+            <p class="text-gray-700">AI在用户体验设计中的应用也日益广泛。从智能布局系统到数据驱动的设计决策，AI正在帮助设计师创造更加个性化和优化的用户体验。</p>
+            <img src="https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="AI辅助用户体验设计">
+            <p class="text-gray-700">例如，AI可以分析用户行为数据，预测用户偏好，并自动调整界面元素的位置和样式。这种动态适应的设计方法可以显著提升用户满意度和转化率，某些实施案例报告转化提升达25%以上。</p>
+            
+            <h2>3. 设计师角色的转变</h2>
+            <p class="text-gray-700">随着AI承担越来越多的执行任务，设计师的角色正在发生根本性的转变。设计师不再仅仅是视觉内容的创造者，而是成为战略思考者、体验策划师和AI工具的指挥者。</p>
+            <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="设计师角色转变">
+            <p class="text-gray-700">未来的设计师将需要掌握提示工程(Prompt Engineering)、数据分析和人机协作等新技能。那些能够有效利用AI增强创造力，而非被AI替代的设计师，将在这个新时代保持竞争力。</p>
+            
+            <h2>4. 人工智能与创意的边界</h2>
+            <p class="text-gray-700">尽管AI在技术层面取得了长足进步，但在创意思考、情感连接和文化理解等方面仍有局限。人类设计师的直觉、共情能力和文化敏感性仍然是AI难以复制的优势。</p>
+            <p class="text-gray-700">这种互补关系预示着人机协作设计的未来：AI处理重复性任务、数据分析和技术执行，而人类设计师专注于创意方向、情感设计和战略决策。最成功的设计项目往往是人类创意与AI效率的结合。</p>
+            
+            <h2>5. 伦理与版权的挑战</h2>
+            <p class="text-gray-700">AI设计工具的普及也带来了一系列伦理和法律挑战，特别是在知识产权和创作归属方面。大多数生成式AI模型是通过大量互联网图像训练的，这些图像可能包含受版权保护的作品。</p>
+            <img src="https://images.unsplash.com/photo-1589994965851-a8f479c573a9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="AI伦理与版权">
+            <p class="text-gray-700">设计行业正在努力制定新的标准和规范，以解决这些问题。负责任的AI设计实践包括尊重原创作品、适当的引用和透明度，以及对AI生成内容的明确标识。</p>
+            
+            <p class="text-gray-700 mt-8">AI与设计的融合不是对设计师的威胁，而是对设计可能性的扩展。那些拥抱这一变革，将AI视为工具而非竞争对手的设计师，将在未来的设计行业中占据领先地位。最终，无论技术如何先进，优秀的设计仍然源于对人类需求和情感的深刻理解，这是纯粹的AI在可预见的未来仍难以完全掌握的领域。</p>
+        </div>
+
+        <!-- 文章标签 -->
+        <div class="flex flex-wrap gap-2 mb-8">
+            <span class="tag px-3 py-1 bg-gray-100 text-gray-800 text-sm rounded-full cursor-pointer hover:bg-indigo-100 hover:text-indigo-800 transition-all duration-300">#人工智能</span>
+            <span class="tag px-3 py-1 bg-gray-100 text-gray-800 text-sm rounded-full cursor-pointer hover:bg-indigo-100 hover:text-indigo-800 transition-all duration-300">#设计趋势</span>
+            <span class="tag px-3 py-1 bg-gray-100 text-gray-800 text-sm rounded-full cursor-pointer hover:bg-indigo-100 hover:text-indigo-800 transition-all duration-300">#生成式AI</span>
+            <span class="tag px-3 py-1 bg-gray-100 text-gray-800 text-sm rounded-full cursor-pointer hover:bg-indigo-100 hover:text-indigo-800 transition-all duration-300">#设计师职业</span>
+            <span class="tag px-3 py-1 bg-gray-100 text-gray-800 text-sm rounded-full cursor-pointer hover:bg-indigo-100 hover:text-indigo-800 transition-all duration-300">#科技伦理</span>
+        </div>
+
+        <!-- 互动区域 -->
+        <div class="bg-white rounded-xl shadow-sm p-6 mb-8">
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center space-x-6">
+                    <button id="likeBtn" class="like-btn flex items-center space-x-1 text-gray-500 hover:text-red-500 focus:outline-none transition-colors duration-300">
+                        <i class="like-icon fas fa-heart text-lg transition-transform duration-300"></i>
+                        <span id="likeCount" class="text-sm">188</span>
+                    </button>
+                    <button id="bookmarkBtn" class="bookmark-btn flex items-center space-x-1 text-gray-500 hover:text-yellow-500 focus:outline-none transition-colors duration-300">
+                        <i class="bookmark-icon fas fa-bookmark text-lg transition-transform duration-300"></i>
+                        <span id="bookmarkCount" class="text-sm">64</span>
+                    </button>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button class="flex items-center space-x-1 text-gray-500 hover:text-indigo-600">
+                        <i class="fas fa-comment"></i>
+                        <span class="text-sm">36条评论</span>
+                    </button>
+                    <button class="flex items-center space-x-1 text-gray-500 hover:text-indigo-600">
+                        <i class="fas fa-share"></i>
+                        <span class="text-sm">分享</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 评论表单 -->
+            <div class="mb-6">
+                <div class="flex items-start space-x-3">
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="用户头像" class="w-10 h-10 rounded-full">
+                    <div class="flex-1">
+                        <textarea placeholder="写下你的评论..." class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 resize-none" rows="3"></textarea>
+                        <div class="flex justify-end mt-2">
+                            <button class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors duration-300">发布评论</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 评论列表 -->
+            <div>
+                <h3 class="text-lg font-medium text-gray-900 mb-4">热门评论</h3>
+                
+                <!-- 评论项 -->
+                <div class="comment-item p-4 rounded-lg mb-4 transition-colors duration-300">
+                    <div class="flex items-start space-x-3">
+                        <img src="https://randomuser.me/api/portraits/men/85.jpg" alt="用户头像" class="w-10 h-10 rounded-full">
+                        <div class="flex-1">
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="font-medium text-gray-900">王建国</span>
+                                <span class="text-xs text-gray-500">1小时前</span>
+                            </div>
+                            <p class="text-gray-700 mb-2">文章很有见地，作为一名UI设计师，我已经开始使用AI辅助工具进行概念设计和快速原型设计。但我认为在情感设计和品牌调性把握上，人类设计师仍然具有不可替代性。</p>
+                            <div class="flex items-center space-x-4 text-sm text-gray-500">
+                                <button class="hover:text-indigo-600 flex items-center space-x-1">
+                                    <i class="fas fa-thumbs-up"></i>
+                                    <span>24</span>
+                                </button>
+                                <button class="hover:text-indigo-600">回复</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 评论项 -->
+                <div class="comment-item p-4 rounded-lg mb-4 transition-colors duration-300">
+                    <div class="flex items-start space-x-3">
+                        <img src="https://randomuser.me/api/portraits/women/35.jpg" alt="用户头像" class="w-10 h-10 rounded-full">
+                        <div class="flex-1">
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="font-medium text-gray-900">林小玲</span>
+                                <span class="text-xs text-gray-500">3小时前</span>
+                            </div>
+                            <p class="text-gray-700 mb-2">我对"提示工程"这部分特别感兴趣，确实现在能否写出好的提示词已经成为使用AI工具的关键技能。不知道作者对于设计教育如何适应这一变化有什么看法？</p>
+                            <div class="flex items-center space-x-4 text-sm text-gray-500">
+                                <button class="hover:text-indigo-600 flex items-center space-x-1">
+                                    <i class="fas fa-thumbs-up"></i>
+                                    <span>16</span>
+                                </button>
+                                <button class="hover:text-indigo-600">回复</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 查看更多评论 -->
+                <button class="w-full py-2 text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors duration-300">
+                    <i class="fas fa-chevron-down mr-2"></i>查看更多评论
+                </button>
+            </div>
+        </div>
+
+        <!-- 作者信息 -->
+        <div class="bg-white rounded-xl shadow-sm p-6 mb-8">
+            <div class="flex flex-col md:flex-row">
+                <div class="w-full md:w-1/3 flex flex-col items-center mb-6 md:mb-0">
+                    <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="作者头像" class="w-24 h-24 rounded-full cursor-pointer author-avatar transition-transform duration-300 mb-4">
+                    <h3 class="text-xl font-bold text-gray-900 text-center">张雨薇</h3>
+                    <p class="text-gray-600 text-center mb-4">资深UX设计师 | 交互设计专家</p>
+                    <div class="flex flex-col space-y-2 w-full">
+                        <button class="w-full px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors duration-300">
+                            <i class="fas fa-user-plus mr-2"></i>关注作者
+                        </button>
+                        <button class="w-full px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors duration-300">
+                            <i class="fas fa-envelope mr-2"></i>私信
+                        </button>
+                    </div>
+                </div>
+                <div class="w-full md:w-2/3 md:pl-6 md:border-l border-gray-200">
+                    <h4 class="text-lg font-semibold text-gray-900 mb-3">关于作者</h4>
+                    <p class="text-gray-700 mb-4">拥有5年UX设计经验，专注于数字产品交互设计。曾任职于多家知名互联网公司，主导过多个百万级用户产品的设计工作。</p>
+                    <h4 class="text-lg font-semibold text-gray-900 mb-2">专业领域</h4>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="bg-indigo-100 text-indigo-800 text-xs font-medium px-2.5 py-1 rounded">交互设计</span>
+                        <span class="bg-indigo-100 text-indigo-800 text-xs font-medium px-2.5 py-1 rounded">用户研究</span>
+                        <span class="bg-indigo-100 text-indigo-800 text-xs font-medium px-2.5 py-1 rounded">UI设计</span>
+                        <span class="bg-indigo-100 text-indigo-800 text-xs font-medium px-2.5 py-1 rounded">产品策略</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 相关文章 -->
+        <div class="mb-8">
+            <h3 class="text-xl font-bold text-gray-900 mb-6">相关推荐</h3>
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- 推荐文章1 -->
+                <div class="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-300">
+                    <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="文章封面" class="w-full h-40 object-cover">
+                    <div class="p-4">
+                        <span class="bg-indigo-100 text-indigo-800 text-xs font-medium px-2.5 py-0.5 rounded mb-2 inline-block">AI设计</span>
+                        <h4 class="font-bold text-gray-900 mb-2">Prompt大师：如何写出高效AI设计提示词</h4>
+                        <p class="text-gray-600 text-sm mb-3">掌握提示工程技巧，让AI工具生成更符合你预期的设计...</p>
+                        <div class="flex items-center justify-between text-sm text-gray-500">
+                            <span>12分钟阅读</span>
+                            <span>2023年8月15日</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 推荐文章2 -->
+                <div class="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-300">
+                    <img src="https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="文章封面" class="w-full h-40 object-cover">
+                    <div class="p-4">
+                        <span class="bg-indigo-100 text-indigo-800 text-xs font-medium px-2.5 py-0.5 rounded mb-2 inline-block">设计伦理</span>
+                        <h4 class="font-bold text-gray-900 mb-2">AI生成内容的版权与伦理问题探讨</h4>
+                        <p class="text-gray-600 text-sm mb-3">当AI可以模仿任何风格，我们如何保护原创设计和艺术家权益...</p>
+                        <div class="flex items-center justify-between text-sm text-gray-500">
+                            <span>18分钟阅读</span>
+                            <span>2023年7月5日</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 返回主页按钮 -->
+    <a href="../../index.html" class="fixed bottom-6 right-6 bg-blue-600 text-white rounded-full p-3 shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all">
+        <i class="fas fa-home text-lg"></i>
+    </a>
+
+    <!-- 引入脚本 -->
+    <script src="../../scripts/component-loader.js"></script>
+    <script>
+        // 阅读进度条功能
+        const progressBar = document.getElementById('progressBar');
+        const readingProgress = () => {
+            const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
+            const clientHeight = document.documentElement.clientHeight || window.innerHeight;
+            const readableHeight = scrollHeight - clientHeight;
+            const progress = scrollTop / readableHeight * 100;
+            progressBar.style.width = progress + '%';
+        };
+        window.addEventListener('scroll', readingProgress);
+        
+        // 点赞功能
+        const likeBtn = document.getElementById('likeBtn');
+        const likeCount = document.getElementById('likeCount');
+        let isLiked = false;
+        likeBtn.addEventListener('click', () => {
+            isLiked = !isLiked;
+            likeBtn.classList.toggle('liked', isLiked);
+            likeCount.textContent = isLiked ? '188' : '187';
+        });
+        
+        // 收藏功能
+        const bookmarkBtn = document.getElementById('bookmarkBtn');
+        const bookmarkCount = document.getElementById('bookmarkCount');
+        // 使用sessionStorage存储收藏状态，避免返回页面时触发提示
+        let articleId = new URLSearchParams(window.location.search).get('id') || '2';
+        let storageKey = `article_${articleId}_bookmark`;
+        let isBookmarked = sessionStorage.getItem(storageKey) === 'true';
+        
+        // 设置初始状态
+        if (isBookmarked) {
+            bookmarkBtn.classList.add('bookmarked');
+            bookmarkCount.textContent = '64';
+        }
+        
+        bookmarkBtn.addEventListener('click', () => {
+            isBookmarked = !isBookmarked;
+            // 存储到sessionStorage
+            sessionStorage.setItem(storageKey, isBookmarked);
+            
+            bookmarkBtn.classList.toggle('bookmarked');
+            bookmarkCount.textContent = isBookmarked ? '64' : '63';
+            
+            // 显示收藏提示
+            if (isBookmarked) {
+                showToast('文章已收藏', 'success');
+            } else {
+                showToast('已取消收藏', 'info');
+            }
+        });
+        
+        // 显示Toast提示函数
+        function showToast(message, type) {
+            const toast = document.createElement('div');
+            toast.className = `fixed bottom-20 left-1/2 transform -translate-x-1/2 px-4 py-2 rounded-lg text-white ${
+                type === 'success' ? 'bg-green-500' : 'bg-blue-500'
+            } shadow-lg`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'transition-opacity', 'duration-300');
+                setTimeout(() => {
+                    document.body.removeChild(toast);
+                }, 300);
+            }, 2000);
+        }
+        
+        // 复制链接功能
+        const copyLinkBtn = document.getElementById('copyLinkBtn');
+        if (copyLinkBtn) {
+            copyLinkBtn.addEventListener('click', () => {
+                navigator.clipboard.writeText(window.location.href).then(() => {
+                    const tooltip = document.getElementById('copyTooltip');
+                    if (tooltip) {
+                        tooltip.classList.remove('opacity-0');
+                        setTimeout(() => {
+                            tooltip.classList.add('opacity-0');
+                        }, 2000);
+                    } else {
+                        showToast('链接已复制', 'success');
+                    }
+                });
+            });
+        }
+
+        // 评论功能实现
+        // 创建评论存储键
+        const commentStorageKey = `article_${articleId}_comments`;
+        
+        // 随机用户头像数组
+        const userAvatars = [
+            'https://randomuser.me/api/portraits/women/22.jpg',
+            'https://randomuser.me/api/portraits/men/45.jpg',
+            'https://randomuser.me/api/portraits/women/68.jpg',
+            'https://randomuser.me/api/portraits/men/32.jpg',
+            'https://randomuser.me/api/portraits/women/35.jpg',
+            'https://randomuser.me/api/portraits/men/85.jpg'
+        ];
+
+        // 随机用户名数组
+        const userNames = ['张明', '李芳', '王伟', '赵丽', '刘强', '陈静', '杨光', '周红'];
+        
+        // 获取评论列表容器
+        const commentsContainer = document.querySelector('h3.text-lg.font-medium.text-gray-900.mb-4').nextElementSibling;
+        
+        // 获取评论数量显示元素
+        const commentCountElement = document.querySelector('.fas.fa-comment').nextElementSibling;
+        
+        // 更新评论计数的函数
+        function updateCommentCount() {
+            const comments = JSON.parse(localStorage.getItem(commentStorageKey) || '[]');
+            commentCountElement.textContent = `${comments.length}条评论`;
+        }
+        
+        // 加载评论
+        function loadComments() {
+            if (!commentsContainer) {
+                console.error('找不到评论容器元素');
+                return;
+            }
+            
+            const comments = JSON.parse(localStorage.getItem(commentStorageKey) || '[]');
+            
+            // 清空评论容器
+            commentsContainer.innerHTML = '';
+            
+            // 更新评论计数
+            updateCommentCount();
+            
+            if (comments.length === 0) {
+                commentsContainer.innerHTML = '<div class="text-center p-4 text-gray-500">暂无评论，快来发表第一条评论吧！</div>';
+                return;
+            }
+            
+            // 添加评论到DOM
+            comments.forEach(comment => {
+                const commentElement = document.createElement('div');
+                commentElement.className = 'comment-item p-4 rounded-lg mb-4 transition-colors duration-300';
+                commentElement.innerHTML = `
+                    <div class="flex items-start space-x-3">
+                        <img src="${comment.avatar}" alt="用户头像" class="w-10 h-10 rounded-full">
+                        <div class="flex-1">
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="font-medium text-gray-900">${comment.username}</span>
+                                <span class="text-xs text-gray-500">${comment.date}</span>
+                            </div>
+                            <p class="text-gray-700 mb-2">${comment.content}</p>
+                            <div class="flex items-center space-x-4 text-sm text-gray-500">
+                                <button class="hover:text-indigo-600 flex items-center space-x-1 comment-like" data-id="${comment.id}">
+                                    <i class="fas fa-thumbs-up"></i>
+                                    <span>${comment.likes}</span>
+                                </button>
+                                <button class="hover:text-indigo-600 reply-btn" data-username="${comment.username}">回复</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                commentsContainer.appendChild(commentElement);
+            });
+            
+            // 添加评论点赞事件
+            document.querySelectorAll('.comment-like').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const commentId = this.getAttribute('data-id');
+                    const comments = JSON.parse(localStorage.getItem(commentStorageKey) || '[]');
+                    const commentIndex = comments.findIndex(c => c.id === commentId);
+                    
+                    if (commentIndex !== -1) {
+                        comments[commentIndex].likes++;
+                        this.querySelector('span').textContent = comments[commentIndex].likes;
+                        localStorage.setItem(commentStorageKey, JSON.stringify(comments));
+                    }
+                });
+            });
+            
+            // 添加回复功能
+            document.querySelectorAll('.reply-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const username = this.getAttribute('data-username');
+                    const textarea = document.querySelector('textarea[placeholder="写下你的评论..."]');
+                    textarea.value = `@${username} `;
+                    textarea.focus();
+                    
+                    // 滚动到评论框
+                    textarea.scrollIntoView({ behavior: 'smooth' });
+                });
+            });
+        }
+        
+        // 添加评论
+        const commentForm = document.querySelector('textarea[placeholder="写下你的评论..."]').closest('div').querySelector('button');
+        commentForm.addEventListener('click', function() {
+            const textarea = document.querySelector('textarea[placeholder="写下你的评论..."]');
+            const content = textarea.value.trim();
+            
+            if (content === '') {
+                showToast('评论内容不能为空', 'error');
+                return;
+            }
+            
+            // 创建新评论对象
+            const newComment = {
+                id: Date.now().toString(),
+                avatar: userAvatars[Math.floor(Math.random() * userAvatars.length)],
+                username: userNames[Math.floor(Math.random() * userNames.length)],
+                content: content,
+                date: new Date().toLocaleDateString(),
+                likes: 0
+            };
+            
+            // 获取现有评论并添加新评论
+            const comments = JSON.parse(localStorage.getItem(commentStorageKey) || '[]');
+            comments.unshift(newComment); // 添加到开头
+            
+            // 保存到localStorage
+            localStorage.setItem(commentStorageKey, JSON.stringify(comments));
+            
+            // 清空输入框
+            textarea.value = '';
+            
+            // 重新加载评论
+            loadComments();
+            
+            // 显示提示
+            showToast('评论发表成功', 'success');
+        });
+        
+        // 初始加载评论
+        document.addEventListener('DOMContentLoaded', loadComments);
+    </script>
+</body>
+</html>

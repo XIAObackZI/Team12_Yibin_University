@@ -31,27 +31,33 @@
             <!-- 幻灯片1：设计理念 -->
             <div class="slide active" id="slide-1">
                 <div class="slide-inner">
-                    <h1>设计理念</h1>
+                    <h1>项目介绍</h1>
                     <div class="slide-content">
-                        <h2>项目目标与受众分析</h2>
+                        <h2>项目名称</h2>
                         <ul>
-                            <li>创建一个现代化、交互性强的团队展示网站</li>
-                            <li>目标受众：潜在客户、合作伙伴和招聘人才</li>
-                            <li>提供沉浸式体验，展示团队专业能力</li>
+                            <li>个人技术博客</li>
                         </ul>
                         
-                        <h2>设计灵感来源</h2>
+                        <h2>项目定位</h2>
                         <ul>
-                            <li>现代数字机构网站</li>
-                            <li>3D交互设计趋势</li>
-                            <li>微动效与视觉反馈</li>
+                            <li>分享创新与专业知识的现代化网站</li>
+                            <li>面向开发者、设计师和技术爱好者的内容平台</li>
+                            <li>提供沉浸式学习和交流体验</li>
                         </ul>
                         
-                        <h2>品牌标识与色彩选择</h2>
+                        <h2>设计目标</h2>
                         <ul>
-                            <li>主色调：蓝色 (#3498db) - 代表专业、信任和稳定</li>
-                            <li>辅助色：绿色 (#2ecc71) - 象征创新、成长和活力</li>
-                            <li>强调色：红色 (#e74c3c) - 传达激情和关注点</li>
+                            <li>创建一个交互性强、视觉精美的个人博客平台</li>
+                            <li>优化用户阅读和学习体验</li>
+                            <li>展示前沿技术应用和设计理念</li>
+                        </ul>
+                        
+                        <h2>技术栈</h2>
+                        <ul>
+                            <li>HTML5/CSS3：构建现代化响应式界面</li>
+                            <li>JavaScript：实现丰富的交互功能</li>
+                            <li>Three.js：创建沉浸式3D体验</li>
+                            <li>TailwindCSS：高效构建一致的UI组件</li>
                         </ul>
                     </div>
                 </div>
@@ -237,7 +243,12 @@
                     <button class="fullscreen-btn" title="全屏预览"><i class="fas fa-expand"></i></button>
                 </div>
             </div>
-            <div class="preview-frame">
+            <div class="device-selector">
+                <button class="device-btn active" data-device="desktop">桌面端</button>
+                <button class="device-btn" data-device="tablet">平板端</button>
+                <button class="device-btn" data-device="mobile">移动端</button>
+            </div>
+            <div class="preview-frame desktop">
                 <iframe src="index.html" title="网页原型预览"></iframe>
             </div>
         </div>

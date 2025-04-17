@@ -9,7 +9,35 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 初始化键盘控制
     initKeyboardControls();
+    
+    // 初始化设备选择器
+    initDeviceSelector();
 });
+
+// 初始化设备选择器
+function initDeviceSelector() {
+    const deviceButtons = document.querySelectorAll('.device-btn');
+    const previewFrame = document.querySelector('.preview-frame');
+    
+    deviceButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // 移除所有按钮的激活状态
+            deviceButtons.forEach(btn => btn.classList.remove('active'));
+            
+            // 激活当前按钮
+            button.classList.add('active');
+            
+            // 获取设备类型
+            const deviceType = button.getAttribute('data-device');
+            
+            // 移除所有设备类
+            previewFrame.classList.remove('desktop', 'tablet', 'mobile');
+            
+            // 添加选定的设备类
+            previewFrame.classList.add(deviceType);
+        });
+    });
+}
 
 // 初始化幻灯片控制
 function initSlideControls() {
@@ -18,26 +46,6 @@ function initSlideControls() {
     const slideCounter = document.querySelector('.slide-counter');
     const totalSlides = slides.length;
     let currentSlide = 0;
-    
-    // 添加控制区域到DOM
-    const controlsHTML = `
-        <div class="presentation-controls">
-            <button class="prev-slide"><i class="fas fa-chevron-left"></i></button>
-            <div class="slide-indicators">
-                ${Array(totalSlides).fill().map((_, i) => 
-                    `<span class="indicator ${i === 0 ? 'active' : ''}"></span>`
-                ).join('')}
-            </div>
-            <button class="next-slide"><i class="fas fa-chevron-right"></i></button>
-        </div>
-    `;
-    
-    document.querySelector('.presentation-container').insertAdjacentHTML('afterend', controlsHTML);
-    
-    // 获取控制元素
-    const prevButton = document.querySelector('.prev-slide');
-    const nextButton = document.querySelector('.next-slide');
-    const indicators = document.querySelectorAll('.indicator');
     
     // 更新幻灯片状态
     function updateSlideState() {
@@ -57,12 +65,13 @@ function initSlideControls() {
         // 更新计数器
         slideCounter.textContent = `${currentSlide + 1} / ${totalSlides}`;
         
-        // 更新指示器
-        indicators.forEach((indicator, index) => {
+        // 更新缩略图激活状态
+        const thumbnails = document.querySelectorAll('.thumbnail');
+        thumbnails.forEach((thumbnail, index) => {
             if (index === currentSlide) {
-                indicator.classList.add('active');
+                thumbnail.classList.add('active');
             } else {
-                indicator.classList.remove('active');
+                thumbnail.classList.remove('active');
             }
         });
         
@@ -87,12 +96,16 @@ function initSlideControls() {
     }
     
     // 添加事件监听器
-    nextButton.addEventListener('click', nextSlide);
-    prevButton.addEventListener('click', prevSlide);
+    const prevButton = document.querySelector('.prev-slide');
+    const nextButton = document.querySelector('.next-slide');
+    const thumbnails = document.querySelectorAll('.thumbnail');
     
-    // 指示器点击事件
-    indicators.forEach((indicator, index) => {
-        indicator.addEventListener('click', () => {
+    prevButton.addEventListener('click', prevSlide);
+    nextButton.addEventListener('click', nextSlide);
+    
+    // 添加缩略图点击事件
+    thumbnails.forEach((thumbnail, index) => {
+        thumbnail.addEventListener('click', () => {
             currentSlide = index;
             updateSlideState();
         });
@@ -101,41 +114,9 @@ function initSlideControls() {
 
 // 初始化原型预览区域
 function initPrototypePreview() {
-    // 创建原型预览区域
-    const previewHTML = `
-        <div class="prototype-preview">
-            <div class="preview-header">
-                <h3>网页原型预览</h3>
-                <div class="preview-controls">
-                    <button class="highlight-btn"><i class="fas fa-highlighter"></i></button>
-                    <button class="fullscreen-btn"><i class="fas fa-expand"></i></button>
-                </div>
-            </div>
-            <div class="preview-content">
-                <iframe src="index.html" title="网页原型预览"></iframe>
-            </div>
-        </div>
-    `;
-    
-    document.querySelector('.presentation-container').insertAdjacentHTML('beforeend', previewHTML);
-    
-    // 全屏按钮功能
-    const fullscreenBtn = document.querySelector('.fullscreen-btn');
-    const previewContent = document.querySelector('.preview-content');
-    
-    fullscreenBtn.addEventListener('click', () => {
-        if (!document.fullscreenElement) {
-            previewContent.requestFullscreen().catch(err => {
-                console.error(`全屏错误: ${err.message}`);
-            });
-        } else {
-            document.exitFullscreen();
-        }
-    });
-    
-    // 高亮功能
+    // 高亮按钮功能
     const highlightBtn = document.querySelector('.highlight-btn');
-    const previewFrame = document.querySelector('.preview-content iframe');
+    const previewFrame = document.querySelector('.preview-frame iframe');
     
     highlightBtn.addEventListener('click', () => {
         highlightBtn.classList.toggle('active');
@@ -147,12 +128,26 @@ function initPrototypePreview() {
             previewFrame.contentWindow.postMessage('disableHighlight', '*');
         }
     });
+    
+    // 全屏按钮功能
+    const fullscreenBtn = document.querySelector('.fullscreen-btn');
+    
+    fullscreenBtn.addEventListener('click', () => {
+        const previewContainer = document.querySelector('.prototype-preview');
+        if (!document.fullscreenElement) {
+            previewContainer.requestFullscreen().catch(err => {
+                console.error(`全屏错误: ${err.message}`);
+            });
+        } else {
+            document.exitFullscreen();
+        }
+    });
 }
 
 // 更新原型预览区域
 function updatePrototypePreview(slideIndex) {
     // 根据当前幻灯片内容，高亮原型预览中的相关部分
-    const previewFrame = document.querySelector('.preview-content iframe');
+    const previewFrame = document.querySelector('.preview-frame iframe');
     if (!previewFrame || !previewFrame.contentWindow) return;
     
     // 定义每个幻灯片对应的高亮元素

@@ -5,10 +5,23 @@ function loadComponent(containerId, componentPath) {
 
     // 检查当前页面是否在子目录中，并调整组件路径
     let adjustedPath = componentPath;
-    if (window.location.pathname.includes('/other_pages/')) {
-        // 如果页面在子目录中，需要返回上一级查找组件
-        adjustedPath = '../' + componentPath;
-        console.log('调整组件路径:', adjustedPath);
+    
+    // 获取当前页面路径
+    const currentPath = window.location.pathname;
+    
+    // 检测是否在子目录中，需要调整路径
+    // 处理所有子目录情况，包括/other_pages/和/assets/Article_detail_page/等
+    if (currentPath.split('/').length > 2) {
+        // 计算需要返回的层级数
+        const pathSegments = currentPath.split('/').filter(segment => segment.length > 0);
+        // 如果在子目录中，需要根据子目录层级返回上级
+        const levelsUp = pathSegments.length;
+        
+        // 创建正确的相对路径前缀
+        const prefix = Array(levelsUp).fill('..').join('/');
+        adjustedPath = `${prefix}/${componentPath}`;
+        
+        console.log(`检测到子目录: ${currentPath}, 调整组件路径:`, adjustedPath);
     }
 
     fetch(adjustedPath)
@@ -19,28 +32,42 @@ function loadComponent(containerId, componentPath) {
             return response.text();
         })
         .then(html => {
-            container.innerHTML = html;
-            // 执行组件内的脚本 (如果有的话 - 已从Navbar.html移除主要逻辑)
-            const scripts = container.getElementsByTagName('script');
-            Array.from(scripts).forEach(script => {
-                const newScript = document.createElement('script');
-                Array.from(script.attributes).forEach(attr => {
-                    newScript.setAttribute(attr.name, attr.value);
-                });
-                newScript.textContent = script.textContent;
-                script.parentNode.replaceChild(newScript, script);
+            // 创建一个临时容器来解析HTML
+            const tempContainer = document.createElement('div');
+            tempContainer.innerHTML = html;
+            
+            // 提取所有脚本元素
+            const scripts = tempContainer.querySelectorAll('script');
+            const scriptContents = [];
+            
+            // 收集脚本内容并从临时容器中移除脚本
+            scripts.forEach(script => {
+                // 保存脚本内容
+                if (script.textContent) {
+                    scriptContents.push(script.textContent);
+                }
+                // 从DOM中移除脚本元素
+                script.parentNode.removeChild(script);
             });
-
-            // 导航栏交互逻辑 (移到这里执行，确保元素已加载)
+            
+            // 将处理后的HTML设置到目标容器
+            container.innerHTML = tempContainer.innerHTML;
+            
+            // 执行导航栏交互逻辑
             initializeNavbarInteractions(container);
-
-            // 初始化主题切换器 (REMOVING - Theme switcher functionality deleted)
-            /*
-            if (typeof initThemeSwitcher === 'function') { 
-                initThemeSwitcher(); 
-            }
-            */
-
+            
+            // 执行所有提取的脚本
+            scriptContents.forEach((content, index) => {
+                try {
+                    console.log(`执行组件脚本 #${index+1}`);
+                    // 使用new Function将脚本内容包装在函数中以获得全局作用域
+                    const scriptFunction = new Function(content);
+                    scriptFunction.call(window); // 在全局作用域中执行脚本
+                } catch (error) {
+                    console.error(`执行组件脚本 #${index+1} 时出错:`, error);
+                    console.log('脚本内容:', content.substring(0, 100) + '...');
+                }
+            });
         })
         .catch(error => {
             console.error('Error loading component:', error);
@@ -110,8 +137,11 @@ function initializeNavbarInteractions(navbarContainer) {
 // 当DOM加载完成后初始化组件
 document.addEventListener('DOMContentLoaded', () => {
     // 检测当前页面位置
-    const inSubdirectory = window.location.pathname.includes('/other_pages/');
-    console.log('当前页面路径:', window.location.pathname, '在子目录中:', inSubdirectory);
+    const currentPath = window.location.pathname;
+    const pathSegments = currentPath.split('/').filter(segment => segment.length > 0);
+    const inSubdirectory = pathSegments.length > 1;
+    
+    console.log('当前页面路径:', currentPath, '在子目录中:', inSubdirectory, '层级:', pathSegments.length);
     
     // 加载导航栏组件
     if (document.getElementById('navbar-container')) {

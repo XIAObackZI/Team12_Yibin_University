@@ -43,10 +43,70 @@
                 </div>
 
                 <!-- Notification -->
-                 <button class="hidden md:block p-1 rounded-full text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 dark:focus:ring-offset-gray-800 focus:ring-indigo-500">
-                    <span class="sr-only">View notifications</span>
+                <button id="notification-bell" class="hidden md:flex items-center justify-center p-2 rounded-full text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 dark:focus:ring-offset-gray-800 focus:ring-indigo-500 relative" onclick="toggleNotificationPanel(event)">
+                    <span class="sr-only">查看通知</span>
                     <i class="far fa-bell text-lg"></i>
+                    <span class="notification-badge absolute -top-1 -right-1 bg-red-500 text-white text-xs w-4 h-4 rounded-full flex items-center justify-center">3</span>
                 </button>
+
+                <!-- Notification Panel (Hidden by default) -->
+                <div id="notification-panel" class="hidden fixed right-4 mt-16 top-0 w-80 bg-white dark:bg-gray-800 rounded-lg shadow-xl py-2 z-50 transform origin-top-right transition-all duration-200 border border-gray-200 dark:border-gray-700">
+                    <div class="px-4 py-2 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center bg-gray-50 dark:bg-gray-700 rounded-t-lg">
+                        <h3 class="text-sm font-semibold text-gray-700 dark:text-gray-200">通知中心</h3>
+                        <span class="text-xs text-gray-500 dark:text-gray-400 bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-300 px-2 py-1 rounded-full">3条未读</span>
+                    </div>
+                    <div class="max-h-64 overflow-y-auto">
+                        <div class="border-l-4 border-blue-500 px-4 py-3 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                            <div class="flex items-start">
+                                <img class="h-10 w-10 rounded-full mr-3" src="https://randomuser.me/api/portraits/men/41.jpg" alt="通知用户头像">
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-sm font-medium text-gray-900 dark:text-white truncate">
+                                        <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 mr-1">新消息</span>
+                                        系统消息
+                                    </p>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">您的账户已成功激活，现在可以使用所有功能了。</p>
+                                    <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">3分钟前</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="border-l-4 border-yellow-500 px-4 py-3 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                            <div class="flex items-start">
+                                <img class="h-10 w-10 rounded-full mr-3" src="https://randomuser.me/api/portraits/women/67.jpg" alt="通知用户头像">
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-sm font-medium text-gray-900 dark:text-white truncate">
+                                        <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-yellow-100 text-yellow-800 mr-1">提醒</span>
+                                        张小明
+                                    </p>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">回复了您的评论: "非常感谢分享这个实用技巧！"</p>
+                                    <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">2小时前</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="border-l-4 border-green-500 px-4 py-3 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                            <div class="flex items-start">
+                                <img class="h-10 w-10 rounded-full mr-3" src="https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=系统" alt="系统头像">
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-sm font-medium text-gray-900 dark:text-white truncate">
+                                        <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800 mr-1">系统</span>
+                                        更新通知
+                                    </p>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">网站将于今晚22:00-23:00进行例行维护，期间可能短暂无法访问。</p>
+                                    <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">1天前</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="px-4 py-2 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-700 rounded-b-lg">
+                        <button id="mark-all-read" class="text-xs text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 font-medium" onclick="markAllNotificationsAsRead(event)">标记全部已读</button>
+                    </div>
+                </div>
+
+                <!-- 添加通知音效 -->
+                <audio id="notification-sound" preload="auto">
+                    <source src="../../assets/sounds/mixkit-bell.wav" type="audio/wav">
+                    <!-- 备用音效 -->
+                    <source src="../../assets/sounds/notification.wav" type="audio/wav">
+                </audio>
 
                 <!-- Profile dropdown -->
                 <div class="relative hidden md:block">
@@ -140,6 +200,18 @@
      @apply bg-indigo-50 dark:bg-gray-700 text-indigo-700 dark:text-white;
 }
 
+/* 通知徽章样式 */
+.notification-badge {
+    font-size: 0.6rem;
+    line-height: 0.6rem;
+}
+
+/* Toast 消息样式 */
+.toast-message {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+}
+
 /* Commented out nav-link underline styles */
 /*
 .nav-link {
@@ -161,4 +233,221 @@
     width: 80%; 
 }
 */
-</style> 
+
+/* 添加铃铛震动动画 */
+@keyframes bell-shake {
+    0% { transform: rotate(0); }
+    15% { transform: rotate(15deg); }
+    30% { transform: rotate(-15deg); }
+    45% { transform: rotate(12deg); }
+    60% { transform: rotate(-12deg); }
+    75% { transform: rotate(6deg); }
+    85% { transform: rotate(-6deg); }
+    92% { transform: rotate(3deg); }
+    100% { transform: rotate(0); }
+}
+
+.animate-bell {
+    animation: bell-shake 1s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+    transform-origin: top center;
+}
+
+/* 通知面板动画 */
+#notification-panel {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* 通知徽章样式 */
+.notification-badge {
+    font-size: 0.6rem;
+    line-height: 0.6rem;
+    transition: all 0.3s ease;
+}
+
+/* Toast 消息样式 */
+.toast-message {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+}
+</style>
+
+<script>
+// 直接定义全局函数，不再依赖DOMContentLoaded事件
+console.log('通知功能脚本已加载');
+
+// 通知面板切换函数
+function toggleNotificationPanel(e) {
+    console.log('点击了通知铃铛 (全局函数)');
+    e.stopPropagation();
+    
+    const notificationBell = document.getElementById('notification-bell');
+    const notificationPanel = document.getElementById('notification-panel');
+    const notificationSound = document.getElementById('notification-sound');
+    
+    if (!notificationPanel) {
+        console.error('找不到通知面板元素!');
+        return;
+    }
+    
+    // 直接检查display属性，更可靠地判断可见性
+    const isVisible = window.getComputedStyle(notificationPanel).display !== 'none';
+    console.log('通知面板当前是否可见:', isVisible);
+    
+    if (isVisible) {
+        console.log('隐藏通知面板');
+        // 直接隐藏面板
+        notificationPanel.classList.add('hidden');
+    } else {
+        console.log('显示通知面板');
+        // 直接显示面板
+        notificationPanel.classList.remove('hidden');
+        
+        // 震动铃铛图标效果
+        const bellIcon = notificationBell.querySelector('i');
+        if (bellIcon) {
+            bellIcon.classList.add('animate-bell');
+            setTimeout(() => {
+                bellIcon.classList.remove('animate-bell');
+            }, 1000);
+        }
+        
+        // 改变徽章颜色
+        const badge = notificationBell.querySelector('.notification-badge');
+        if (badge) {
+            badge.classList.add('bg-gray-500');
+            badge.classList.remove('bg-red-500');
+        }
+        
+        // 播放通知音效
+        try {
+            if (notificationSound) {
+                notificationSound.currentTime = 0; // 重置播放位置
+                notificationSound.volume = 0.5; // 设置音量为50%
+                const playPromise = notificationSound.play();
+                
+                if (playPromise !== undefined) {
+                    playPromise.catch(err => {
+                        console.error('播放通知音效失败:', err);
+                    });
+                }
+            } else {
+                console.warn('未找到通知音效元素');
+            }
+        } catch (err) {
+            console.error('播放通知音效时发生错误:', err);
+        }
+    }
+}
+
+// 标记全部已读函数
+function markAllNotificationsAsRead(e) {
+    console.log('点击了标记全部已读 (全局函数)');
+    e.preventDefault();
+    e.stopPropagation();
+    
+    const notificationBell = document.getElementById('notification-bell');
+    const notificationPanel = document.getElementById('notification-panel');
+    
+    // 获取所有未读通知
+    const notificationItems = notificationPanel.querySelectorAll('.border-l-4');
+    console.log('找到未读通知数量:', notificationItems.length);
+    
+    // 动画移除未读标识
+    notificationItems.forEach((item, index) => {
+        setTimeout(() => {
+            item.classList.add('transition-all', 'duration-300');
+            item.classList.remove('border-l-4', 'border-blue-500', 'border-yellow-500', 'border-green-500');
+            item.classList.add('border-l-0');
+        }, index * 100); // 错开动画时间
+    });
+    
+    // 移除通知徽章
+    const badge = notificationBell.querySelector('.notification-badge');
+    if (badge) {
+        badge.classList.add('opacity-0', 'scale-0', 'transition-all', 'duration-300');
+        setTimeout(() => {
+            badge.remove();
+        }, 300);
+    }
+    
+    // 更新通知计数
+    const countElement = notificationPanel.querySelector('.text-xs.text-gray-500:not(.hover\\:text-indigo-600)');
+    if (countElement) {
+        countElement.textContent = '0条未读';
+        countElement.classList.remove('bg-red-100', 'text-red-600');
+        countElement.classList.add('bg-gray-100', 'text-gray-600');
+    }
+    
+    // 显示已读提示
+    showToast('全部通知已标记为已读', 'success');
+}
+
+// 显示提示消息函数
+function showToast(message, type = 'info') {
+    // 如果已经存在toast，先移除
+    const existingToast = document.querySelector('.toast-message');
+    if (existingToast) {
+        existingToast.remove();
+    }
+    
+    // 创建toast元素
+    const toast = document.createElement('div');
+    toast.className = 'toast-message fixed right-5 top-20 px-4 py-2 rounded-lg shadow-lg z-50 transform transition-all duration-500 translate-x-full';
+    
+    // 设置toast类型样式
+    if (type === 'success') {
+        toast.classList.add('bg-green-500', 'text-white');
+    } else if (type === 'error') {
+        toast.classList.add('bg-red-500', 'text-white');
+    } else if (type === 'warning') {
+        toast.classList.add('bg-yellow-500', 'text-white');
+    } else {
+        toast.classList.add('bg-blue-500', 'text-white');
+    }
+    
+    // 设置内容
+    toast.innerHTML = `
+        <div class="flex items-center">
+            <i class="${type === 'success' ? 'fas fa-check-circle' : type === 'error' ? 'fas fa-exclamation-circle' : type === 'warning' ? 'fas fa-exclamation-triangle' : 'fas fa-info-circle'} mr-2"></i>
+            <span>${message}</span>
+        </div>
+    `;
+    
+    // 添加到页面
+    document.body.appendChild(toast);
+    
+    // 显示动画
+    setTimeout(() => {
+        toast.classList.remove('translate-x-full');
+        toast.classList.add('translate-x-0');
+    }, 10);
+    
+    // 自动隐藏
+    setTimeout(() => {
+        toast.classList.remove('translate-x-0');
+        toast.classList.add('translate-x-full');
+        setTimeout(() => {
+            toast.remove();
+        }, 500);
+    }, 3000);
+}
+
+// 点击页面其他地方关闭通知面板
+document.addEventListener('click', function(e) {
+    const notificationPanel = document.getElementById('notification-panel');
+    const notificationBell = document.getElementById('notification-bell');
+    
+    if (notificationPanel && !notificationPanel.classList.contains('hidden') && 
+        !notificationPanel.contains(e.target) && !notificationBell.contains(e.target)) {
+        console.log('点击了页面其他区域，关闭通知面板');
+        notificationPanel.classList.add('hidden');
+    }
+});
+
+// 初始化时检查并记录元素是否存在
+console.log('通知铃铛元素：', document.getElementById('notification-bell') ? '存在' : '不存在');
+console.log('通知面板元素：', document.getElementById('notification-panel') ? '存在' : '不存在');
+console.log('标记已读按钮：', document.getElementById('mark-all-read') ? '存在' : '不存在');
+console.log('通知音效元素：', document.getElementById('notification-sound') ? '存在' : '不存在');
+</script> 

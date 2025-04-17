@@ -18,7 +18,7 @@ class PageTransition {
         this.attachTeamLinkListeners();
         
         // 预加载团队页面
-        // this.preloadPage('team.html', 'team-page'); // 暂时禁用预加载，排查问题
+        this.preloadPage('other_pages/team.html', 'team-page'); // 恢复预加载
         
         this.initialized = true;
         console.log('页面过渡效果初始化完成');
@@ -258,7 +258,7 @@ class PageTransition {
     
     initializePreloads() {
         // 预加载可能会跳转到的页面
-        // this.preloadPage('other_pages/team.html', 'team-page'); // 暂时禁用预加载，排查问题
+        this.preloadPage('other_pages/team.html', 'team-page'); // 恢复预加载
     }
     
     attachTeamLinkListeners() {
@@ -423,6 +423,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // 检查是否从页面过渡进入，如果是则恢复滚动条状态
     if (localStorage.getItem('fromPageTransition') === 'true') {
+        console.log('页面由过渡动画进入，准备恢复状态并执行结束动画...'); // 添加日志
         const scrollBarWidth = parseInt(localStorage.getItem('scrollBarWidth') || '0', 10);
         
         // 设置临时填充以防止页面左移
@@ -433,6 +434,9 @@ document.addEventListener('DOMContentLoaded', () => {
             document.body.style.paddingRight = '';
             localStorage.removeItem('fromPageTransition');
             localStorage.removeItem('scrollBarWidth');
-        }, 50);
+            console.log('过渡状态已清除。'); // 添加日志
+            // 在这里可以调用一个函数来触发页面加载完成后的结束动画
+            // 比如: window.pageTransition.showTransitionEndAnimation();
+        }, 50); 
     }
 }); 
