@@ -103,9 +103,9 @@
 
                 <!-- 添加通知音效 -->
                 <audio id="notification-sound" preload="auto">
-                    <source src="../../assets/sounds/mixkit-bell.wav" type="audio/wav">
+                    <source src="assets/sounds/mixkit-bell.wav" type="audio/wav">
                     <!-- 备用音效 -->
-                    <source src="../../assets/sounds/notification.wav" type="audio/wav">
+                    <source src="assets/sounds/notification.wav" type="audio/wav">
                 </audio>
 
                 <!-- Profile dropdown -->
@@ -516,18 +516,6 @@ function showToast(message, type = 'info') {
         }, 500);
     }, 3000);
 }
-
-// 点击页面其他地方关闭通知面板
-document.addEventListener('click', function(e) {
-    const notificationPanel = document.getElementById('notification-panel');
-    const notificationBell = document.getElementById('notification-bell');
-    
-    if (notificationPanel && !notificationPanel.classList.contains('hidden') && 
-        !notificationPanel.contains(e.target) && !notificationBell.contains(e.target)) {
-        console.log('点击了页面其他区域，关闭通知面板');
-        notificationPanel.classList.add('hidden');
-    }
-});
 
 // 初始化移动菜单按钮
 document.addEventListener('DOMContentLoaded', function() {

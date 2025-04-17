@@ -53,6 +53,28 @@ function loadComponent(containerId, componentPath) {
             // 将处理后的HTML设置到目标容器
             container.innerHTML = tempContainer.innerHTML;
             
+            // 如果是Navbar，我们需要确保全局通知功能正常运行
+            if (componentPath.includes('Navbar.html')) {
+                // 确保通知按钮点击事件正确绑定
+                const notificationBell = container.querySelector('#notification-bell');
+                const notificationPanel = container.querySelector('#notification-panel');
+                const markAllReadBtn = container.querySelector('#mark-all-read');
+                
+                console.log('导航栏加载完成，通知元素状态:', {
+                    '通知铃铛': notificationBell ? '存在' : '不存在',
+                    '通知面板': notificationPanel ? '存在' : '不存在',
+                    '标记已读按钮': markAllReadBtn ? '存在' : '不存在'
+                });
+                
+                // 重新绑定点击其他区域关闭通知面板的全局事件
+                if (notificationPanel) {
+                    // 移除可能存在的旧事件监听器
+                    document.removeEventListener('click', closeNotificationPanelOnOutsideClick);
+                    // 添加新的事件监听器
+                    document.addEventListener('click', closeNotificationPanelOnOutsideClick);
+                }
+            }
+            
             // 执行导航栏交互逻辑
             initializeNavbarInteractions(container);
             
@@ -73,6 +95,22 @@ function loadComponent(containerId, componentPath) {
             console.error('Error loading component:', error);
             container.innerHTML = `<div class="p-4 text-red-500">组件加载失败: ${adjustedPath}</div>`;
         });
+}
+
+// 全局函数：点击其他区域关闭通知面板
+function closeNotificationPanelOnOutsideClick(e) {
+    const notificationPanel = document.getElementById('notification-panel');
+    const notificationBell = document.getElementById('notification-bell');
+    
+    if (!notificationPanel || !notificationBell) return;
+    
+    // 如果通知面板可见，并且点击位置不在通知面板或通知铃铛内，则关闭通知面板
+    if (!notificationPanel.classList.contains('hidden') && 
+        !notificationPanel.contains(e.target) && 
+        !notificationBell.contains(e.target)) {
+        console.log('点击了页面其他区域，关闭通知面板');
+        notificationPanel.classList.add('hidden');
+    }
 }
 
 // 初始化导航栏交互 (确保只在组件加载后调用)
